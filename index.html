@@ -124,7 +124,7 @@
     <div
       class="w-full max-w-md bg-surface dark:bg-surface-dark rounded-2xl border border-ink/10 dark:border-ink-dark/10 p-6 sm:p-8 my-8">
       <div class="flex items-center gap-3 mb-6">
-      <img src="logo.png" alt="EduFlow logo" class="w-10 h-10 rounded-xl shadow-soft object-contain" />
+        <img src="logo.png" alt="EduFlow logo" class="w-10 h-10 rounded-xl shadow-soft object-contain" />
         <div>
           <p class="font-serif font-semibold text-xl leading-tight">EduFlow</p>
           <p class="text-xs text-inksoft dark:text-inksoft-dark">Sign in to your dashboard</p>
@@ -146,8 +146,14 @@
         </div>
         <div>
           <label class="text-xs text-inksoft dark:text-inksoft-dark" for="loginPassword">Password</label>
-          <input id="loginPassword" type="password" required autocomplete="current-password"
-            class="mt-1 w-full bg-paper dark:bg-paper-dark border border-ink/10 dark:border-ink-dark/10 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal" />
+          <div class="relative mt-1">
+            <input id="loginPassword" type="password" required autocomplete="current-password"
+              class="w-full bg-paper dark:bg-paper-dark border border-ink/10 dark:border-ink-dark/10 rounded-lg px-3 py-2 pr-10 text-sm focus:outline-none focus:ring-2 focus:ring-teal" />
+            <button type="button" data-toggle-password="loginPassword" aria-label="Show password"
+              class="absolute right-2 top-1/2 -translate-y-1/2 w-7 h-7 flex items-center justify-center text-inksoft dark:text-inksoft-dark hover:text-ink dark:hover:text-ink-dark focus:outline-none">
+              <i class="fa-solid fa-eye text-sm"></i>
+            </button>
+          </div>
         </div>
         <button type="submit" id="loginSubmitBtn"
           class="w-full h-[42px] rounded-lg bg-teal dark:bg-teal-dark text-white text-sm font-semibold hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-teal">
@@ -168,8 +174,14 @@
         </div>
         <div>
           <label class="text-xs text-inksoft dark:text-inksoft-dark" for="signupPassword">Password</label>
-          <input id="signupPassword" type="password" required minlength="8" autocomplete="new-password"
-            class="mt-1 w-full bg-paper dark:bg-paper-dark border border-ink/10 dark:border-ink-dark/10 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal" />
+          <div class="relative mt-1">
+            <input id="signupPassword" type="password" required minlength="8" autocomplete="new-password"
+              class="w-full bg-paper dark:bg-paper-dark border border-ink/10 dark:border-ink-dark/10 rounded-lg px-3 py-2 pr-10 text-sm focus:outline-none focus:ring-2 focus:ring-teal" />
+            <button type="button" data-toggle-password="signupPassword" aria-label="Show password"
+              class="absolute right-2 top-1/2 -translate-y-1/2 w-7 h-7 flex items-center justify-center text-inksoft dark:text-inksoft-dark hover:text-ink dark:hover:text-ink-dark focus:outline-none">
+              <i class="fa-solid fa-eye text-sm"></i>
+            </button>
+          </div>
           <p class="text-[11px] text-inksoft dark:text-inksoft-dark mt-1">At least 8 characters.</p>
         </div>
         <button type="submit" id="signupSubmitBtn"
@@ -181,12 +193,12 @@
       <p id="authError" class="hidden text-xs text-coral mt-3"></p>
 
       <details class="mt-5 text-xs text-inksoft dark:text-inksoft-dark">
-        <summary class="cursor-pointer select-none font-semibold">Server URL</summary>
+        <summary class="cursor-pointer select-none font-semibold">Advanced: custom server</summary>
         <input id="apiBaseInput" type="text"
           class="mt-2 w-full bg-paper dark:bg-paper-dark border border-ink/10 dark:border-ink-dark/10 rounded-lg px-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-teal"
           placeholder="https://your-backend.onrender.com" />
-        <p class="mt-1">Point this at your deployed EduFlow API. Defaults to <code>http://localhost:4000</code> for
-          local development. Saved on this device only.</p>
+        <p class="mt-1">Only change this if you're running your own backend (e.g. for local development). Saved on this
+          device only.</p>
       </details>
     </div>
   </div>
@@ -197,7 +209,7 @@
     <div
       class="md:hidden flex items-center justify-between px-4 h-16 bg-surface dark:bg-surface-dark border-b border-ink/10 dark:border-ink-dark/10 sticky top-0 z-30">
       <div class="flex items-center gap-2">
-      <img src="logo.png" alt="EduFlow logo" class="w-8 h-8 rounded-lg object-contain" />
+        <img src="logo.png" alt="EduFlow logo" class="w-8 h-8 rounded-lg object-contain" />
         <span class="font-serif font-semibold text-lg">EduFlow</span>
       </div>
       <button id="mobileMenuBtn" aria-label="Open navigation menu"
@@ -212,7 +224,7 @@
       class="fixed top-0 left-0 h-full w-72 bg-surface dark:bg-surface-dark border-r border-ink/10 dark:border-ink-dark/10 z-50 flex flex-col -translate-x-full md:translate-x-0 transition-transform duration-300">
       <div class="flex items-center justify-between px-6 pt-6 pb-4">
         <div class="flex items-center gap-3">
-        <img src="logo.png" alt="EduFlow logo" class="w-10 h-10 rounded-xl shadow-soft object-contain" />
+          <img src="logo.png" alt="EduFlow logo" class="w-10 h-10 rounded-xl shadow-soft object-contain" />
           <div>
             <p class="font-serif font-semibold text-xl leading-tight">EduFlow</p>
             <p class="text-xs text-inksoft dark:text-inksoft-dark">Campus dashboard</p>
@@ -720,7 +732,8 @@
     /* ---------- auth + API ---------- */
     let authToken = localStorage.getItem('eduflow_token') || null;
     let currentUser = null;
-    let API_BASE = localStorage.getItem('eduflow_api_base') || 'http://localhost:4000';
+    const DEFAULT_API_BASE = 'https://eduflow-s7wu.onrender.com';
+    let API_BASE = localStorage.getItem('eduflow_api_base') || DEFAULT_API_BASE;
 
     async function apiFetch(path, options) {
       options = options || {};
@@ -730,15 +743,17 @@
       try {
         res = await fetch(API_BASE + path, Object.assign({}, options, { headers }));
       } catch (e) {
-        throw new Error('Could not reach the server. Check the server URL and your connection.');
+        throw new Error('Could not reach the server. It may be waking up from sleep — wait 30 seconds and try again.');
       }
       if (res.status === 401) {
-        logout();
-        throw new Error('Your session expired. Please log in again.');
+        const isAuthEndpoint = path === '/api/auth/login' || path === '/api/auth/signup';
+        if (!isAuthEndpoint) {
+          throw new Error('SESSION_EXPIRED');
+        }
       }
       let data = null;
       try { data = await res.json(); } catch (e) { /* no JSON body, that's fine for 204s */ }
-      if (!res.ok) throw new Error((data && data.error) || 'Something went wrong.');
+      if (!res.ok) throw new Error((data && data.error) || 'Something went wrong. If the server was asleep, try again in a moment.');
       return data;
     }
 
@@ -838,7 +853,7 @@
     const WEEK_DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
     async function reloadAll() {
-      const [coursesRes, cgpaRes, semRes, ttRes, asgRes, taskRes, progRes] = await Promise.all([
+      const results = await Promise.allSettled([
         apiFetch('/api/courses'),
         apiFetch('/api/cgpa'),
         apiFetch('/api/semesters'),
@@ -847,19 +862,32 @@
         apiFetch('/api/tasks'),
         apiFetch('/api/progress'),
       ]);
-      state.courses = coursesRes.courses;
-      state.cgpaEntries = cgpaRes.entries;
-      state.semesters = cgpaRes.semesters; // already includes computed gpa + units per semester
-      state.cumulative = cgpaRes.cumulative;
-      state.timetable = ttRes.timetable;
-      state.assignments = asgRes.assignments;
-      state.tasks = taskRes.tasks;
-      state.progress = progRes;
+      const [coursesRes, cgpaRes, semRes, ttRes, asgRes, taskRes, progRes] = results.map((r) => (r.status === 'fulfilled' ? r.value : null));
+      const anyFailed = results.some((r) => r.status === 'rejected');
+      const anySessionExpired = results.some((r) => r.status === 'rejected' && r.reason && r.reason.message === 'SESSION_EXPIRED');
+
+      if (anySessionExpired) {
+        logout();
+        showAuthError('Your session expired. Please log in again.');
+        return;
+      }
+
+      state.courses = (coursesRes && coursesRes.courses) || state.courses || [];
+      state.cgpaEntries = (cgpaRes && cgpaRes.entries) || state.cgpaEntries || [];
+      state.semesters = (cgpaRes && cgpaRes.semesters) || state.semesters || [];
+      state.cumulative = (cgpaRes && cgpaRes.cumulative) || state.cumulative || null;
+      state.timetable = (ttRes && ttRes.timetable) || state.timetable || [];
+      state.assignments = (asgRes && asgRes.assignments) || state.assignments || [];
+      state.tasks = (taskRes && taskRes.tasks) || state.tasks || [];
+      state.progress = progRes || state.progress || null;
 
       if (!activeSemesterId || !state.semesters.some((s) => String(s.id) === String(activeSemesterId))) {
         activeSemesterId = state.semesters.length ? state.semesters[state.semesters.length - 1].id : null;
       }
       renderAllViews();
+      if (anyFailed) {
+        showDeterrentToast("Some data didn't load — the server may still be waking up. Try refreshing in a few seconds.");
+      }
     }
     function renderAllViews() {
       populateCourseSelects();
@@ -880,14 +908,13 @@
       showView('overview');
     }
     async function tryResumeSession() {
-      qs('#apiBaseInput').value = API_BASE;
       if (!authToken) { showAuthScreen(); return; }
       try {
         const data = await apiFetch('/api/auth/me');
         currentUser = data.user;
         await bootApp();
       } catch (e) {
-        showAuthScreen();
+        logout();
       }
     }
 
@@ -1480,8 +1507,18 @@
       setAuthTab('login');
       qs('#loginForm').addEventListener('submit', handleLogin);
       qs('#signupForm').addEventListener('submit', handleSignup);
+      qsa('[data-toggle-password]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const input = qs('#' + btn.dataset.togglePassword);
+          const showing = input.type === 'text';
+          input.type = showing ? 'password' : 'text';
+          btn.querySelector('i').className = showing ? 'fa-solid fa-eye text-sm' : 'fa-solid fa-eye-slash text-sm';
+          btn.setAttribute('aria-label', showing ? 'Show password' : 'Hide password');
+        });
+      });
+      qs('#apiBaseInput').value = API_BASE;
       qs('#apiBaseInput').addEventListener('change', (e) => {
-        API_BASE = e.target.value.trim().replace(/\/$/, '') || 'http://localhost:4000';
+        API_BASE = e.target.value.trim().replace(/\/$/, '') || DEFAULT_API_BASE;
         localStorage.setItem('eduflow_api_base', API_BASE);
       });
       qs('#logoutBtn').addEventListener('click', logout);
