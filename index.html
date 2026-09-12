@@ -227,8 +227,15 @@
 
     <div class="px-6 pb-4">
       <div class="bg-paper dark:bg-paper-dark rounded-lg p-3">
-        <p id="sidebarUserName" class="text-sm font-semibold truncate">Student</p>
-        <p id="sidebarUserEmail" class="text-xs text-inksoft dark:text-inksoft-dark truncate"></p>
+        <div class="flex items-start justify-between gap-2">
+          <div class="min-w-0">
+            <p id="sidebarUserName" class="text-sm font-semibold truncate">Student</p>
+            <p id="sidebarUserEmail" class="text-xs text-inksoft dark:text-inksoft-dark truncate"></p>
+          </div>
+          <button data-view="account" aria-label="Account settings" class="shrink-0 w-7 h-7 flex items-center justify-center rounded-lg text-inksoft dark:text-inksoft-dark hover:text-ink dark:hover:text-ink-dark hover:bg-ink/5 dark:hover:bg-white/5 focus:outline-none focus:ring-2 focus:ring-teal">
+            <i class="fa-solid fa-gear text-sm"></i>
+          </button>
+        </div>
         <button id="logoutBtn" class="mt-2 text-xs font-semibold text-coral hover:underline focus:outline-none">
           <i class="fa-solid fa-arrow-right-from-bracket mr-1"></i>Log out
         </button>
@@ -588,6 +595,67 @@
       </div>
     </section>
 
+    <!-- ACCOUNT SETTINGS -->
+    <section id="view-account" class="view hidden space-y-6 max-w-xl">
+      <div>
+        <h1 class="font-serif text-2xl font-semibold">Account settings</h1>
+        <p class="text-inksoft dark:text-inksoft-dark text-sm mt-1">Manage your name, email, password, and account.</p>
+      </div>
+
+      <form id="accountNameForm" class="bg-surface dark:bg-surface-dark rounded-2xl border border-ink/10 dark:border-ink-dark/10 p-5 sm:p-6 space-y-3">
+        <h2 class="font-serif font-semibold text-lg">Name</h2>
+        <div>
+          <label class="text-xs text-inksoft dark:text-inksoft-dark" for="accountNameInput">Display name</label>
+          <input id="accountNameInput" type="text" required class="mt-1 w-full bg-paper dark:bg-paper-dark border border-ink/10 dark:border-ink-dark/10 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal" />
+        </div>
+        <button type="submit" class="px-4 h-[38px] rounded-lg bg-teal dark:bg-teal-dark text-white text-sm font-semibold hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-teal">Save name</button>
+        <p class="account-name-msg text-xs hidden"></p>
+      </form>
+
+      <form id="accountEmailForm" class="bg-surface dark:bg-surface-dark rounded-2xl border border-ink/10 dark:border-ink-dark/10 p-5 sm:p-6 space-y-3">
+        <h2 class="font-serif font-semibold text-lg">Email</h2>
+        <div>
+          <label class="text-xs text-inksoft dark:text-inksoft-dark" for="accountEmailInput">Email address</label>
+          <input id="accountEmailInput" type="email" required class="mt-1 w-full bg-paper dark:bg-paper-dark border border-ink/10 dark:border-ink-dark/10 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal" />
+        </div>
+        <div id="accountEmailPasswordWrap">
+          <label class="text-xs text-inksoft dark:text-inksoft-dark" for="accountEmailPassword">Current password (to confirm this change)</label>
+          <input id="accountEmailPassword" type="password" autocomplete="current-password" class="mt-1 w-full bg-paper dark:bg-paper-dark border border-ink/10 dark:border-ink-dark/10 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal" />
+        </div>
+        <button type="submit" class="px-4 h-[38px] rounded-lg bg-teal dark:bg-teal-dark text-white text-sm font-semibold hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-teal">Save email</button>
+        <p class="account-email-msg text-xs hidden"></p>
+      </form>
+
+      <form id="accountPasswordForm" class="bg-surface dark:bg-surface-dark rounded-2xl border border-ink/10 dark:border-ink-dark/10 p-5 sm:p-6 space-y-3">
+        <h2 id="accountPasswordHeading" class="font-serif font-semibold text-lg">Password</h2>
+        <p id="accountPasswordHint" class="hidden text-xs text-inksoft dark:text-inksoft-dark">You signed in with Google. Set a password below so you can also log in with your email.</p>
+        <div id="accountCurrentPasswordWrap">
+          <label class="text-xs text-inksoft dark:text-inksoft-dark" for="accountCurrentPassword">Current password</label>
+          <input id="accountCurrentPassword" type="password" autocomplete="current-password" class="mt-1 w-full bg-paper dark:bg-paper-dark border border-ink/10 dark:border-ink-dark/10 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal" />
+        </div>
+        <div>
+          <label class="text-xs text-inksoft dark:text-inksoft-dark" for="accountNewPassword">New password</label>
+          <input id="accountNewPassword" type="password" required minlength="8" autocomplete="new-password" class="mt-1 w-full bg-paper dark:bg-paper-dark border border-ink/10 dark:border-ink-dark/10 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal" />
+          <p class="text-[11px] text-inksoft dark:text-inksoft-dark mt-1">At least 8 characters.</p>
+        </div>
+        <button id="accountPasswordSubmitBtn" type="submit" class="px-4 h-[38px] rounded-lg bg-teal dark:bg-teal-dark text-white text-sm font-semibold hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-teal">Update password</button>
+        <p class="account-password-msg text-xs hidden"></p>
+      </form>
+
+      <div class="bg-surface dark:bg-surface-dark rounded-2xl border border-coral/30 p-5 sm:p-6 space-y-3">
+        <h2 class="font-serif font-semibold text-lg text-coral">Delete account</h2>
+        <p class="text-xs text-inksoft dark:text-inksoft-dark">This permanently deletes your account and every course, grade, class, assignment and task in it. This can't be undone.</p>
+        <form id="accountDeleteForm" class="space-y-3">
+          <div id="accountDeletePasswordWrap">
+            <label class="text-xs text-inksoft dark:text-inksoft-dark" for="accountDeletePassword">Enter your password to confirm</label>
+            <input id="accountDeletePassword" type="password" autocomplete="current-password" class="mt-1 w-full bg-paper dark:bg-paper-dark border border-ink/10 dark:border-ink-dark/10 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal" />
+          </div>
+          <button type="submit" class="px-4 h-[38px] rounded-lg bg-coral text-white text-sm font-semibold hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-coral">Delete my account permanently</button>
+          <p class="account-delete-msg text-xs hidden"></p>
+        </form>
+      </div>
+    </section>
+
   </main>
 </div>
 
@@ -683,6 +751,82 @@ function getName() {
   return (currentUser && currentUser.name) || 'there';
 }
 
+/* ---------- account settings ---------- */
+function showFieldMessage(el, message, isError) {
+  el.textContent = message;
+  el.classList.remove('hidden', 'text-coral', 'text-teal');
+  el.classList.add(isError ? 'text-coral' : 'text-teal');
+}
+function renderAccountSettings() {
+  if (!currentUser) return;
+  qs('#accountNameInput').value = currentUser.name;
+  qs('#accountEmailInput').value = currentUser.email;
+  const hasPassword = !!currentUser.has_password;
+  qs('#accountEmailPasswordWrap').classList.toggle('hidden', !hasPassword);
+  qs('#accountCurrentPasswordWrap').classList.toggle('hidden', !hasPassword);
+  qs('#accountPasswordHint').classList.toggle('hidden', hasPassword);
+  qs('#accountPasswordHeading').textContent = hasPassword ? 'Password' : 'Set a password';
+  qs('#accountPasswordSubmitBtn').textContent = hasPassword ? 'Update password' : 'Set password';
+  qs('#accountDeletePasswordWrap').classList.toggle('hidden', !hasPassword);
+  qsa('.account-name-msg, .account-email-msg, .account-password-msg, .account-delete-msg').forEach((el) => el.classList.add('hidden'));
+}
+async function handleUpdateName(e) {
+  e.preventDefault();
+  const msg = qs('.account-name-msg');
+  try {
+    const data = await apiFetch('/api/account/profile', { method: 'PATCH', body: JSON.stringify({ name: qs('#accountNameInput').value.trim() }) });
+    currentUser = data.user;
+    qs('#sidebarUserName').textContent = currentUser.name;
+    showFieldMessage(msg, 'Name updated.', false);
+  } catch (err) {
+    showFieldMessage(msg, err.message, true);
+  }
+}
+async function handleUpdateEmail(e) {
+  e.preventDefault();
+  const msg = qs('.account-email-msg');
+  try {
+    const data = await apiFetch('/api/account/email', {
+      method: 'PATCH',
+      body: JSON.stringify({ newEmail: qs('#accountEmailInput').value.trim(), currentPassword: qs('#accountEmailPassword').value }),
+    });
+    currentUser = data.user;
+    qs('#sidebarUserEmail').textContent = currentUser.email;
+    qs('#accountEmailPassword').value = '';
+    showFieldMessage(msg, 'Email updated.', false);
+  } catch (err) {
+    showFieldMessage(msg, err.message, true);
+  }
+}
+async function handleUpdatePassword(e) {
+  e.preventDefault();
+  const msg = qs('.account-password-msg');
+  try {
+    const data = await apiFetch('/api/account/password', {
+      method: 'PATCH',
+      body: JSON.stringify({ currentPassword: qs('#accountCurrentPassword').value, newPassword: qs('#accountNewPassword').value }),
+    });
+    currentUser.has_password = true;
+    qs('#accountPasswordForm').reset();
+    renderAccountSettings();
+    showFieldMessage(qs('.account-password-msg'), data.message, false);
+  } catch (err) {
+    showFieldMessage(msg, err.message, true);
+  }
+}
+async function handleDeleteAccount(e) {
+  e.preventDefault();
+  const msg = qs('.account-delete-msg');
+  const confirmed = window.confirm("This permanently deletes your account and everything in it. This can't be undone. Continue?");
+  if (!confirmed) return;
+  try {
+    await apiFetch('/api/account', { method: 'DELETE', body: JSON.stringify({ currentPassword: qs('#accountDeletePassword').value }) });
+    logout();
+  } catch (err) {
+    showFieldMessage(msg, err.message, true);
+  }
+}
+
 function showAuthError(message) {
   qs('#authSuccess').classList.add('hidden');
   const el = qs('#authError');
@@ -769,7 +913,7 @@ async function handleResetPassword(e) {
 /* ---------- Google sign-in ----------
    GOOGLE_CLIENT_ID is a public identifier (not a secret) — safe to ship in
    frontend code. Leave it blank to hide the Google button entirely. */
-const GOOGLE_CLIENT_ID = '505128710649-3s67r8pjadik3apc7f7j8ifk8jm78hgs.apps.googleusercontent.com';
+const GOOGLE_CLIENT_ID = '';
 
 async function handleGoogleCredentialResponse(response) {
   hideAuthError();
@@ -933,7 +1077,7 @@ function updateThemeToggleUI(isDark) {
 }
 
 /* ---------- navigation ---------- */
-const VIEWS = ['overview', 'courses', 'timetable', 'assignments', 'cgpa', 'progress', 'assistant'];
+const VIEWS = ['overview', 'courses', 'timetable', 'assignments', 'cgpa', 'progress', 'assistant', 'account'];
 function showView(name) {
   VIEWS.forEach((v) => {
     const el = qs('#view-' + v);
@@ -949,6 +1093,7 @@ function showView(name) {
   });
   closeSidebar();
   if (name === 'progress') renderProgressChart();
+  if (name === 'account') renderAccountSettings();
   window.scrollTo(0, 0);
 }
 function initNav() {
@@ -1574,6 +1719,10 @@ function init() {
     localStorage.setItem('eduflow_api_base', API_BASE);
   });
   qs('#logoutBtn').addEventListener('click', logout);
+  qs('#accountNameForm').addEventListener('submit', handleUpdateName);
+  qs('#accountEmailForm').addEventListener('submit', handleUpdateEmail);
+  qs('#accountPasswordForm').addEventListener('submit', handleUpdatePassword);
+  qs('#accountDeleteForm').addEventListener('submit', handleDeleteAccount);
 
   qs('#courseForm').addEventListener('submit', addCourse);
   qs('#timetableForm').addEventListener('submit', addClass);
