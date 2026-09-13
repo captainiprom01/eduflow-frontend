@@ -16,6 +16,8 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <script>
   tailwind.config = {
@@ -382,9 +384,19 @@
 
     <!-- TIMETABLE -->
     <section id="view-timetable" class="view hidden space-y-6">
-      <div>
-        <h1 class="font-serif text-2xl font-semibold">Class timetable</h1>
-        <p class="text-inksoft dark:text-inksoft-dark text-sm mt-1">Plan your week and see what's next.</p>
+      <div class="flex items-start justify-between gap-3">
+        <div>
+          <h1 class="font-serif text-2xl font-semibold">Class timetable</h1>
+          <p class="text-inksoft dark:text-inksoft-dark text-sm mt-1">Plan your week and see what's next.</p>
+        </div>
+        <div class="flex gap-2 shrink-0">
+          <button id="exportTimetableIcsBtn" class="text-xs font-semibold px-3 py-2 rounded-lg border border-ink/15 dark:border-ink-dark/15 hover:bg-ink/5 dark:hover:bg-white/5 whitespace-nowrap">
+            <i class="fa-solid fa-calendar-plus mr-1"></i>Add to calendar
+          </button>
+          <button id="exportTimetablePdfBtn" class="text-xs font-semibold px-3 py-2 rounded-lg border border-ink/15 dark:border-ink-dark/15 hover:bg-ink/5 dark:hover:bg-white/5 whitespace-nowrap">
+            <i class="fa-solid fa-file-pdf mr-1"></i>Export PDF
+          </button>
+        </div>
       </div>
 
       <form id="timetableForm" class="bg-surface dark:bg-surface-dark rounded-2xl border border-ink/10 dark:border-ink-dark/10 p-5 sm:p-6 grid sm:grid-cols-2 lg:grid-cols-6 gap-3 sm:gap-4 items-end">
@@ -482,9 +494,14 @@
 
     <!-- CGPA -->
     <section id="view-cgpa" class="view hidden space-y-6">
-      <div>
-        <h1 class="font-serif text-2xl font-semibold">CGPA calculator</h1>
-        <p class="text-inksoft dark:text-inksoft-dark text-sm mt-1">Grades are grouped by semester on the standard 5-point scale. The grade-point math runs on the server — this page only displays the result.</p>
+      <div class="flex items-start justify-between gap-3">
+        <div>
+          <h1 class="font-serif text-2xl font-semibold">CGPA calculator</h1>
+          <p class="text-inksoft dark:text-inksoft-dark text-sm mt-1">Grades are grouped by semester on the standard 5-point scale. The grade-point math runs on the server — this page only displays the result.</p>
+        </div>
+        <button id="exportCgpaPdfBtn" class="text-xs font-semibold px-3 py-2 rounded-lg border border-ink/15 dark:border-ink-dark/15 hover:bg-ink/5 dark:hover:bg-white/5 whitespace-nowrap shrink-0">
+          <i class="fa-solid fa-file-pdf mr-1"></i>Export PDF
+        </button>
       </div>
 
       <div id="cgpaEmptyCourses" class="hidden bg-amber/10 border border-amber/30 text-sm rounded-xl p-4">
@@ -549,6 +566,23 @@
         <h2 class="font-serif font-semibold text-lg mb-3">GPA by semester</h2>
         <div id="semesterSummaryList" class="space-y-2"></div>
       </div>
+
+      <div class="bg-surface dark:bg-surface-dark rounded-2xl border border-ink/10 dark:border-ink-dark/10 p-5 sm:p-6">
+        <h2 class="font-serif font-semibold text-lg mb-1">What GPA do I need next semester?</h2>
+        <p class="text-xs text-inksoft dark:text-inksoft-dark mb-4">Uses your current cumulative CGPA and total units logged so far.</p>
+        <div class="grid sm:grid-cols-2 gap-3 sm:gap-4 items-end">
+          <div>
+            <label class="text-xs text-inksoft dark:text-inksoft-dark" for="targetCgpaInput">Target CGPA</label>
+            <input id="targetCgpaInput" type="number" step="0.01" min="0" max="5" placeholder="e.g. 4.50" class="mt-1 w-full bg-paper dark:bg-paper-dark border border-ink/10 dark:border-ink-dark/10 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal" />
+          </div>
+          <div>
+            <label class="text-xs text-inksoft dark:text-inksoft-dark" for="targetUnitsInput">Units next semester</label>
+            <input id="targetUnitsInput" type="number" step="1" min="1" placeholder="e.g. 21" class="mt-1 w-full bg-paper dark:bg-paper-dark border border-ink/10 dark:border-ink-dark/10 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal" />
+          </div>
+        </div>
+        <button id="calcTargetGpaBtn" class="mt-3 px-4 h-[38px] rounded-lg bg-teal dark:bg-teal-dark text-white text-sm font-semibold hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-teal">Calculate</button>
+        <p id="targetGpaResult" class="text-sm mt-3"></p>
+      </div>
     </section>
 
     <!-- PROGRESS -->
@@ -593,7 +627,7 @@
     <section id="view-assistant" class="view hidden space-y-6">
       <div>
         <h1 class="font-serif text-2xl font-semibold">Study assistant</h1>
-        <p class="text-inksoft dark:text-inksoft-dark text-sm mt-1">A lightweight helper that reads your live dashboard data — no external AI service involved. This chat isn't saved between sessions.</p>
+        <p class="text-inksoft dark:text-inksoft-dark text-sm mt-1">Answers using an AI model with your live dashboard data as context — CGPA, deadlines, timetable and progress. This chat isn't saved between sessions.</p>
       </div>
 
       <div class="bg-surface dark:bg-surface-dark rounded-2xl border border-ink/10 dark:border-ink-dark/10 flex flex-col h-[65vh] max-h-[640px]">
@@ -962,7 +996,7 @@ async function handleResendVerification() {
 /* ---------- Google sign-in ----------
    GOOGLE_CLIENT_ID is a public identifier (not a secret) — safe to ship in
    frontend code. Leave it blank to hide the Google button entirely. */
-const GOOGLE_CLIENT_ID = '505128710649-3s67r8pjadik3apc7f7j8ifk8jm78hgs.apps.googleusercontent.com';
+const GOOGLE_CLIENT_ID = '';
 
 async function handleGoogleCredentialResponse(response) {
   hideAuthError();
@@ -1481,6 +1515,173 @@ function renderCgpa() {
     : emptyState('fa-layer-group', 'No semesters yet', 'Add your first semester above.');
 }
 
+/* ================= REVERSE CGPA CALCULATOR (client-side, non-sensitive arithmetic) ================= */
+function calculateTargetGpa() {
+  const resultEl = qs('#targetGpaResult');
+  const target = parseFloat(qs('#targetCgpaInput').value);
+  const nextUnits = parseFloat(qs('#targetUnitsInput').value);
+
+  if (!target || target <= 0 || target > 5) {
+    resultEl.textContent = 'Enter a target CGPA between 0 and 5.';
+    resultEl.className = 'text-sm mt-3 text-coral';
+    return;
+  }
+  if (!nextUnits || nextUnits <= 0) {
+    resultEl.textContent = 'Enter how many units you plan to take next semester.';
+    resultEl.className = 'text-sm mt-3 text-coral';
+    return;
+  }
+
+  const currentUnits = (state.cumulative && state.cumulative.units) || 0;
+  const currentGpa = (state.cumulative && state.cumulative.gpa) || 0;
+  const currentPoints = currentGpa * currentUnits;
+  const neededPoints = target * (currentUnits + nextUnits) - currentPoints;
+  const neededGpa = neededPoints / nextUnits;
+
+  if (neededGpa <= 0) {
+    resultEl.textContent = "You're already above that target — any GPA next semester keeps your cumulative CGPA there or higher.";
+    resultEl.className = 'text-sm mt-3 text-teal';
+  } else if (neededGpa > 5) {
+    resultEl.textContent = `Not reachable in one semester — even a perfect 5.00 GPA next semester wouldn't get you to ${target.toFixed(2)}. It'll take more than one semester.`;
+    resultEl.className = 'text-sm mt-3 text-coral';
+  } else {
+    resultEl.textContent = `You need a GPA of ${neededGpa.toFixed(2)} next semester to reach a cumulative CGPA of ${target.toFixed(2)}.`;
+    resultEl.className = 'text-sm mt-3 font-semibold';
+  }
+}
+
+/* ================= PDF EXPORTS ================= */
+function exportCgpaPdf() {
+  if (typeof window.jspdf === 'undefined') { showDeterrentToast('PDF export failed to load — check your connection and try again.'); return; }
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+  const name = getName();
+  const cum = state.cumulative || { gpa: 0, units: 0, classification: '—' };
+
+  doc.setFontSize(16);
+  doc.text('EduFlow — CGPA Report', 14, 18);
+  doc.setFontSize(10);
+  doc.setTextColor(100);
+  doc.text(`${name} — generated ${new Date().toLocaleDateString()}`, 14, 25);
+  doc.setTextColor(0);
+  doc.setFontSize(12);
+  doc.text(`Cumulative CGPA: ${cum.gpa.toFixed(2)} (${cum.classification}) — ${cum.units} units logged`, 14, 35);
+
+  let y = 44;
+  if (!state.semesters.length) {
+    doc.setFontSize(10);
+    doc.text('No semesters or grades logged yet.', 14, y);
+  }
+  state.semesters.forEach((sem) => {
+    if (y > 270) { doc.addPage(); y = 20; }
+    doc.setFontSize(12);
+    doc.text(`${sem.name} — GPA ${sem.gpa.toFixed(2)} (${sem.units} units)`, 14, y);
+    y += 4;
+    const rows = state.cgpaEntries
+      .filter((en) => String(en.semester_id) === String(sem.id))
+      .map((en) => [en.course_name, String(en.units), en.grade, Number(en.points).toFixed(1)]);
+    doc.autoTable({
+      startY: y,
+      head: [['Course', 'Units', 'Grade', 'Points']],
+      body: rows.length ? rows : [['No grades logged for this semester', '', '', '']],
+      styles: { fontSize: 9 },
+      margin: { left: 14, right: 14 },
+      theme: 'grid',
+      headStyles: { fillColor: [31, 122, 108] },
+    });
+    y = doc.lastAutoTable.finalY + 10;
+  });
+
+  doc.save(`eduflow-cgpa-${name.replace(/\s+/g, '-').toLowerCase()}.pdf`);
+}
+
+function exportTimetablePdf() {
+  if (typeof window.jspdf === 'undefined') { showDeterrentToast('PDF export failed to load — check your connection and try again.'); return; }
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+  const name = getName();
+
+  doc.setFontSize(16);
+  doc.text('EduFlow — Class Timetable', 14, 18);
+  doc.setFontSize(10);
+  doc.setTextColor(100);
+  doc.text(`${name} — generated ${new Date().toLocaleDateString()}`, 14, 25);
+  doc.setTextColor(0);
+
+  const rows = [];
+  WEEK_DAYS.forEach((day) => {
+    state.timetable
+      .filter((t) => t.day === day)
+      .sort((a, b) => a.start_time.localeCompare(b.start_time))
+      .forEach((t) => rows.push([day, `${t.start_time}–${t.end_time}`, t.course_name || '—', t.location || '—']));
+  });
+
+  doc.autoTable({
+    startY: 33,
+    head: [['Day', 'Time', 'Course', 'Venue']],
+    body: rows.length ? rows : [['No classes scheduled yet', '', '', '']],
+    styles: { fontSize: 9 },
+    margin: { left: 14, right: 14 },
+    theme: 'grid',
+    headStyles: { fillColor: [31, 122, 108] },
+  });
+
+  doc.save(`eduflow-timetable-${name.replace(/\s+/g, '-').toLowerCase()}.pdf`);
+}
+
+/* ================= CALENDAR (.ics) EXPORT =================
+   A real, live Google Calendar *sync* would need a full OAuth flow asking
+   for calendar write access — a much bigger, more sensitive permission
+   than the sign-in scope this app already uses, and one Google requires
+   a manual app review to grant to the public. A standard .ics file gets
+   your timetable into Google Calendar (or Apple/Outlook Calendar) with
+   one import click, no extra permissions or review needed. */
+function icsEscape(text) {
+  return String(text).replace(/[\\,;]/g, (c) => '\\' + c);
+}
+function nextDateForWeekday(targetDayName) {
+  const targetIndex = DAYS.indexOf(targetDayName);
+  const d = new Date();
+  const diff = (targetIndex - d.getDay() + 7) % 7;
+  d.setDate(d.getDate() + diff);
+  return d;
+}
+function icsDateTime(date, timeStr) {
+  const [h, m] = timeStr.split(':').map(Number);
+  const dt = new Date(date);
+  dt.setHours(h, m, 0, 0);
+  const pad = (n) => String(n).padStart(2, '0');
+  return `${dt.getFullYear()}${pad(dt.getMonth() + 1)}${pad(dt.getDate())}T${pad(dt.getHours())}${pad(dt.getMinutes())}00`;
+}
+const ICS_DAY_CODES = { Monday: 'MO', Tuesday: 'TU', Wednesday: 'WE', Thursday: 'TH', Friday: 'FR', Saturday: 'SA', Sunday: 'SU' };
+function exportTimetableIcs() {
+  if (!state.timetable.length) { showDeterrentToast('Add a class to your timetable first.'); return; }
+  const lines = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//EduFlow//Timetable//EN', 'CALSCALE:GREGORIAN'];
+  state.timetable.forEach((t) => {
+    const firstDate = nextDateForWeekday(t.day);
+    lines.push(
+      'BEGIN:VEVENT',
+      `UID:eduflow-${t.id}@eduflow`,
+      `DTSTART:${icsDateTime(firstDate, t.start_time)}`,
+      `DTEND:${icsDateTime(firstDate, t.end_time)}`,
+      `RRULE:FREQ=WEEKLY;BYDAY=${ICS_DAY_CODES[t.day]}`,
+      `SUMMARY:${icsEscape(t.course_name || 'Class')}`,
+      t.location ? `LOCATION:${icsEscape(t.location)}` : null,
+      'END:VEVENT'
+    );
+  });
+  lines.push('END:VCALENDAR');
+  const blob = new Blob([lines.filter(Boolean).join('\r\n')], { type: 'text/calendar' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'eduflow-timetable.ics';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
 /* ================= STUDY TASKS + PROGRESS ================= */
 async function addTask(e) {
   e.preventDefault();
@@ -1622,7 +1823,7 @@ function renderChat() {
   }
   wrap.innerHTML = state.chat.map((m) => `
     <div class="flex ${m.role === 'user' ? 'justify-end' : 'justify-start'}">
-      <div class="max-w-[80%] rounded-2xl px-4 py-2.5 text-sm ${m.role === 'user' ? 'bg-teal dark:bg-teal-dark text-white rounded-br-sm' : 'bg-paper dark:bg-paper-dark rounded-bl-sm'}">
+      <div class="max-w-[80%] rounded-2xl px-4 py-2.5 text-sm ${m.role === 'user' ? 'bg-teal dark:bg-teal-dark text-white rounded-br-sm' : 'bg-paper dark:bg-paper-dark rounded-bl-sm'} ${m.thinking ? 'animate-pulse' : ''}">
         ${escapeHtml(m.text)}
       </div>
     </div>
@@ -1680,10 +1881,23 @@ function sendChat(text) {
   if (!message) return;
   pushChat('user', message);
   renderChat();
-  setTimeout(() => {
-    pushChat('bot', botReply(message));
-    renderChat();
-  }, 300);
+
+  const thinkingMsg = { role: 'bot', text: '…', thinking: true };
+  state.chat.push(thinkingMsg);
+  renderChat();
+
+  apiFetch('/api/assistant/chat', { method: 'POST', body: JSON.stringify({ message }) })
+    .then((data) => {
+      state.chat = state.chat.filter((m) => m !== thinkingMsg);
+      const reply = data.aiConfigured && data.reply ? data.reply : botReply(message);
+      pushChat('bot', reply);
+      renderChat();
+    })
+    .catch(() => {
+      state.chat = state.chat.filter((m) => m !== thinkingMsg);
+      pushChat('bot', botReply(message));
+      renderChat();
+    });
 }
 
 /* ================= INIT ================= */
@@ -1788,6 +2002,10 @@ function init() {
   qs('#assignmentForm').addEventListener('submit', addAssignment);
   qs('#semesterForm').addEventListener('submit', addSemester);
   qs('#cgpaForm').addEventListener('submit', addCgpaEntry);
+  qs('#calcTargetGpaBtn').addEventListener('click', calculateTargetGpa);
+  qs('#exportCgpaPdfBtn').addEventListener('click', exportCgpaPdf);
+  qs('#exportTimetablePdfBtn').addEventListener('click', exportTimetablePdf);
+  qs('#exportTimetableIcsBtn').addEventListener('click', exportTimetableIcs);
   qs('#taskForm').addEventListener('submit', addTask);
 
   qs('#chatForm').addEventListener('submit', (e) => {
