@@ -320,6 +320,17 @@
         <p class="text-inksoft dark:text-inksoft-dark mt-4 max-w-md">Everything about your semester, in one place — courses, classes, deadlines and your CGPA.</p>
       </div>
 
+      <div id="streakCard" class="bg-gradient-to-br from-amber/10 to-teal/10 dark:from-amber/5 dark:to-teal/5 rounded-2xl border border-amber/20 p-5 sm:p-6 flex items-center gap-4">
+        <div class="w-14 h-14 rounded-2xl bg-amber/20 flex items-center justify-center shrink-0">
+          <i class="fa-solid fa-fire text-2xl text-amber"></i>
+        </div>
+        <div class="min-w-0 flex-1">
+          <p id="streakCount" class="font-serif text-2xl font-semibold">—</p>
+          <p id="streakMessage" class="text-sm text-inksoft dark:text-inksoft-dark mt-0.5">Loading your streak…</p>
+        </div>
+        <p id="streakLongest" class="text-xs text-inksoft dark:text-inksoft-dark shrink-0 hidden sm:block"></p>
+      </div>
+
       <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
         <div class="bg-surface dark:bg-surface-dark rounded-xl border border-ink/10 dark:border-ink-dark/10 border-l-4 border-l-teal p-4">
           <p class="text-xs text-inksoft dark:text-inksoft-dark">Courses</p>
@@ -337,6 +348,14 @@
           <p class="text-xs text-inksoft dark:text-inksoft-dark">Cumulative CGPA</p>
           <p id="statCgpa" class="font-serif text-2xl font-semibold mt-1">—</p>
         </div>
+      </div>
+
+      <div class="bg-surface dark:bg-surface-dark rounded-2xl border border-ink/10 dark:border-ink-dark/10 p-5 sm:p-6">
+        <div class="flex items-center justify-between mb-4">
+          <h2 class="font-serif font-semibold text-lg">Achievements</h2>
+          <p id="achievementsCount" class="text-xs text-inksoft dark:text-inksoft-dark"></p>
+        </div>
+        <div id="achievementsGrid" class="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-8 gap-3"></div>
       </div>
 
       <div class="grid lg:grid-cols-2 gap-4 sm:gap-6">
@@ -1045,7 +1064,7 @@ async function handleResendVerification() {
 /* ---------- Google sign-in ----------
    GOOGLE_CLIENT_ID is a public identifier (not a secret) — safe to ship in
    frontend code. Leave it blank to hide the Google button entirely. */
-const GOOGLE_CLIENT_ID = '505128710649-3s67r8pjadik3apc7f7j8ifk8jm78hgs.apps.googleusercontent.com';
+const GOOGLE_CLIENT_ID = '';
 
 async function handleGoogleCredentialResponse(response) {
   hideAuthError();
@@ -1117,6 +1136,7 @@ const state = {
   semesters: [],
   cumulative: { gpa: 0, units: 0, classification: 'Add grades to calculate' },
   progress: { totalItems: 0, doneItems: 0, overdue: 0, percent: 0 },
+  streak: null,
 };
 let activeSemesterId = null;
 
@@ -1132,8 +1152,9 @@ async function reloadAll() {
     apiFetch('/api/assignments'),
     apiFetch('/api/tasks'),
     apiFetch('/api/progress'),
+    apiFetch('/api/streak'),
   ]);
-  const [coursesRes, cgpaRes, semRes, ttRes, asgRes, taskRes, progRes] = results.map((r) => (r.status === 'fulfilled' ? r.value : null));
+  const [coursesRes, cgpaRes, semRes, ttRes, asgRes, taskRes, progRes, streakRes] = results.map((r) => (r.status === 'fulfilled' ? r.value : null));
   const anyFailed = results.some((r) => r.status === 'rejected');
   const anySessionExpired = results.some((r) => r.status === 'rejected' && r.reason && r.reason.message === 'SESSION_EXPIRED');
 
@@ -1151,6 +1172,7 @@ async function reloadAll() {
   state.assignments = (asgRes && asgRes.assignments) || state.assignments || [];
   state.tasks = (taskRes && taskRes.tasks) || state.tasks || [];
   state.progress = progRes || state.progress || null;
+  state.streak = streakRes || state.streak || null;
 
   if (!activeSemesterId || !state.semesters.some((s) => String(s.id) === String(activeSemesterId))) {
     activeSemesterId = state.semesters.length ? state.semesters[state.semesters.length - 1].id : null;
@@ -1819,9 +1841,40 @@ function renderProgressChart() {
 }
 
 /* ================= OVERVIEW ================= */
+function renderStreak() {
+  const s = state.streak;
+  if (!s) return;
+
+  const countEl = qs('#streakCount');
+  const msgEl = qs('#streakMessage');
+  const longestEl = qs('#streakLongest');
+
+  countEl.textContent = `${s.currentStreak} day${s.currentStreak === 1 ? '' : 's'} streak`;
+  longestEl.textContent = `Best: ${s.longestStreak} day${s.longestStreak === 1 ? '' : 's'}`;
+
+  if (s.currentStreak === 0) {
+    msgEl.textContent = 'Complete something today to start a new streak.';
+  } else if (s.currentStreak >= 7) {
+    msgEl.textContent = "You're on fire — keep showing up.";
+  } else {
+    msgEl.textContent = "You're checked in for today. Come back tomorrow to keep it going.";
+  }
+
+  qs('#achievementsCount').textContent = `${s.unlockedCount} of ${s.totalCount} unlocked`;
+  qs('#achievementsGrid').innerHTML = s.achievements.map((a) => `
+    <div class="flex flex-col items-center text-center gap-1.5 p-2 rounded-xl ${a.unlocked ? '' : 'opacity-40'}" title="${escapeHtml(a.description)}">
+      <div class="w-12 h-12 rounded-full flex items-center justify-center ${a.unlocked ? 'bg-gradient-to-br from-teal to-amber text-white' : 'bg-ink/10 dark:bg-ink-dark/10 text-inksoft dark:text-inksoft-dark'}">
+        <i class="fa-solid ${a.icon} text-lg"></i>
+      </div>
+      <p class="text-[11px] font-semibold leading-tight">${escapeHtml(a.title)}</p>
+    </div>
+  `).join('');
+}
 function renderOverview() {
   qs('#ovGreeting').textContent = `${greeting()}, ${getName()}.`;
   qs('#ovDate').textContent = new Date().toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+
+  renderStreak();
 
   qs('#statCourses').textContent = state.courses.length;
   qs('#statPending').textContent = state.assignments.filter((a) => !a.done).length;
