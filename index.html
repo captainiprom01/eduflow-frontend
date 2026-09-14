@@ -625,15 +625,24 @@
 
     <!-- ASSISTANT -->
     <section id="view-assistant" class="view hidden space-y-6">
-      <div>
-        <h1 class="font-serif text-2xl font-semibold">Study assistant</h1>
-        <p class="text-inksoft dark:text-inksoft-dark text-sm mt-1">Answers using an AI model with your live dashboard data as context — CGPA, deadlines, timetable and progress. This chat isn't saved between sessions.</p>
+      <div class="flex items-start justify-between gap-3 flex-wrap">
+        <div>
+          <h1 class="font-serif text-2xl font-semibold">Study assistant</h1>
+          <p class="text-inksoft dark:text-inksoft-dark text-sm mt-1">A full academic assistant — ask about any subject, or about your CGPA, deadlines and timetable. This chat isn't saved between sessions.</p>
+        </div>
+        <div class="shrink-0">
+          <label class="text-xs text-inksoft dark:text-inksoft-dark" for="assistantModelSelect">Model</label>
+          <select id="assistantModelSelect" class="mt-1 block bg-paper dark:bg-paper-dark border border-ink/10 dark:border-ink-dark/10 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal"></select>
+        </div>
       </div>
+      <p id="assistantNotConfiguredNote" class="hidden text-xs text-amber bg-amber/10 border border-amber/30 rounded-xl px-4 py-3">
+        An AI model isn't set up on this server yet, so replies are using simple built-in logic for now.
+      </p>
 
       <div class="bg-surface dark:bg-surface-dark rounded-2xl border border-ink/10 dark:border-ink-dark/10 flex flex-col h-[65vh] max-h-[640px]">
         <div id="chatMessages" class="flex-1 overflow-y-auto p-4 sm:p-6 space-y-3"></div>
         <form id="chatForm" class="border-t border-ink/10 dark:border-ink-dark/10 p-3 sm:p-4 flex gap-2">
-          <input id="chatInput" type="text" autocomplete="off" placeholder="Ask about your CGPA, deadlines, or today's classes…"
+          <input id="chatInput" type="text" autocomplete="off" placeholder="Ask anything — your CGPA, a concept you're stuck on, an assignment…"
             class="flex-1 bg-paper dark:bg-paper-dark border border-ink/10 dark:border-ink-dark/10 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal" />
           <button type="submit" aria-label="Send message" class="w-10 h-10 shrink-0 rounded-lg bg-teal dark:bg-teal-dark text-white hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-teal">
             <i class="fa-solid fa-paper-plane"></i>
@@ -643,8 +652,8 @@
       <div class="flex flex-wrap gap-2">
         <button class="chat-suggestion text-xs px-3 py-1.5 rounded-full border border-ink/15 dark:border-ink-dark/15 hover:bg-ink/5 dark:hover:bg-white/5">What's my CGPA?</button>
         <button class="chat-suggestion text-xs px-3 py-1.5 rounded-full border border-ink/15 dark:border-ink-dark/15 hover:bg-ink/5 dark:hover:bg-white/5">What's due soon?</button>
-        <button class="chat-suggestion text-xs px-3 py-1.5 rounded-full border border-ink/15 dark:border-ink-dark/15 hover:bg-ink/5 dark:hover:bg-white/5">What's my next class?</button>
-        <button class="chat-suggestion text-xs px-3 py-1.5 rounded-full border border-ink/15 dark:border-ink-dark/15 hover:bg-ink/5 dark:hover:bg-white/5">Give me a study tip</button>
+        <button class="chat-suggestion text-xs px-3 py-1.5 rounded-full border border-ink/15 dark:border-ink-dark/15 hover:bg-ink/5 dark:hover:bg-white/5">Explain a concept I'm stuck on</button>
+        <button class="chat-suggestion text-xs px-3 py-1.5 rounded-full border border-ink/15 dark:border-ink-dark/15 hover:bg-ink/5 dark:hover:bg-white/5">Help me plan my study week</button>
       </div>
     </section>
 
@@ -996,7 +1005,7 @@ async function handleResendVerification() {
 /* ---------- Google sign-in ----------
    GOOGLE_CLIENT_ID is a public identifier (not a secret) — safe to ship in
    frontend code. Leave it blank to hide the Google button entirely. */
-const GOOGLE_CLIENT_ID = '505128710649-3s67r8pjadik3apc7f7j8ifk8jm78hgs.apps.googleusercontent.com';
+const GOOGLE_CLIENT_ID = '';
 
 async function handleGoogleCredentialResponse(response) {
   hideAuthError();
@@ -1126,6 +1135,7 @@ async function bootApp() {
   qs('#sidebarUserName').textContent = currentUser ? currentUser.name : 'Student';
   qs('#sidebarUserEmail').textContent = currentUser ? currentUser.email : '';
   qs('#verifyBanner').classList.toggle('hidden', !currentUser || currentUser.email_verified !== false);
+  initAssistantModels();
   await reloadAll();
   renderChat();
   showView('overview');
@@ -1886,7 +1896,13 @@ function sendChat(text) {
   state.chat.push(thinkingMsg);
   renderChat();
 
-  apiFetch('/api/assistant/chat', { method: 'POST', body: JSON.stringify({ message }) })
+  const historyForApi = state.chat
+    .filter((m) => !m.thinking && m !== thinkingMsg)
+    .slice(-10)
+    .map((m) => ({ role: m.role === 'user' ? 'user' : 'assistant', text: m.text }));
+  const selectedModel = localStorage.getItem('eduflow_assistant_model') || '';
+
+  apiFetch('/api/assistant/chat', { method: 'POST', body: JSON.stringify({ message, model: selectedModel, history: historyForApi }) })
     .then((data) => {
       state.chat = state.chat.filter((m) => m !== thinkingMsg);
       const reply = data.aiConfigured && data.reply ? data.reply : botReply(message);
@@ -1898,6 +1914,24 @@ function sendChat(text) {
       pushChat('bot', botReply(message));
       renderChat();
     });
+}
+
+async function initAssistantModels() {
+  const select = qs('#assistantModelSelect');
+  try {
+    const data = await apiFetch('/api/assistant/models');
+    qs('#assistantNotConfiguredNote').classList.toggle('hidden', data.aiConfigured);
+    select.innerHTML = data.models.map((m) => `<option value="${m.id}">${escapeHtml(m.label)}</option>`).join('');
+    const saved = localStorage.getItem('eduflow_assistant_model');
+    select.value = data.models.some((m) => m.id === saved) ? saved : data.default;
+    localStorage.setItem('eduflow_assistant_model', select.value);
+  } catch (e) {
+    select.innerHTML = '<option value="">Default</option>';
+    qs('#assistantNotConfiguredNote').classList.remove('hidden');
+  }
+  select.addEventListener('change', () => {
+    localStorage.setItem('eduflow_assistant_model', select.value);
+  });
 }
 
 /* ================= INIT ================= */
