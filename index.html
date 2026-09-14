@@ -258,6 +258,15 @@
       </div>
     </div>
 
+    <div class="px-6 pb-3 relative">
+      <div class="relative">
+        <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-xs text-inksoft dark:text-inksoft-dark"></i>
+        <input id="globalSearchInput" type="text" placeholder="Search courses, assignments…" autocomplete="off"
+          class="w-full bg-paper dark:bg-paper-dark border border-ink/10 dark:border-ink-dark/10 rounded-lg pl-8 pr-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal" />
+      </div>
+      <div id="globalSearchResults" class="hidden absolute left-6 right-6 top-full mt-1 bg-surface dark:bg-surface-dark border border-ink/10 dark:border-ink-dark/10 rounded-xl shadow-lg max-h-80 overflow-y-auto z-30"></div>
+    </div>
+
     <nav class="flex-1 overflow-y-auto px-3 space-y-1" id="navList">
       <button data-view="overview" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium">
         <i class="fa-solid fa-gauge-high w-5 text-center"></i><span>Overview</span>
@@ -704,6 +713,15 @@
         <p class="account-password-msg text-xs hidden"></p>
       </form>
 
+      <div class="bg-surface dark:bg-surface-dark rounded-2xl border border-ink/10 dark:border-ink-dark/10 p-5 sm:p-6 space-y-3">
+        <h2 class="font-serif font-semibold text-lg">Export your data</h2>
+        <p class="text-xs text-inksoft dark:text-inksoft-dark">Download everything in your account — courses, grades, timetable, assignments and study tasks — as a single JSON file.</p>
+        <button id="exportDataBtn" class="px-4 h-[38px] rounded-lg border border-ink/15 dark:border-ink-dark/15 text-sm font-semibold hover:bg-ink/5 dark:hover:bg-white/5 focus:outline-none focus:ring-2 focus:ring-teal">
+          <i class="fa-solid fa-download mr-1"></i>Download my data
+        </button>
+        <p class="account-export-msg text-xs hidden"></p>
+      </div>
+
       <div class="bg-surface dark:bg-surface-dark rounded-2xl border border-coral/30 p-5 sm:p-6 space-y-3">
         <h2 class="font-serif font-semibold text-lg text-coral">Delete account</h2>
         <p class="text-xs text-inksoft dark:text-inksoft-dark">This permanently deletes your account and every course, grade, class, assignment and task in it. This can't be undone.</p>
@@ -876,6 +894,28 @@ async function handleUpdatePassword(e) {
     showFieldMessage(msg, err.message, true);
   }
 }
+async function handleExportData() {
+  const btn = qs('#exportDataBtn');
+  const msg = qs('.account-export-msg');
+  btn.disabled = true;
+  try {
+    const data = await apiFetch('/api/account/export');
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `eduflow-data-${new Date().toISOString().slice(0, 10)}.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  } catch (err) {
+    showFieldMessage(msg, err.message, true);
+  } finally {
+    btn.disabled = false;
+  }
+}
+
 async function handleDeleteAccount(e) {
   e.preventDefault();
   const msg = qs('.account-delete-msg');
@@ -1005,7 +1045,7 @@ async function handleResendVerification() {
 /* ---------- Google sign-in ----------
    GOOGLE_CLIENT_ID is a public identifier (not a secret) — safe to ship in
    frontend code. Leave it blank to hide the Google button entirely. */
-const GOOGLE_CLIENT_ID = '505128710649-3s67r8pjadik3apc7f7j8ifk8jm78hgs.apps.googleusercontent.com';
+const GOOGLE_CLIENT_ID = '';
 
 async function handleGoogleCredentialResponse(response) {
   hideAuthError();
@@ -1909,9 +1949,13 @@ function sendChat(text) {
       pushChat('bot', reply);
       renderChat();
     })
-    .catch(() => {
+    .catch((err) => {
       state.chat = state.chat.filter((m) => m !== thinkingMsg);
-      pushChat('bot', botReply(message));
+      // A real response from the server (e.g. an hourly limit hit) carries
+      // a specific message worth showing as-is. Only a genuine connection
+      // failure falls back to the old built-in keyword replies.
+      const isConnectionFailure = err.message.startsWith('Could not reach the server');
+      pushChat('bot', isConnectionFailure ? botReply(message) : err.message);
       renderChat();
     });
 }
@@ -1957,6 +2001,79 @@ window.addEventListener('appinstalled', () => {
   const btn = document.getElementById('installAppBtn');
   if (btn) btn.classList.add('hidden');
 });
+/* ---------- global search ---------- */
+function runGlobalSearch(rawQuery) {
+  const q = rawQuery.trim().toLowerCase();
+  if (!q) return [];
+  const results = [];
+
+  state.courses.forEach((c) => {
+    if (c.name.toLowerCase().includes(q) || (c.code && c.code.toLowerCase().includes(q))) {
+      results.push({ icon: 'fa-book-open', title: c.name, subtitle: c.code || `${c.units} units`, view: 'courses' });
+    }
+  });
+  state.assignments.forEach((a) => {
+    if (a.title.toLowerCase().includes(q)) {
+      results.push({ icon: 'fa-list-check', title: a.title, subtitle: a.done ? 'Completed' : `Due ${a.due_date}`, view: 'assignments' });
+    }
+  });
+  state.timetable.forEach((t) => {
+    const course = t.course_name || '';
+    if (course.toLowerCase().includes(q) || (t.location && t.location.toLowerCase().includes(q))) {
+      results.push({ icon: 'fa-calendar-week', title: course || 'Class', subtitle: `${t.day} · ${t.start_time}${t.location ? ' · ' + t.location : ''}`, view: 'timetable' });
+    }
+  });
+  state.tasks.forEach((task) => {
+    if (task.text.toLowerCase().includes(q)) {
+      results.push({ icon: 'fa-chart-line', title: task.text, subtitle: task.done ? 'Completed' : 'Study task', view: 'progress' });
+    }
+  });
+
+  return results.slice(0, 8);
+}
+function renderSearchResults(results, query) {
+  const wrap = qs('#globalSearchResults');
+  if (!query.trim()) {
+    wrap.classList.add('hidden');
+    wrap.innerHTML = '';
+    return;
+  }
+  wrap.classList.remove('hidden');
+  wrap.innerHTML = results.length
+    ? results.map((r) => `
+        <button data-search-view="${r.view}" class="w-full text-left px-3 py-2.5 flex items-center gap-3 hover:bg-ink/5 dark:hover:bg-white/5 border-b border-ink/5 dark:border-ink-dark/5 last:border-b-0">
+          <i class="fa-solid ${r.icon} text-xs text-inksoft dark:text-inksoft-dark w-4 text-center shrink-0"></i>
+          <span class="min-w-0">
+            <span class="block text-sm font-medium truncate">${escapeHtml(r.title)}</span>
+            <span class="block text-xs text-inksoft dark:text-inksoft-dark truncate">${escapeHtml(r.subtitle)}</span>
+          </span>
+        </button>
+      `).join('')
+    : `<p class="px-3 py-3 text-sm text-inksoft dark:text-inksoft-dark">No matches for "${escapeHtml(query)}"</p>`;
+}
+function initGlobalSearch() {
+  const input = qs('#globalSearchInput');
+  const wrap = qs('#globalSearchResults');
+  input.addEventListener('input', () => {
+    renderSearchResults(runGlobalSearch(input.value), input.value);
+  });
+  wrap.addEventListener('click', (e) => {
+    const btn = e.target.closest('[data-search-view]');
+    if (!btn) return;
+    showView(btn.dataset.searchView);
+    input.value = '';
+    wrap.classList.add('hidden');
+  });
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('#globalSearchInput') && !e.target.closest('#globalSearchResults')) {
+      wrap.classList.add('hidden');
+    }
+  });
+  input.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') { input.value = ''; wrap.classList.add('hidden'); input.blur(); }
+  });
+}
+
 function initInstallPrompt() {
   const btn = qs('#installAppBtn');
   btn.addEventListener('click', async () => {
@@ -1978,6 +2095,7 @@ function init() {
   initTheme();
   registerServiceWorker();
   initInstallPrompt();
+  initGlobalSearch();
 
   qsa('[data-toggle-password]').forEach((btn) => {
     btn.addEventListener('click', () => {
@@ -2029,6 +2147,7 @@ function init() {
   qs('#accountEmailForm').addEventListener('submit', handleUpdateEmail);
   qs('#accountPasswordForm').addEventListener('submit', handleUpdatePassword);
   qs('#accountDeleteForm').addEventListener('submit', handleDeleteAccount);
+  qs('#exportDataBtn').addEventListener('click', handleExportData);
   qs('#resendVerificationBtn').addEventListener('click', handleResendVerification);
 
   qs('#courseForm').addEventListener('submit', addCourse);
