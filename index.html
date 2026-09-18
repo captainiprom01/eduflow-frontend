@@ -1177,6 +1177,15 @@ let activeSemesterId = null;
 const DAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 const WEEK_DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
+// The device's own calendar date (not UTC) — sent with the streak check-in
+// so someone in a timezone ahead of UTC doesn't get an incorrect reset
+// just because the server's clock hasn't reached "tomorrow" yet.
+function localDateStr() {
+  const d = new Date();
+  const local = new Date(d.getTime() - d.getTimezoneOffset() * 60000);
+  return local.toISOString().slice(0, 10);
+}
+
 async function reloadAll() {
   const results = await Promise.allSettled([
     apiFetch('/api/courses'),
@@ -1186,7 +1195,7 @@ async function reloadAll() {
     apiFetch('/api/assignments'),
     apiFetch('/api/tasks'),
     apiFetch('/api/progress'),
-    apiFetch('/api/streak'),
+    apiFetch('/api/streak?localDate=' + localDateStr()),
   ]);
   const [coursesRes, cgpaRes, semRes, ttRes, asgRes, taskRes, progRes, streakRes] = results.map((r) => (r.status === 'fulfilled' ? r.value : null));
   const anyFailed = results.some((r) => r.status === 'rejected');
