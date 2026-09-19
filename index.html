@@ -842,7 +842,7 @@ main > div:first-child { max-width:1240px; }
         </div>
       </div>
       <p id="assistantNotConfiguredNote" class="hidden text-xs text-amber bg-amber/10 border border-amber/30 rounded-xl px-4 py-3">
-        An AI model isn't set up on this server yet, so replies are using simple built-in logic for now.
+        An AI model isn't set up on this server yet. Dashboard data questions remain available; general subject questions require AI configuration.
       </p>
 
       <div class="bg-surface dark:bg-surface-dark rounded-2xl border border-ink/10 dark:border-ink-dark/10 flex flex-col h-[65vh] max-h-[640px]">
@@ -865,13 +865,14 @@ main > div:first-child { max-width:1240px; }
 
     <!-- ACCOUNT SETTINGS -->
     <section id="view-messages" class="view hidden space-y-6 max-w-2xl">
-      <div class="messages-hero"><div><p class="messages-kicker">Stay connected</p><h1>Messages</h1><p>Conversations with your classmates and campus groups.</p></div><button type="button" class="messages-compose" aria-label="New message"><i class="fa-solid fa-plus"></i></button></div>
-      <label class="messages-search"><i class="fa-solid fa-magnifying-glass"></i><input type="search" placeholder="Search conversations…" aria-label="Search conversations" /></label>
-      <div class="messages-online"><p>Online now</p><div><span class="message-avatar blue">AO<i></i></span><span class="message-avatar violet">JD<i></i></span><span class="message-avatar green">MK<i></i></span></div></div>
-      <div class="messages-section-title">All conversations</div>
-      <div class="messages-list"><button type="button" class="message-row"><span class="message-avatar blue">AO</span><span class="message-copy"><strong>Course Group</strong><small>Welcome to the new semester group.</small></span><time>09:12</time><b>2</b></button><button type="button" class="message-row"><span class="message-avatar violet">JD</span><span class="message-copy"><strong>John Doe</strong><small>Are you joining the study session?</small></span><time>Yesterday</time></button><button type="button" class="message-row"><span class="message-avatar green">MK</span><span class="message-copy"><strong>Course Representative</strong><small>The timetable has been updated.</small></span><time>Mon</time></button></div>
+      <div class="messages-hero"><div><p class="messages-kicker">Stay connected</p><h1>Messages</h1><p>Conversations with your classmates and campus groups.</p></div></div>
+      <div class="bg-surface dark:bg-surface-dark rounded-2xl border border-ink/10 dark:border-ink-dark/10 p-8 sm:p-12 text-center">
+        <div class="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-indigo-50 text-indigo-600 dark:bg-indigo-500/10 dark:text-indigo-300"><i class="fa-regular fa-comments text-2xl"></i></div>
+        <h2 class="font-serif text-lg font-semibold">Messaging is not connected yet</h2>
+        <p class="mx-auto mt-2 max-w-md text-sm leading-6 text-inksoft dark:text-inksoft-dark">The current Eduflow backend does not expose messaging or conversation endpoints, so no sample conversations are shown here. Once messaging APIs are available, this screen is ready to display authenticated user conversations.</p>
+        <button type="button" data-view="assistant" class="mt-6 inline-flex items-center gap-2 rounded-xl bg-teal px-4 py-2.5 text-sm font-semibold text-white"><i class="fa-solid fa-brain"></i> Use EduAI instead</button>
+      </div>
     </section>
-
     <!-- ACCOUNT SETTINGS -->
     <section id="view-account" class="view hidden space-y-6 max-w-xl">
       <div>
@@ -2173,9 +2174,9 @@ function renderOverview() {
   const mobileCredits = qs('#mobileCreditCount');
   if (mobileCredits) mobileCredits.textContent = state.cumulative.units ? `${state.cumulative.units}` : '0';
   const mobileBar = qs('#mobileProgressBar');
-  if (mobileBar) mobileBar.style.width = `${Math.min(100, Math.max(8, state.courses.length ? Math.round((state.cumulative.units / Math.max(state.courses.reduce((sum, c) => sum + Number(c.units || 0), 0), 1)) * 100) : 8))}%`;
+  if (mobileBar) mobileBar.style.width = `${state.progress ? state.progress.percent : 0}%`;
   const mobileCourses = qs('#mobileProgressCourses');
-  if (mobileCourses) mobileCourses.innerHTML = state.courses.slice(0, 3).map((course, index) => `<span title="${escapeHtml(course.name || course.code || 'Course')}">${[72, 58, 85][index] || 64}%</span>`).join('');
+  if (mobileCourses) mobileCourses.innerHTML = state.courses.slice(0, 3).map((course) => `<span title="${escapeHtml(course.name || course.code || 'Course')}">${state.progress && state.progress.totalItems ? state.progress.percent : 0}%</span>`).join('');
 
   const todayName = DAYS[new Date().getDay()];
   const todays = state.timetable.filter((t) => t.day === todayName).sort((a, b) => a.start_time.localeCompare(b.start_time));
@@ -2201,17 +2202,6 @@ function renderOverview() {
 }
 
 /* ================= ASSISTANT (client-side only, not persisted) ================= */
-const MOTIVATION = [
-  "Progress beats perfection — one page of notes today is worth more than a perfect plan tomorrow.",
-  "Break the next task into a 20-minute chunk. Starting is the hardest part.",
-  "You've gotten through every hard week so far. This one is no different.",
-  "Short, focused study sessions beat long, distracted ones. Try 25 minutes on, 5 off.",
-];
-const FALLBACKS = [
-  "I'm a simple assistant, so I work best with questions about your CGPA, timetable, assignments or study progress. Try one of the suggestions below.",
-  "I didn't quite catch that. Ask me about your deadlines, your next class, or your CGPA.",
-  'I can help with things already on your dashboard — try asking "what\'s due soon" or "what\'s my CGPA".',
-];
 function pushChat(role, text) {
   state.chat.push({ role, text });
 }
@@ -2270,10 +2260,7 @@ function botReply(rawInput) {
   if (/\b(help|what can you do)\b/.test(input)) {
     return "I can tell you your CGPA, what's due soon, your next class, your study progress, or share a quick study tip. Just ask.";
   }
-  if (/\b(motivat|tired|stress|stuck|burn|study tip|tip|advice)\b/.test(input)) {
-    return MOTIVATION[Math.floor(Math.random() * MOTIVATION.length)];
-  }
-  return FALLBACKS[Math.floor(Math.random() * FALLBACKS.length)];
+  return "EduAI is not configured for general questions on this server yet. I can still answer questions about your CGPA, deadlines, timetable, and tracked progress.";
 }
 function sendChat(text) {
   const message = text.trim();
