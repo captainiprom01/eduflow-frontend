@@ -129,6 +129,37 @@
   .messages-list { display: grid; gap: 8px; }
   .message-row { display: flex; align-items: center; gap: 12px; width: 100%; padding: 14px; border: 0; border-radius: 18px; text-align: left; background: #fff; box-shadow: 0 5px 14px rgba(27,45,79,.07); }
   .message-copy { display: flex; flex: 1; min-width: 0; flex-direction: column; gap: 4px; } .message-copy strong { color: #101a32; font-size: 14px; } .message-copy small, .message-row time { overflow: hidden; color: #8c96aa; font-size: 12px; text-overflow: ellipsis; white-space: nowrap; } .message-row b { display: grid; place-items: center; width: 20px; height: 20px; border-radius: 50%; color: #fff; background: linear-gradient(145deg, #3f68f4, #2d45d7); font-size: 10px; }
+  .messages-contacts { display: grid; gap: 6px; max-height: 260px; overflow-y: auto; }
+  .messages-contact-row { display: flex; align-items: center; gap: 12px; width: 100%; padding: 10px; border: 0; border-radius: 14px; color: inherit; background: transparent; text-align: left; }
+  .messages-contact-row:hover { background: #f4f6fb; }
+  .messages-contact-row strong { display: block; color: #101a32; font-size: 13px; }
+  .messages-contact-row small { display: block; margin-top: 2px; color: #8c96aa; font-size: 11px; }
+  .messages-empty { padding: 28px 16px; color: #8c96aa; font-size: 13px; text-align: center; }
+  .messages-thread-panel { display: flex; min-height: 560px; flex-direction: column; }
+  .messages-thread-header { display: flex; align-items: center; gap: 12px; padding: 16px; border-bottom: 1px solid #edf0f5; }
+  .messages-thread-header h2 { margin: 0; color: #101a32; font-size: 16px; font-weight: 800; }
+  .messages-thread-header p { margin: 3px 0 0; color: #8c96aa; font-size: 11px; }
+  .messages-thread-back { display: grid; place-items: center; width: 36px; height: 36px; border: 0; border-radius: 10px; color: #64748b; background: #f4f6fb; }
+  .messages-thread-list { display: flex; flex: 1; min-height: 380px; max-height: 540px; flex-direction: column; gap: 10px; padding: 18px; overflow-y: auto; background: #f8fafc; }
+  .message-bubble-row { display: flex; gap: 8px; max-width: 82%; }
+  .message-bubble-row.mine { align-self: flex-end; flex-direction: row-reverse; }
+  .message-bubble { padding: 10px 13px; border-radius: 16px 16px 16px 4px; color: #24304a; background: #fff; box-shadow: 0 3px 10px rgba(27,45,79,.06); }
+  .message-bubble-row.mine .message-bubble { border-radius: 16px 16px 4px 16px; color: #fff; background: linear-gradient(145deg,#3562eb,#4f46e5); }
+  .message-bubble p { margin: 0; font-size: 13px; line-height: 1.45; white-space: pre-wrap; overflow-wrap: anywhere; }
+  .message-bubble time { display: block; margin-top: 4px; color: #8c96aa; font-size: 10px; }
+  .message-bubble-row.mine time { color: rgba(255,255,255,.72); }
+  .message-send-form { display: flex; align-items: flex-end; gap: 8px; padding: 12px; border-top: 1px solid #edf0f5; background: #fff; }
+  .message-send-form textarea { min-height: 40px; max-height: 110px; flex: 1; resize: vertical; padding: 10px 12px; border: 1px solid #e3e8f2; border-radius: 12px; outline: 0; color: #101a32; background: #f8fafc; font: inherit; font-size: 13px; }
+  .message-send-form textarea:focus { border-color: #3562eb; box-shadow: 0 0 0 3px rgba(53,98,235,.12); }
+  .message-send-form button { display: grid; place-items: center; width: 40px; height: 40px; border: 0; border-radius: 12px; color: #fff; background: linear-gradient(145deg,#3562eb,#4f46e5); }
+  .dark .messages-search, .dark .message-row, .dark .messages-contact-row:hover { background: #1d2028; }
+  .dark .messages-search input, .dark .messages-contact-row strong, .dark .messages-thread-header h2 { color: #f3f5fb; }
+  .dark .messages-thread-header, .dark .message-send-form { border-color: #303542; background: #1d2028; }
+  .dark .messages-thread-list { background: #151820; }
+  .dark .message-bubble { color: #f3f5fb; background: #252a35; }
+  .dark .message-send-form textarea { border-color: #3a414e; color: #f3f5fb; background: #151820; }
+  .dark .messages-thread-back { color: #cbd5e1; background: #2a303b; }
+  @media (max-width: 639px) { .messages-thread-panel { min-height: calc(100vh - 210px); } .messages-thread-list { min-height: 300px; } .message-bubble-row { max-width: 90%; } }
   @media (max-width: 767px) {
     :root { --mobile-navy: #11195a; --mobile-blue: #2f5be9; --mobile-text: #101a32; --mobile-muted: #8c96aa; }
     body { background: #f7f9fc !important; color: var(--mobile-text); padding-bottom: 84px; font-family: 'Inter', sans-serif; }
@@ -938,14 +969,23 @@ main > div:first-child { max-width:1240px; }
       </div>
     </section>
 
-    <!-- ACCOUNT SETTINGS -->
-    <section id="view-messages" class="view hidden space-y-6 max-w-2xl">
-      <div class="messages-hero"><div><p class="messages-kicker">Stay connected</p><h1>Messages</h1><p>Conversations with your classmates and campus groups.</p></div></div>
-      <div class="bg-surface dark:bg-surface-dark rounded-2xl border border-ink/10 dark:border-ink-dark/10 p-8 sm:p-12 text-center">
-        <div class="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-indigo-50 text-indigo-600 dark:bg-indigo-500/10 dark:text-indigo-300"><i class="fa-regular fa-comments text-2xl"></i></div>
-        <h2 class="font-serif text-lg font-semibold">Messaging is coming soon</h2>
-        <p class="mx-auto mt-2 max-w-md text-sm leading-6 text-inksoft dark:text-inksoft-dark">We're currently working on bringing messaging to EduFlow so you can connect with classmates, lecturers, and campus groups. Watch out for an update soon.</p>
-        <button type="button" data-view="assistant" class="mt-6 inline-flex items-center gap-2 rounded-xl bg-teal px-4 py-2.5 text-sm font-semibold text-white"><i class="fa-solid fa-brain"></i> Use EduAI instead</button>
+    <!-- MESSAGES -->
+    <section id="view-messages" class="view hidden space-y-6 max-w-4xl">
+      <div class="messages-hero"><div class="flex items-start justify-between gap-4"><div><p class="messages-kicker">Stay connected</p><h1>Messages</h1><p>Conversations with your classmates and campus groups.</p></div><button id="messagesComposeBtn" type="button" class="messages-compose" aria-label="Start a conversation"><i class="fa-solid fa-plus"></i></button></div></div>
+      <div id="messagesComposePanel" class="hidden bg-surface dark:bg-surface-dark rounded-2xl border border-ink/10 dark:border-ink-dark/10 p-4 sm:p-5">
+        <div class="flex items-center justify-between gap-3 mb-3"><div><h2 class="font-serif font-semibold text-lg">New conversation</h2><p class="text-xs text-inksoft dark:text-inksoft-dark mt-1">Choose an Eduflow user to start a direct chat.</p></div><button id="messagesComposeCloseBtn" type="button" class="w-8 h-8 rounded-lg hover:bg-ink/5 dark:hover:bg-white/5" aria-label="Close new conversation"><i class="fa-solid fa-xmark"></i></button></div>
+        <label class="messages-search" for="messagesContactSearch"><i class="fa-solid fa-magnifying-glass"></i><input id="messagesContactSearch" type="search" placeholder="Search students by name or email" autocomplete="off" /></label>
+        <div id="messagesContacts" class="messages-contacts mt-3"></div>
+      </div>
+      <div id="messagesListPanel" class="space-y-5">
+        <label class="messages-search" for="messagesSearch"><i class="fa-solid fa-magnifying-glass"></i><input id="messagesSearch" type="search" placeholder="Search conversations..." autocomplete="off" /></label>
+        <div class="messages-online"><p>People on Eduflow</p><div id="messagesOnline"></div></div>
+        <div><p class="messages-section-title">All conversations</p><div id="messagesList" class="messages-list"></div></div>
+      </div>
+      <div id="messagesThreadPanel" class="hidden messages-thread-panel bg-surface dark:bg-surface-dark rounded-2xl border border-ink/10 dark:border-ink-dark/10 overflow-hidden">
+        <div class="messages-thread-header"><button id="messagesBackBtn" type="button" class="messages-thread-back" aria-label="Back to conversations"><i class="fa-solid fa-arrow-left"></i></button><div class="message-avatar blue" id="messagesThreadAvatar"><i class="hidden"></i><span>?</span></div><div class="min-w-0 flex-1"><h2 id="messagesThreadName">Conversation</h2><p id="messagesThreadStatus">Direct conversation</p></div></div>
+        <div id="messagesThreadList" class="messages-thread-list" aria-live="polite"></div>
+        <form id="messagesSendForm" class="messages-send-form"><label class="sr-only" for="messagesInput">Message</label><textarea id="messagesInput" rows="1" maxlength="4000" placeholder="Write a message..." required></textarea><button type="submit" aria-label="Send message"><i class="fa-solid fa-paper-plane"></i></button></form>
       </div>
     </section>
     <!-- ACCOUNT SETTINGS -->
@@ -1596,6 +1636,7 @@ async function bootApp() {
   qs('#verifyBanner').classList.toggle('hidden', !currentUser || currentUser.email_verified !== false);
   initAssistantModels();
   await reloadAll();
+  loadConversations();
   renderChat();
   showView('overview');
 }
@@ -1674,6 +1715,7 @@ function showView(name) {
   closeSidebar();
   if (name === 'progress') renderProgressChart();
   if (name === 'profile') renderProfile();
+  if (name === 'messages') { loadMessageContacts(); loadConversations(); }
   if (name === 'account') renderAccountSettings();
   qs('#floatingAssistantBtn').classList.toggle('hidden', name === 'assistant');
   window.scrollTo(0, 0);
@@ -2372,6 +2414,119 @@ function renderStreak() {
 
   renderLevel();
 }
+const messageState = { conversations: [], contacts: [], activeId: null, activeMessages: [], search: '', contactSearch: '', loaded: false };
+function messageTime(value) {
+  if (!value) return '';
+  return new Date(value).toLocaleString(undefined, { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' });
+}
+function conversationName(conversation) {
+  if (conversation.title) return conversation.title;
+  const other = (conversation.members || []).find((member) => String(member.id) !== String(currentUser && currentUser.id));
+  return other ? other.name : 'Conversation';
+}
+function conversationInitials(name) {
+  return String(name || '?').split(/\s+/).filter(Boolean).slice(0, 2).map((part) => part[0]).join('').toUpperCase() || '?';
+}
+function renderMessagesList() {
+  const list = qs('#messagesList');
+  if (!list) return;
+  const search = messageState.search.toLowerCase();
+  const conversations = messageState.conversations.filter((conversation) => `${conversationName(conversation)} ${conversation.last_message || ''}`.toLowerCase().includes(search));
+  list.innerHTML = conversations.length ? conversations.map((conversation, index) => {
+    const name = conversationName(conversation);
+    const color = ['blue', 'violet', 'green'][index % 3];
+    return `<button type="button" class="message-row" onclick="openConversation('${conversation.id}')"><span class="message-avatar ${color}">${escapeHtml(conversationInitials(name))}<i class="${conversation.unread_count ? '' : 'hidden'}"></i></span><span class="message-copy"><strong>${escapeHtml(name)}</strong><small>${escapeHtml(conversation.last_message || 'Start the conversation')}</small></span><time>${escapeHtml(messageTime(conversation.last_message_at))}</time>${conversation.unread_count ? `<b>${conversation.unread_count > 9 ? '9+' : conversation.unread_count}</b>` : ''}</button>`;
+  }).join('') : '<div class="messages-empty"><i class="fa-regular fa-comments text-2xl opacity-50"></i><p class="mt-2 font-semibold">No conversations yet</p><p class="mt-1">Start a conversation with a classmate or campus user.</p></div>';
+}
+function renderMessagesOnline() {
+  const wrap = qs('#messagesOnline');
+  if (!wrap) return;
+  const contacts = messageState.contacts.slice(0, 6);
+  wrap.innerHTML = contacts.length ? contacts.map((contact, index) => `<button type="button" class="flex shrink-0 flex-col items-center gap-1.5" onclick="startConversation('${contact.id}')"><span class="message-avatar ${['blue', 'violet', 'green'][index % 3]}">${escapeHtml(conversationInitials(contact.name))}</span><span class="w-14 truncate text-center text-[10px] font-semibold text-inksoft dark:text-inksoft-dark">${escapeHtml(contact.name.split(/\s+/)[0])}</span></button>`).join('') : '<p class="text-xs text-inksoft dark:text-inksoft-dark">No other Eduflow users found yet.</p>';
+}
+function renderMessageContacts() {
+  const wrap = qs('#messagesContacts');
+  if (!wrap) return;
+  const search = messageState.contactSearch.toLowerCase();
+  const contacts = messageState.contacts.filter((contact) => `${contact.name} ${contact.email}`.toLowerCase().includes(search));
+  wrap.innerHTML = contacts.length ? contacts.map((contact, index) => `<button type="button" class="messages-contact-row" onclick="startConversation('${contact.id}')"><span class="message-avatar ${['blue', 'violet', 'green'][index % 3]}">${escapeHtml(conversationInitials(contact.name))}</span><span><strong>${escapeHtml(contact.name)}</strong><small>${escapeHtml(contact.email)}${contact.department ? ` · ${escapeHtml(contact.department)}` : ''}</small></span></button>`).join('') : '<div class="messages-empty">No matching users found.</div>';
+}
+function renderMessageThread() {
+  const conversation = messageState.conversations.find((item) => String(item.id) === String(messageState.activeId));
+  const thread = qs('#messagesThreadPanel');
+  if (!thread || !conversation) return;
+  const name = conversationName(conversation);
+  qs('#messagesThreadName').textContent = name;
+  qs('#messagesThreadStatus').textContent = `${conversation.kind === 'group' ? 'Group' : 'Direct'} conversation`;
+  qs('#messagesThreadAvatar span').textContent = conversationInitials(name);
+  qs('#messagesThreadList').innerHTML = messageState.activeMessages.length ? messageState.activeMessages.map((message) => {
+    const mine = String(message.sender_id) === String(currentUser && currentUser.id);
+    return `<div class="message-bubble-row ${mine ? 'mine' : ''}"><div class="message-bubble"><p>${escapeHtml(message.body)}</p><time>${escapeHtml(mine ? 'You · ' : `${message.sender_name} · `)}${escapeHtml(messageTime(message.created_at))}</time></div></div>`;
+  }).join('') : '<div class="messages-empty">No messages yet. Say hello.</div>';
+  const list = qs('#messagesThreadList');
+  list.scrollTop = list.scrollHeight;
+}
+function renderMessages() {
+  renderMessagesList();
+  renderMessagesOnline();
+  renderMessageContacts();
+  if (messageState.activeId) renderMessageThread();
+  renderMobileNotifications();
+}
+async function loadMessageContacts() {
+  try {
+    const data = await apiFetch('/api/messages/contacts');
+    messageState.contacts = data.contacts || [];
+    renderMessages();
+  } catch (err) { showToast(err.message); }
+}
+async function loadConversations() {
+  try {
+    const data = await apiFetch('/api/messages/conversations');
+    messageState.conversations = data.conversations || [];
+    messageState.loaded = true;
+    if (messageState.activeId && !messageState.conversations.some((item) => String(item.id) === String(messageState.activeId))) messageState.activeId = null;
+    renderMessages();
+  } catch (err) { showToast(err.message); }
+}
+async function openConversation(id) {
+  messageState.activeId = id;
+  qs('#messagesListPanel').classList.add('hidden');
+  qs('#messagesComposePanel').classList.add('hidden');
+  qs('#messagesThreadPanel').classList.remove('hidden');
+  try {
+    const data = await apiFetch(`/api/messages/conversations/${id}/messages`);
+    messageState.activeMessages = data.messages || [];
+    const conversation = messageState.conversations.find((item) => String(item.id) === String(id));
+    if (conversation) conversation.unread_count = 0;
+    renderMessages();
+  } catch (err) { showToast(err.message); }
+}
+async function startConversation(userId) {
+  try {
+    const data = await apiFetch('/api/messages/conversations', { method: 'POST', body: JSON.stringify({ userId: Number(userId) }) });
+    qs('#messagesComposePanel').classList.add('hidden');
+    await loadConversations();
+    await openConversation(data.conversationId);
+  } catch (err) { showToast(err.message); }
+}
+async function sendMessage(e) {
+  e.preventDefault();
+  if (!messageState.activeId) return;
+  const input = qs('#messagesInput');
+  const body = input.value.trim();
+  if (!body) return;
+  const btn = e.target.querySelector('button[type="submit"]');
+  btn.disabled = true;
+  try {
+    const data = await apiFetch(`/api/messages/conversations/${messageState.activeId}/messages`, { method: 'POST', body: JSON.stringify({ body }) });
+    messageState.activeMessages.push(data.message);
+    input.value = '';
+    await loadConversations();
+    renderMessageThread();
+  } catch (err) { showToast(err.message); }
+  finally { btn.disabled = false; input.focus(); }
+}
 function renderMobileNotifications() {
   const btn = qs('#mobileNotificationBtn');
   const countEl = qs('#mobileNotificationCount');
@@ -2379,9 +2534,11 @@ function renderMobileNotifications() {
   if (!btn || !countEl || !panel) return;
   const overdue = state.progress ? Number(state.progress.overdue || 0) : 0;
   const pending = state.assignments.filter((a) => !a.done).length;
+  const unreadMessages = messageState.conversations.reduce((total, conversation) => total + Number(conversation.unread_count || 0), 0);
   const notices = [];
   if (overdue) notices.push({ icon: 'fa-clock', title: `${overdue} overdue assignment${overdue === 1 ? '' : 's'}`, detail: 'Review your assignment list and catch up.', view: 'assignments' });
   if (pending) notices.push({ icon: 'fa-list-check', title: `${pending} pending assignment${pending === 1 ? '' : 's'}`, detail: 'Keep an eye on your next deadline.', view: 'assignments' });
+  if (unreadMessages) notices.push({ icon: 'fa-message', title: `${unreadMessages} unread message${unreadMessages === 1 ? '' : 's'}`, detail: 'Open your conversations to catch up.', view: 'messages' });
   if (currentUser && currentUser.email_verified === false) notices.push({ icon: 'fa-envelope-circle-check', title: 'Verify your email', detail: 'Secure your EduFlow account.', view: 'account' });
   countEl.textContent = notices.length > 9 ? '9+' : String(notices.length);
   countEl.classList.toggle('hidden', notices.length === 0);
@@ -2762,6 +2919,12 @@ function init() {
   qs('#profileDetailsForm').addEventListener('submit', handleProfileDetails);
   qs('#profileUpdateBtn').addEventListener('click', openProfileEditor);
   qs('#profileCancelBtn').addEventListener('click', cancelProfileEditor);
+  qs('#messagesComposeBtn').addEventListener('click', () => { qs('#messagesComposePanel').classList.remove('hidden'); loadMessageContacts(); });
+  qs('#messagesComposeCloseBtn').addEventListener('click', () => qs('#messagesComposePanel').classList.add('hidden'));
+  qs('#messagesBackBtn').addEventListener('click', () => { messageState.activeId = null; messageState.activeMessages = []; qs('#messagesThreadPanel').classList.add('hidden'); qs('#messagesListPanel').classList.remove('hidden'); loadConversations(); });
+  qs('#messagesSearch').addEventListener('input', (e) => { messageState.search = e.target.value; renderMessagesList(); });
+  qs('#messagesContactSearch').addEventListener('input', (e) => { messageState.contactSearch = e.target.value; renderMessageContacts(); });
+  qs('#messagesSendForm').addEventListener('submit', sendMessage);
   qs('#accountEmailForm').addEventListener('submit', handleUpdateEmail);
   qs('#accountPasswordForm').addEventListener('submit', handleUpdatePassword);
   qs('#accountDeleteForm').addEventListener('submit', handleDeleteAccount);
