@@ -79,6 +79,14 @@
   .messages-kicker { margin: 0 0 4px; color: #aeb8d4; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; }
   .messages-hero h1 { margin: 0; font-size: 28px; font-weight: 800; }
   .messages-hero p:last-child { margin: 6px 0 0; color: #b8c2de; font-size: 13px; }
+  .maintenance-marquee { position: relative; overflow: hidden; margin-bottom: 20px; border: 1px solid rgba(245,158,11,.22); border-radius: 16px; color: #8a5200; background: linear-gradient(90deg,#fff8e7,#fffdf6); box-shadow: 0 5px 14px rgba(27,45,79,.05); }
+  .maintenance-marquee-track { display: flex; width: max-content; min-width: 100%; animation: eduflow-marquee 28s linear infinite; }
+  .maintenance-marquee-track span { display: inline-flex; align-items: center; gap: 8px; flex: 0 0 auto; padding: 11px 28px; font-size: 12px; font-weight: 700; white-space: nowrap; }
+  .maintenance-marquee-track i { color: #d97706; }
+  .dark .maintenance-marquee { border-color: rgba(245,158,11,.28); color: #f7c96a; background: linear-gradient(90deg,#2a2110,#1b1d24); }
+  .dark .maintenance-marquee-track i { color: #fbbf24; }
+  @keyframes eduflow-marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  @media (prefers-reduced-motion: reduce) { .maintenance-marquee-track { animation: none; } }
   .messages-compose { display: grid; place-items: center; width: 44px; height: 44px; border: 0; border-radius: 14px; color: #fff; background: linear-gradient(145deg, #3f68f4, #2d45d7); }
   .messages-search { display: flex; align-items: center; gap: 10px; padding: 14px 16px; border-radius: 18px; color: #94a3b8; background: #fff; box-shadow: 0 5px 14px rgba(27,45,79,.07); }
   .messages-search input { width: 100%; border: 0; outline: 0; color: #101a32; background: transparent; }
@@ -95,8 +103,14 @@
     :root { --mobile-navy: #11195a; --mobile-blue: #2f5be9; --mobile-text: #101a32; --mobile-muted: #8c96aa; }
     body { background: #f7f9fc !important; color: var(--mobile-text); padding-bottom: 84px; font-family: 'Inter', sans-serif; }
     #view-overview h1, #view-overview h2, #view-overview h3, #view-overview button { font-family: 'Plus Jakarta Sans', 'Inter', sans-serif; }
-    .mobile-topbar { display: none; }
+    .mobile-topbar { display: flex; align-items: center; justify-content: space-between; height: 90px; padding: 0 28px; background: #fff !important; border-bottom: 1px solid #edf0f6 !important; box-shadow: 0 4px 16px rgba(27,45,79,.04); }
+    .mobile-topbar .font-serif { color: #101a32; font-family: 'Plus Jakarta Sans', 'Inter', sans-serif !important; font-size: 25px; letter-spacing: -.04em; }
+    .mobile-topbar button { color: #101a32; }
+    .dark .mobile-topbar { background: #111318 !important; border-bottom-color: #282c35 !important; }
+    .dark .mobile-topbar .font-serif, .dark .mobile-topbar button { color: #f3f5fb; }
     #appShell { background: #f7f9fc; }
+    .maintenance-marquee { margin: 0 0 16px; border-right: 0; border-left: 0; border-radius: 0; }
+    .maintenance-marquee-track span { padding-right: 22px; padding-left: 22px; }
     #sidebar { width: min(86vw, 330px); }
     main.md\:ml-72 { margin-left: 0; max-width: none; padding: 0 0 24px; }
     #verifyBanner { margin: 12px 16px; }
@@ -485,7 +499,7 @@ main > div:first-child { max-width:1240px; }
   </aside>
 
   <main class="md:ml-72 min-h-screen px-4 sm:px-6 lg:px-10 py-6 sm:py-8 max-w-6xl">
-
+    <div class="maintenance-marquee" role="status" aria-label="Maintenance notice"><div class="maintenance-marquee-track"><span><i class="fa-solid fa-wrench"></i> EduFlow is currently undergoing maintenance. You may experience temporary glitches in some areas of the app. Thanks for your patience — watch out for an update soon.</span><span aria-hidden="true"><i class="fa-solid fa-wrench"></i> EduFlow is currently undergoing maintenance. You may experience temporary glitches in some areas of the app. Thanks for your patience — watch out for an update soon.</span></div></div>
     <div id="verifyBanner" class="hidden mb-6 flex flex-wrap items-center justify-between gap-3 bg-amber/10 border border-amber/30 rounded-xl px-4 py-3 text-sm">
       <span><i class="fa-solid fa-envelope-circle-check mr-2 text-amber"></i>Verify your email to secure your account.</span>
       <button id="resendVerificationBtn" class="text-xs font-semibold text-teal dark:text-teal hover:underline">Resend verification email</button>
@@ -1447,12 +1461,24 @@ async function tryResumeSession() {
 }
 
 /* ---------- theme ---------- */
+let systemThemeMedia = null;
 function initTheme() {
   const saved = localStorage.getItem('eduflow_theme');
-  const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+  systemThemeMedia = window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)') : null;
+  const prefersDark = !!(systemThemeMedia && systemThemeMedia.matches);
   const isDark = saved === null ? prefersDark : saved === 'dark';
   document.documentElement.classList.toggle('dark', isDark);
   updateThemeToggleUI(isDark);
+  if (systemThemeMedia) {
+    const followSystemTheme = (event) => {
+      if (localStorage.getItem('eduflow_theme') !== null) return;
+      document.documentElement.classList.toggle('dark', event.matches);
+      updateThemeToggleUI(event.matches);
+      if (progressChartInstance) renderProgressChart();
+    };
+    if (systemThemeMedia.addEventListener) systemThemeMedia.addEventListener('change', followSystemTheme);
+    else if (systemThemeMedia.addListener) systemThemeMedia.addListener(followSystemTheme);
+  }
 }
 function toggleTheme() {
   const isDark = document.documentElement.classList.toggle('dark');
