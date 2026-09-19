@@ -147,6 +147,9 @@
     #ovTodayClasses > div p:first-child { color: var(--mobile-blue); font-weight: 800; }
     #ovTodayClasses > div p:last-of-type { color: #5f6b80; line-height: 1.35; }
     #ovUpcomingAssignments > div { padding: 16px; border: 1px solid #eef1f7; border-radius: 20px; background: #fff; box-shadow: 0 5px 14px rgba(27,45,79,.08); }
+    #ovTodayClasses, #ovUpcomingAssignments { display: grid; grid-template-columns: minmax(0, 1fr); gap: 14px; overflow: visible; padding: 2px 0 10px; margin: 0; }
+    #ovTodayClasses > div, #ovUpcomingAssignments > div { width: 100%; min-width: 0; }
+    #ovTodayClasses > .text-center, #ovUpcomingAssignments > .text-center { min-height: 164px; display: flex; align-items: center; justify-content: center; padding: 24px 16px; border: 1px solid #eef1f7; border-radius: 20px; background: #fff; box-shadow: 0 5px 14px rgba(27,45,79,.08); }
     .view:not(#view-overview) { padding: 20px; }
     .mobile-bottom-nav { position: fixed; right: 0; bottom: 0; left: 0; z-index: 45; display: flex; justify-content: space-around; height: 78px; padding: 9px 8px max(9px, env(safe-area-inset-bottom)); border-top: 1px solid #eef0f6; background: rgba(255,255,255,.96); box-shadow: 0 -8px 25px rgba(27,45,79,.08); backdrop-filter: blur(18px); }
     .mobile-nav-item { display: flex; align-items: center; flex: 1; flex-direction: column; justify-content: center; gap: 5px; border: 0; background: transparent; color: #9aa5b8; font-size: 11px; font-weight: 700; }
@@ -478,7 +481,7 @@ main > div:first-child { max-width:1240px; }
     <section id="view-overview" class="view space-y-6">
       <div class="mobile-dashboard-hero bg-surface dark:bg-surface-dark rounded-2xl border border-ink/10 dark:border-ink-dark/10 p-6 sm:p-8">
         <div class="mobile-hero-toolbar">
-          <div class="mobile-avatar" aria-hidden="true">AO</div>
+          <div class="mobile-avatar" aria-label="User profile"><i class="fa-solid fa-user" aria-hidden="true"></i></div>
           <div class="mobile-hero-copy"><p class="mobile-hero-kicker">Good morning,</p><p id="mobileHeroName" class="mobile-hero-name">Student <span aria-hidden="true">👋</span></p></div>
           <button class="mobile-notification" type="button" aria-label="Notifications"><i class="fa-solid fa-bell"></i><span>4</span></button>
         </div>
