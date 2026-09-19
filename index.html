@@ -1121,7 +1121,9 @@ console.log('%cThis code belongs to its author. Please don\u2019t copy or redist
 
 /* ---------- auth + API ---------- */
 let authToken = localStorage.getItem('eduflow_token') || null;
-let currentUser = null;
+let currentUser = (() => {
+  try { return JSON.parse(localStorage.getItem('eduflow_user') || 'null'); } catch (e) { return null; }
+})();
 const DEFAULT_API_BASE = 'https://eduflow-s7wu.onrender.com';
 let API_BASE = localStorage.getItem('eduflow_api_base') || DEFAULT_API_BASE;
 
@@ -1159,6 +1161,7 @@ function logout() {
   authToken = null;
   currentUser = null;
   localStorage.removeItem('eduflow_token');
+  localStorage.removeItem('eduflow_user');
   showAuthScreen();
 }
 function getName() {
@@ -1218,6 +1221,7 @@ async function handleProfileDetails(e) {
     currentUser = data.user;
     qs('#sidebarUserName').textContent = currentUser.name;
     profileEditing = false;
+    localStorage.setItem('eduflow_user', JSON.stringify(currentUser));
     renderProfile();
     renderOverview();
     showFieldMessage(msg, 'Profile saved to your EduFlow account.', false);
@@ -1250,6 +1254,7 @@ async function handleUpdateName(e) {
     const data = await apiFetch('/api/account/profile', { method: 'PATCH', body: JSON.stringify({ name: qs('#accountNameInput').value.trim() }) });
     currentUser = data.user;
     qs('#sidebarUserName').textContent = currentUser.name;
+    localStorage.setItem('eduflow_user', JSON.stringify(currentUser));
     renderProfile();
     showFieldMessage(msg, 'Name updated.', false);
   } catch (err) {
@@ -1266,6 +1271,7 @@ async function handleUpdateEmail(e) {
     });
     currentUser = data.user;
     qs('#sidebarUserEmail').textContent = currentUser.email;
+    localStorage.setItem('eduflow_user', JSON.stringify(currentUser));
     qs('#accountEmailPassword').value = '';
     showFieldMessage(msg, 'Email updated.', false);
   } catch (err) {
@@ -1448,6 +1454,7 @@ async function handleGoogleCredentialResponse(response) {
     authToken = data.token;
     currentUser = data.user;
     localStorage.setItem('eduflow_token', authToken);
+    localStorage.setItem('eduflow_user', JSON.stringify(currentUser));
     await bootApp();
   } catch (err) {
     showAuthError(err.message);
@@ -1472,6 +1479,7 @@ async function handleLogin(e) {
     authToken = data.token;
     currentUser = data.user;
     localStorage.setItem('eduflow_token', authToken);
+    localStorage.setItem('eduflow_user', JSON.stringify(currentUser));
     await bootApp();
   } catch (err) {
     showAuthError(err.message);
@@ -1492,6 +1500,7 @@ async function handleSignup(e) {
     authToken = data.token;
     currentUser = data.user;
     localStorage.setItem('eduflow_token', authToken);
+    localStorage.setItem('eduflow_user', JSON.stringify(currentUser));
     await bootApp();
   } catch (err) {
     showAuthError(err.message);
@@ -1543,8 +1552,11 @@ async function reloadAll() {
   const anySessionExpired = results.some((r) => r.status === 'rejected' && r.reason && r.reason.message === 'SESSION_EXPIRED');
 
   if (anySessionExpired) {
-    logout();
-    showAuthError('Your session expired. Please log in again.');
+    // Keep the authenticated shell and local session intact. A single
+    // background endpoint must not destroy the user's session or hide data
+    // they have already saved. The next explicit API action will surface the
+    // server response if the token genuinely needs attention.
+    showDeterrentToast('Some data could not be refreshed, but your session is still active.');
     return;
   }
 
@@ -1592,9 +1604,18 @@ async function tryResumeSession() {
   try {
     const data = await apiFetch('/api/auth/me');
     currentUser = data.user;
+    localStorage.setItem('eduflow_user', JSON.stringify(currentUser));
     await bootApp();
   } catch (e) {
-    logout();
+    if (e.message === 'SESSION_EXPIRED') {
+      logout();
+      showAuthError('Your session expired. Please log in again.');
+    } else if (currentUser) {
+      await bootApp();
+      showDeterrentToast('The server is reconnecting. Your saved session is still available.');
+    } else {
+      showAuthScreen();
+    }
   }
 }
 
@@ -1901,7 +1922,11 @@ async function addSemester(e) {
     const data = await apiFetch('/api/semesters', { method: 'POST', body: JSON.stringify({ name }) });
     e.target.reset();
     activeSemesterId = data.semester.id;
-    await reloadAll();
+    const savedSemester = Object.assign({ gpa: 0, units: 0 }, data.semester);
+    state.semesters = state.semesters.filter((semester) => String(semester.id) !== String(savedSemester.id));
+    state.semesters.push(savedSemester);
+    renderAllViews();
+    showToast('Semester saved.');
   } catch (err) { showToast(err.message); }
 }
 async function deleteSemester(id) {
