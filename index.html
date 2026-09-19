@@ -89,12 +89,29 @@
   .profile-avatar { display: grid; place-items: center; width: 64px; height: 64px; flex: 0 0 auto; border: 4px solid rgba(255,255,255,.55); border-radius: 22px; color: #2f5be9; background: #fff; font-size: 26px; }
   .profile-kicker { margin: 0; color: #c9d3ff; font-size: 11px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
   .profile-title { margin: 2px 0 0; color: #fff; font-size: 25px; font-weight: 800; letter-spacing: -.03em; }
+  .profile-academic-line { margin: 3px 0 0; color: #c9d3ff; font-size: 12px; }
   .profile-email { margin: 4px 0 0; color: #d9e0ff; font-size: 12px; overflow-wrap: anywhere; }
   .profile-stat-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 12px; }
   .profile-stat { display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 16px 8px; border: 1px solid #e9edf5; border-radius: 18px; color: #101a32; background: #fff; box-shadow: 0 5px 14px rgba(27,45,79,.06); text-align: center; }
   .profile-stat i { color: #3562eb; font-size: 16px; }
   .profile-stat strong { font-size: 18px; }
   .profile-stat span { color: #7b879c; font-size: 10px; font-weight: 700; }
+  .profile-readonly-card { overflow: hidden; border: 1px solid #e9edf5; border-radius: 22px; background: #fff; box-shadow: 0 8px 20px rgba(27,45,79,.07); }
+  .profile-card-heading { display: flex; align-items: center; justify-content: space-between; padding: 17px 18px; border-bottom: 1px solid #edf0f5; }
+  .profile-card-heading h2 { margin: 0; color: #101a32; font-size: 16px; font-weight: 800; }
+  .profile-card-heading p { margin: 3px 0 0; color: #7b879c; font-size: 11px; }
+  .profile-card-heading > i { color: #3562eb; font-size: 18px; }
+  .profile-details-list { padding: 0 18px; }
+  .profile-details-list > div { display: flex; align-items: center; justify-content: space-between; gap: 18px; padding: 14px 0; border-bottom: 1px solid #edf0f5; }
+  .profile-details-list > div:last-child { border-bottom: 0; }
+  .profile-details-list span { color: #7b879c; font-size: 12px; }
+  .profile-details-list strong { max-width: 58%; color: #101a32; font-size: 12px; text-align: right; overflow-wrap: anywhere; }
+  .profile-update-btn { display: inline-flex; align-items: center; gap: 8px; margin: 0 18px 18px; padding: 10px 15px; border: 0; border-radius: 12px; color: #fff; background: linear-gradient(145deg,#3562eb,#4f46e5); font-size: 12px; font-weight: 800; cursor: pointer; }
+  .profile-update-btn:hover, .profile-update-btn:focus-visible { opacity: .9; outline: none; }
+  .dark .profile-readonly-card { border-color: #303542; background: #1d2028; }
+  .dark .profile-card-heading { border-bottom-color: #303542; }
+  .dark .profile-card-heading h2, .dark .profile-details-list strong { color: #f3f5fb; }
+  .dark .profile-details-list > div { border-bottom-color: #303542; }
   .dark .profile-stat { border-color: #303542; color: #f3f5fb; background: #1d2028; }
   .dark .profile-email { color: #c6cff4; }
   @media (max-width: 639px) { .profile-hero { padding: 20px; border-radius: 22px; } .profile-stat-grid { gap: 8px; } }
@@ -533,7 +550,7 @@ main > div:first-child { max-width:1240px; }
         <div id="mobileNotificationPanel" class="mobile-notification-panel hidden" aria-live="polite"></div>
         <p id="ovGreeting" class="font-serif text-2xl sm:text-3xl font-semibold">Good day.</p>
         <p id="ovDate" class="text-inksoft dark:text-inksoft-dark mt-1"></p>
-        <div class="mobile-hero-pills"><span class="mobile-date-pill"><i class="fa-regular fa-calendar"></i><span id="mobileDateLabel">Today</span></span><button type="button" data-view="courses" class="mobile-semester-pill"><i class="fa-solid fa-plus"></i><span>Add semester</span></button></div>
+        <div class="mobile-hero-pills"><span class="mobile-date-pill"><i class="fa-regular fa-calendar"></i><span id="mobileDateLabel">Today</span></span><button type="button" data-view="courses" data-open-semester class="mobile-semester-pill"><i class="fa-solid fa-plus"></i><span>Add semester</span></button></div>
         <p class="text-inksoft dark:text-inksoft-dark mt-4 max-w-md">Everything about your semester, in one place — courses, classes, deadlines and your CGPA.</p>
       </div>
       <button type="button" data-view="assistant" class="mobile-ai-card"><span class="mobile-ai-icon"><i class="fa-solid fa-brain"></i></span><span class="mobile-ai-copy"><strong>Ask EduAI</strong><small>Explain a topic, get study help…</small></span><span class="mobile-ai-badge">AI <i class="fa-solid fa-sparkles"></i></span></button>
@@ -633,6 +650,15 @@ main > div:first-child { max-width:1240px; }
           </button>
         </div>
       </form>
+
+      <div class="bg-surface dark:bg-surface-dark rounded-2xl border border-ink/10 dark:border-ink-dark/10 p-5 sm:p-6">
+        <div class="flex items-start justify-between gap-3 mb-3"><div><h2 class="font-serif font-semibold text-lg">Semester setup</h2><p class="text-xs text-inksoft dark:text-inksoft-dark mt-1">Create the semester your courses belong to.</p></div><i class="fa-solid fa-layer-group text-teal dark:text-teal-dark"></i></div>
+        <form id="courseSemesterForm" class="flex flex-col sm:flex-row gap-2">
+          <input id="courseSemesterName" type="text" required placeholder="e.g. 200 Level — First Semester" class="flex-1 bg-paper dark:bg-paper-dark border border-ink/10 dark:border-ink-dark/10 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal" />
+          <button type="submit" class="px-4 h-[38px] rounded-lg bg-teal dark:bg-teal-dark text-white text-sm font-semibold hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-teal shrink-0"><i class="fa-solid fa-plus mr-1"></i>Add semester</button>
+        </form>
+        <div id="courseSemesterList" class="space-y-2 mt-4"></div>
+      </div>
 
       <div id="courseList" class="space-y-2"></div>
     </section>
@@ -926,14 +952,24 @@ main > div:first-child { max-width:1240px; }
     <section id="view-profile" class="view hidden space-y-6 max-w-2xl">
       <div class="profile-hero">
         <div class="profile-avatar"><i class="fa-solid fa-user"></i></div>
-        <div class="min-w-0"><p class="profile-kicker">Your EduFlow profile</p><h1 id="profileName" class="profile-title">Student</h1><p id="profileEmail" class="profile-email"></p></div>
+        <div class="min-w-0"><p class="profile-kicker">Your EduFlow profile</p><h1 id="profileName" class="profile-title">Student</h1><p id="profileAcademicLine" class="profile-academic-line">Complete your academic details</p><p id="profileEmail" class="profile-email"></p></div>
       </div>
       <div class="profile-stat-grid">
         <div class="profile-stat"><i class="fa-solid fa-book-open"></i><strong id="profileCourseCount">0</strong><span>Courses</span></div>
         <div class="profile-stat"><i class="fa-solid fa-chart-line"></i><strong id="profileCgpa">—</strong><span>Current CGPA</span></div>
         <div class="profile-stat"><i class="fa-solid fa-list-check"></i><strong id="profileAssignmentCount">0</strong><span>Pending tasks</span></div>
       </div>
-      <form id="profileDetailsForm" class="bg-surface dark:bg-surface-dark rounded-2xl border border-ink/10 dark:border-ink-dark/10 p-5 sm:p-6 space-y-4">
+      <div id="profileReadOnlyCard" class="profile-readonly-card hidden">
+        <div class="profile-card-heading"><div><h2>Student information</h2><p>Your saved academic profile</p></div><i class="fa-solid fa-id-card"></i></div>
+        <div class="profile-details-list">
+          <div><span>School / institution</span><strong id="profileSchoolValue">Not added yet</strong></div>
+          <div><span>Department</span><strong id="profileDepartmentValue">Not added yet</strong></div>
+          <div><span>Programme</span><strong id="profileProgrammeValue">Not added yet</strong></div>
+          <div><span>Level</span><strong id="profileLevelValue">Not added yet</strong></div>
+        </div>
+        <button id="profileUpdateBtn" type="button" class="profile-update-btn"><i class="fa-solid fa-pen"></i>Update profile</button>
+      </div>
+      <form id="profileDetailsForm" class="hidden bg-surface dark:bg-surface-dark rounded-2xl border border-ink/10 dark:border-ink-dark/10 p-5 sm:p-6 space-y-4">
         <div><h2 class="font-serif font-semibold text-lg">Profile information</h2><p class="text-xs text-inksoft dark:text-inksoft-dark mt-1">Add your academic details so your profile feels like home.</p></div>
         <div class="grid sm:grid-cols-2 gap-4">
           <div><label class="text-xs text-inksoft dark:text-inksoft-dark" for="profileNameInput">Full name</label><input id="profileNameInput" type="text" required class="mt-1 w-full bg-paper dark:bg-paper-dark border border-ink/10 dark:border-ink-dark/10 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal" /></div>
@@ -943,7 +979,7 @@ main > div:first-child { max-width:1240px; }
           <div><label class="text-xs text-inksoft dark:text-inksoft-dark" for="profileLevelInput">Level</label><input id="profileLevelInput" type="text" placeholder="e.g. 300 Level" class="mt-1 w-full bg-paper dark:bg-paper-dark border border-ink/10 dark:border-ink-dark/10 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal" /></div>
         </div>
         <p class="text-[11px] text-inksoft dark:text-inksoft-dark">Your name and academic details are saved to your EduFlow account and will load wherever you sign in.</p>
-        <button type="submit" class="inline-flex items-center gap-2 px-4 h-[42px] rounded-xl bg-teal dark:bg-teal-dark text-white text-sm font-semibold hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-teal"><i class="fa-solid fa-check"></i>Save profile</button>
+        <div class="flex flex-wrap items-center gap-2"><button type="submit" class="inline-flex items-center gap-2 px-4 h-[42px] rounded-xl bg-teal dark:bg-teal-dark text-white text-sm font-semibold hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-teal"><i class="fa-solid fa-check"></i>Save profile</button><button id="profileCancelBtn" type="button" class="hidden px-4 h-[42px] rounded-xl border border-ink/15 dark:border-ink-dark/15 text-sm font-semibold hover:bg-ink/5 dark:hover:bg-white/5">Cancel</button></div>
         <p id="profileDetailsMessage" class="hidden text-xs"></p>
       </form>
     </section>
@@ -1129,9 +1165,11 @@ function getName() {
   return (currentUser && currentUser.name) || 'there';
 }
 /* ---------- account settings ---------- */
+let profileEditing = false;
 function renderProfile() {
   if (!currentUser) return;
   qs('#profileName').textContent = currentUser.name || 'Student';
+  qs('#profileAcademicLine').textContent = [currentUser.department, currentUser.level].filter(Boolean).join(' · ') || 'Complete your academic details';
   qs('#profileEmail').textContent = currentUser.email || '';
   qs('#profileNameInput').value = currentUser.name || '';
   qs('#profileSchoolInput').value = currentUser.school || '';
@@ -1141,6 +1179,27 @@ function renderProfile() {
   qs('#profileCourseCount').textContent = state.courses.length;
   qs('#profileCgpa').textContent = state.cumulative.units ? state.cumulative.gpa.toFixed(2) : '—';
   qs('#profileAssignmentCount').textContent = state.assignments.filter((a) => !a.done).length;
+  const hasSavedDetails = [currentUser.school, currentUser.department, currentUser.programme, currentUser.level].some((value) => String(value || '').trim());
+  qs('#profileSchoolValue').textContent = currentUser.school || 'Not added yet';
+  qs('#profileDepartmentValue').textContent = currentUser.department || 'Not added yet';
+  qs('#profileProgrammeValue').textContent = currentUser.programme || 'Not added yet';
+  qs('#profileLevelValue').textContent = currentUser.level || 'Not added yet';
+  if (!profileEditing) {
+    qs('#profileReadOnlyCard').classList.toggle('hidden', !hasSavedDetails);
+    qs('#profileDetailsForm').classList.toggle('hidden', hasSavedDetails);
+    qs('#profileCancelBtn').classList.add('hidden');
+  }
+}
+function openProfileEditor() {
+  profileEditing = true;
+  qs('#profileReadOnlyCard').classList.add('hidden');
+  qs('#profileDetailsForm').classList.remove('hidden');
+  qs('#profileCancelBtn').classList.remove('hidden');
+  qs('#profileNameInput').focus();
+}
+function cancelProfileEditor() {
+  profileEditing = false;
+  renderProfile();
 }
 async function handleProfileDetails(e) {
   e.preventDefault();
@@ -1158,6 +1217,7 @@ async function handleProfileDetails(e) {
     });
     currentUser = data.user;
     qs('#sidebarUserName').textContent = currentUser.name;
+    profileEditing = false;
     renderProfile();
     renderOverview();
     showFieldMessage(msg, 'Profile saved to your EduFlow account.', false);
@@ -1834,7 +1894,8 @@ function initAssignmentFilters() {
    displays state.semesters / state.cumulative as returned. */
 async function addSemester(e) {
   e.preventDefault();
-  const name = qs('#semesterName').value.trim();
+  const input = e.target.id === 'courseSemesterForm' ? qs('#courseSemesterName') : qs('#semesterName');
+  const name = input.value.trim();
   if (!name) return;
   try {
     const data = await apiFetch('/api/semesters', { method: 'POST', body: JSON.stringify({ name }) });
@@ -1892,6 +1953,12 @@ function renderCgpa() {
       </span>
     `;
   }).join('') || '<p class="text-sm text-inksoft dark:text-inksoft-dark">No semesters yet — add one above.</p>';
+  const courseSemesterList = qs('#courseSemesterList');
+  if (courseSemesterList) {
+    courseSemesterList.innerHTML = state.semesters.length
+      ? state.semesters.map((s) => `<div class="flex items-center justify-between gap-3 rounded-xl border border-ink/10 dark:border-ink-dark/10 bg-paper dark:bg-paper-dark px-3 py-2.5"><span class="min-w-0 truncate text-sm font-semibold">${escapeHtml(s.name)}</span><button type="button" onclick="deleteSemester('${s.id}')" class="w-7 h-7 shrink-0 rounded-lg text-coral hover:bg-coral/10" aria-label="Delete semester"><i class="fa-solid fa-trash text-xs"></i></button></div>`).join('')
+      : '<p class="text-xs text-inksoft dark:text-inksoft-dark">No semesters yet. Add your first one above.</p>';
+  }
 
   const cum = state.cumulative;
   qs('#cgpaValue').textContent = cum.gpa.toFixed(2);
@@ -2648,6 +2715,7 @@ function init() {
   }
 
   initNav();
+  qsa('[data-open-semester]').forEach((btn) => btn.addEventListener('click', () => setTimeout(() => qs('#courseSemesterName')?.focus(), 0)));
   initAssignmentFilters();
 
   qs('#authTabLogin').addEventListener('click', () => setAuthTab('login'));
@@ -2667,6 +2735,8 @@ function init() {
   qs('#logoutBtn').addEventListener('click', logout);
   qs('#accountNameForm').addEventListener('submit', handleUpdateName);
   qs('#profileDetailsForm').addEventListener('submit', handleProfileDetails);
+  qs('#profileUpdateBtn').addEventListener('click', openProfileEditor);
+  qs('#profileCancelBtn').addEventListener('click', cancelProfileEditor);
   qs('#accountEmailForm').addEventListener('submit', handleUpdateEmail);
   qs('#accountPasswordForm').addEventListener('submit', handleUpdatePassword);
   qs('#accountDeleteForm').addEventListener('submit', handleDeleteAccount);
