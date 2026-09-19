@@ -141,6 +141,11 @@
     #view-overview > div:nth-of-type(6) > div + div { margin-top: 24px; }
     #view-overview > div:nth-of-type(6) h2 { color: var(--mobile-text); font-size: 20px; }
     #view-overview > div:nth-of-type(6) .nav-link { color: var(--mobile-blue); font-size: 14px; }
+    #view-overview .mobile-dashboard-feed { display: block; margin: 0 20px; }
+    #view-overview .mobile-dashboard-feed > div { padding: 0; background: transparent; border: 0; }
+    #view-overview .mobile-dashboard-feed > div + div { margin-top: 24px; }
+    #view-overview .mobile-dashboard-feed h2 { color: var(--mobile-text); font-size: 20px; }
+    #view-overview .mobile-dashboard-feed .nav-link { color: var(--mobile-blue); font-size: 14px; }
     #ovTodayClasses { display: flex; gap: 14px; overflow-x: auto; padding: 2px 2px 10px; margin: 0 -2px; }
     #ovTodayClasses > div { min-width: 168px; min-height: 164px; padding: 16px; border: 1px solid #eef1f7; border-radius: 20px; background: #fff; box-shadow: 0 5px 14px rgba(27,45,79,.08); align-items: flex-start; flex-direction: column; }
     #ovTodayClasses > div > button { display: none; }
@@ -156,9 +161,17 @@
     .mobile-nav-item { display: flex; align-items: center; flex: 1; flex-direction: column; justify-content: center; gap: 5px; border: 0; background: transparent; color: #9aa5b8; font-size: 11px; font-weight: 700; }
     .mobile-nav-item i { font-size: 20px; }
     .mobile-nav-item.mobile-nav-active { color: var(--mobile-blue); }
-    .mobile-nav-ai i { display: grid; place-items: center; width: 58px; height: 58px; margin-top: -32px; border-radius: 20px; background: linear-gradient(145deg, #3f68f4, #2d45d7); color: #fff; box-shadow: 0 9px 18px rgba(48,86,232,.3); }
-    #floatingAssistantBtn { display: none; }
-  }
+  .mobile-nav-ai i { display: grid; place-items: center; width: 58px; height: 58px; margin-top: -32px; border-radius: 20px; background: linear-gradient(145deg, #3f68f4, #2d45d7); color: #fff; box-shadow: 0 9px 18px rgba(48,86,232,.3); }
+  #floatingAssistantBtn { display: none; }
+  .mobile-notification-panel { position: absolute; top: 86px; right: 20px; left: 20px; z-index: 8; padding: 14px; border: 1px solid rgba(148,163,184,.22); border-radius: 20px; color: #101a32; background: rgba(255,255,255,.98); box-shadow: 0 16px 36px rgba(17,25,90,.2); }
+  .mobile-notification-panel h3 { margin: 0 0 10px; font-size: 15px; font-weight: 800; }
+  .mobile-notification-item { display: flex; align-items: flex-start; gap: 10px; width: 100%; padding: 10px 0; border: 0; border-top: 1px solid #eef1f7; color: inherit; background: transparent; text-align: left; }
+  .mobile-notification-item:first-of-type { border-top: 0; }
+  .mobile-notification-item i { width: 20px; padding-top: 2px; color: #3562eb; text-align: center; }
+  .mobile-notification-item strong { display: block; font-size: 12px; }
+  .mobile-notification-item small { display: block; margin-top: 2px; color: #7b879c; font-size: 11px; line-height: 1.35; }
+  .mobile-notification-empty { margin: 0; color: #7b879c; font-size: 12px; line-height: 1.45; }
+}
 </style>
 
 <style id="eduflow-reference-theme">
@@ -480,12 +493,13 @@ main > div:first-child { max-width:1240px; }
 
     <!-- OVERVIEW -->
     <section id="view-overview" class="view space-y-6">
-      <div class="mobile-dashboard-hero bg-surface dark:bg-surface-dark rounded-2xl border border-ink/10 dark:border-ink-dark/10 p-6 sm:p-8">
+      <div class="mobile-dashboard-hero relative bg-surface dark:bg-surface-dark rounded-2xl border border-ink/10 dark:border-ink-dark/10 p-6 sm:p-8">
         <div class="mobile-hero-toolbar">
           <div class="mobile-avatar" aria-label="User profile"><i class="fa-solid fa-user" aria-hidden="true"></i></div>
           <div class="mobile-hero-copy"><p class="mobile-hero-kicker">Good morning,</p><p id="mobileHeroName" class="mobile-hero-name">Student <span aria-hidden="true">👋</span></p></div>
-          <button class="mobile-notification" type="button" aria-label="Notifications"><i class="fa-solid fa-bell"></i><span>4</span></button>
+          <button id="mobileNotificationBtn" class="mobile-notification" type="button" aria-label="Open notifications" aria-expanded="false"><i class="fa-solid fa-bell"></i><span id="mobileNotificationCount" class="hidden">0</span></button>
         </div>
+        <div id="mobileNotificationPanel" class="mobile-notification-panel hidden" aria-live="polite"></div>
         <p id="ovGreeting" class="font-serif text-2xl sm:text-3xl font-semibold">Good day.</p>
         <p id="ovDate" class="text-inksoft dark:text-inksoft-dark mt-1"></p>
         <div class="mobile-hero-pills"><span class="mobile-date-pill"><i class="fa-regular fa-calendar"></i><span id="mobileDateLabel">Today</span></span><span class="mobile-semester-pill">2nd Sem</span></div>
@@ -540,7 +554,7 @@ main > div:first-child { max-width:1240px; }
         <div id="achievementsGrid" class="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-8 gap-3"></div>
       </div>
 
-      <div class="grid lg:grid-cols-2 gap-4 sm:gap-6">
+      <div class="mobile-dashboard-feed grid lg:grid-cols-2 gap-4 sm:gap-6">
         <div class="bg-surface dark:bg-surface-dark rounded-2xl border border-ink/10 dark:border-ink-dark/10 p-5 sm:p-6">
           <div class="flex items-center justify-between mb-3">
             <h2 class="font-serif font-semibold text-lg">Today's Classes</h2>
@@ -1455,6 +1469,10 @@ function updateThemeToggleUI(isDark) {
 const VIEWS = ['overview', 'courses', 'timetable', 'assignments', 'cgpa', 'progress', 'assistant', 'messages', 'account'];
 function showView(name) {
   document.documentElement.dataset.eduflowNavState = name;
+  const notificationPanel = qs('#mobileNotificationPanel');
+  const notificationButton = qs('#mobileNotificationBtn');
+  if (notificationPanel) notificationPanel.classList.add('hidden');
+  if (notificationButton) notificationButton.setAttribute('aria-expanded', 'false');
   VIEWS.forEach((v) => {
     const el = qs('#view-' + v);
     if (el) el.classList.toggle('hidden', v !== name);
@@ -2157,6 +2175,38 @@ function renderStreak() {
 
   renderLevel();
 }
+function renderMobileNotifications() {
+  const btn = qs('#mobileNotificationBtn');
+  const countEl = qs('#mobileNotificationCount');
+  const panel = qs('#mobileNotificationPanel');
+  if (!btn || !countEl || !panel) return;
+  const overdue = state.progress ? Number(state.progress.overdue || 0) : 0;
+  const pending = state.assignments.filter((a) => !a.done).length;
+  const notices = [];
+  if (overdue) notices.push({ icon: 'fa-clock', title: `${overdue} overdue assignment${overdue === 1 ? '' : 's'}`, detail: 'Review your assignment list and catch up.', view: 'assignments' });
+  if (pending) notices.push({ icon: 'fa-list-check', title: `${pending} pending assignment${pending === 1 ? '' : 's'}`, detail: 'Keep an eye on your next deadline.', view: 'assignments' });
+  if (currentUser && currentUser.email_verified === false) notices.push({ icon: 'fa-envelope-circle-check', title: 'Verify your email', detail: 'Secure your EduFlow account.', view: 'account' });
+  countEl.textContent = notices.length > 9 ? '9+' : String(notices.length);
+  countEl.classList.toggle('hidden', notices.length === 0);
+  panel.innerHTML = notices.length
+    ? `<h3>Notifications</h3>${notices.map((n) => `<button type="button" class="mobile-notification-item" onclick="showView('${n.view}')"><i class="fa-solid ${n.icon}"></i><span><strong>${escapeHtml(n.title)}</strong><small>${escapeHtml(n.detail)}</small></span></button>`).join('')}`
+    : '<h3>Notifications</h3><p class="mobile-notification-empty">You’re all caught up. New updates will appear here.</p>';
+}
+function initMobileNotifications() {
+  const btn = qs('#mobileNotificationBtn');
+  const panel = qs('#mobileNotificationPanel');
+  if (!btn || !panel) return;
+  btn.addEventListener('click', (event) => {
+    event.stopPropagation();
+    const open = panel.classList.toggle('hidden') === false;
+    btn.setAttribute('aria-expanded', String(open));
+  });
+  panel.addEventListener('click', (event) => event.stopPropagation());
+  document.addEventListener('click', () => {
+    panel.classList.add('hidden');
+    btn.setAttribute('aria-expanded', 'false');
+  });
+}
 function renderOverview() {
   qs('#ovGreeting').textContent = `${greeting()}, ${getName()}.`;
   const mobileName = qs('#mobileHeroName');
@@ -2167,6 +2217,7 @@ function renderOverview() {
   if (mobileDate) mobileDate.textContent = formattedDate;
   renderQuoteOfTheDay();
   renderStreak();
+  renderMobileNotifications();
 
 
   qs('#statCourses').textContent = state.courses.length;
@@ -2460,6 +2511,7 @@ function init() {
   registerServiceWorker();
   initInstallPrompt();
   initGlobalSearch();
+  initMobileNotifications();
   initFloatingAssistant();
 
   qsa('[data-toggle-password]').forEach((btn) => {
