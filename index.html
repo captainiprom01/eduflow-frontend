@@ -236,6 +236,10 @@
   .settings-toggle-row input:checked { background: #3562eb; } .settings-toggle-row input:checked::after { transform: translateX(18px); }
   .settings-select-row select { min-width: 132px; padding: 8px 10px; border: 1px solid #e3e8f2; border-radius: 10px; color: #334155; background: #f8fafc; font-size: 12px; }
   .settings-save-status { min-height: 18px; margin: 0; padding: 0 18px 14px; color: #059669; font-size: 11px; }
+  .settings-about-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 14px 18px; border-bottom: 1px solid #edf0f5; }
+  .settings-about-row:last-child { border-bottom: 0; }
+  .settings-about-row span { color: #64748b; font-size: 12px; }
+  .settings-about-row strong { color: #334155; font-size: 12px; font-weight: 700; text-align: right; }
   .settings-secondary-btn { padding: 8px 12px; border: 1px solid #dbe2ee; border-radius: 10px; color: #3562eb; background: transparent; font-size: 11px; font-weight: 800; }
   .notifications-list { display: grid; gap: 20px; }
   .notification-group h3 { margin: 0 0 8px; color: #8c96aa; font-size: 11px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
@@ -244,7 +248,7 @@
   .notification-icon { display: grid; place-items: center; width: 38px; height: 38px; flex: 0 0 38px; border-radius: 12px; color: #3562eb; background: #eef2ff; }
   .notification-item strong { display: block; color: #101a32; font-size: 13px; } .notification-item p { margin: 4px 0 0; color: #7b879c; font-size: 12px; line-height: 1.4; } .notification-item time { display: block; margin-top: 5px; color: #a0a9b8; font-size: 10px; }
   .notification-unread-dot { width: 7px; height: 7px; margin-top: 5px; flex: 0 0 7px; border-radius: 50%; background: #3562eb; }
-  .dark .settings-card, .dark .notification-item { border-color: #303542; background: #1d2028; } .dark .settings-card-heading, .dark .settings-link-row, .dark .settings-toggle-row { border-color: #303542; } .dark .settings-card-heading h2, .dark .settings-link-row strong, .dark .settings-toggle-row strong, .dark .settings-select-row strong, .dark .notification-item strong { color: #f3f5fb; } .dark .settings-link-row:hover { background: #252a35; } .dark .settings-select-row select { border-color: #3a414e; color: #cbd5e1; background: #252a35; } .dark .notification-item.unread { border-color: #3f4f91; background: #202640; } .dark .notification-item p { color: #aeb8ca; }
+  .dark .settings-card, .dark .notification-item { border-color: #303542; background: #1d2028; } .dark .settings-card-heading, .dark .settings-link-row, .dark .settings-toggle-row, .dark .settings-about-row { border-color: #303542; } .dark .settings-card-heading h2, .dark .settings-link-row strong, .dark .settings-toggle-row strong, .dark .settings-select-row strong, .dark .settings-about-row strong, .dark .notification-item strong { color: #f3f5fb; } .dark .settings-link-row:hover { background: #252a35; } .dark .settings-select-row select { border-color: #3a414e; color: #cbd5e1; background: #252a35; } .dark .notification-item.unread { border-color: #3f4f91; background: #202640; } .dark .notification-item p, .dark .settings-about-row span { color: #aeb8ca; }
   @media (max-width: 639px) { .settings-page-hero { padding: 20px; border-radius: 20px; } .settings-page-hero h1 { font-size: 24px; } .settings-select-row { align-items: flex-start; flex-direction: column; } .settings-select-row select { width: 100%; } }
   @media (max-width: 767px) {
     :root { --mobile-navy: #11195a; --mobile-blue: #2f5be9; --mobile-text: #101a32; --mobile-muted: #8c96aa; }
@@ -1109,8 +1113,9 @@ main > div:first-child { max-width:1240px; }
       <div class="settings-page-hero"><div class="settings-hero-icon"><i class="fa-solid fa-sliders"></i></div><div><p class="settings-kicker">Make EduFlow yours</p><h1>Settings</h1><p>Control your notifications, appearance, AI, and privacy preferences.</p></div></div>
       <div class="settings-card"><div class="settings-card-heading"><div><h2>Profile and account</h2><p>Manage your personal information and account security.</p></div><i class="fa-solid fa-user-gear"></i></div><button type="button" data-view="profile" class="settings-link-row"><span class="settings-row-icon green"><i class="fa-regular fa-user"></i></span><span><strong>Profile information</strong><small>Academic details and profile summary</small></span><i class="fa-solid fa-chevron-right"></i></button><button type="button" data-view="account" class="settings-link-row"><span class="settings-row-icon blue"><i class="fa-solid fa-shield-halved"></i></span><span><strong>Account and security</strong><small>Email, password, export, and account controls</small></span><i class="fa-solid fa-chevron-right"></i></button></div>
       <form id="preferencesForm" class="settings-card"><div class="settings-card-heading"><div><h2>Notifications</h2><p>Choose which updates you want to receive.</p></div><i class="fa-regular fa-bell"></i></div><label class="settings-toggle-row"><span><strong>Assignment deadlines</strong><small>Get reminders for pending and overdue assignments</small></span><input type="checkbox" data-preference="assignment_notifications" /></label><label class="settings-toggle-row"><span><strong>Campus announcements</strong><small>Receive official EduFlow updates when available</small></span><input type="checkbox" data-preference="announcement_notifications" /></label><label class="settings-toggle-row"><span><strong>Grade updates</strong><small>Show updates when grades or CGPA records change</small></span><input type="checkbox" data-preference="grade_notifications" /></label><label class="settings-toggle-row"><span><strong>New messages</strong><small>Show unread message notifications and chat updates</small></span><input type="checkbox" data-preference="message_notifications" /></label></form>
-      <div class="settings-card"><div class="settings-card-heading"><div><h2>Appearance and AI</h2><p>Adjust how EduFlow looks and supports your study routine.</p></div><i class="fa-solid fa-wand-magic-sparkles"></i></div><label class="settings-select-row"><span><strong>Theme</strong><small>Choose system preference or a fixed theme</small></span><select id="settingsTheme"><option value="system">System default</option><option value="light">Light</option><option value="dark">Dark</option></select></label><label class="settings-toggle-row"><span><strong>AI suggestions</strong><small>Allow EduAI to suggest study actions</small></span><input type="checkbox" data-preference="ai_suggestions" /></label><label class="settings-toggle-row"><span><strong>AI reminders</strong><small>Show helpful study reminders in the app</small></span><input type="checkbox" data-preference="ai_reminders" /></label></div>
-      <div class="settings-card"><div class="settings-card-heading"><div><h2>Privacy</h2><p>Choose how other EduFlow users can discover you.</p></div><i class="fa-solid fa-lock"></i></div><label class="settings-toggle-row"><span><strong>Profile visibility</strong><small>Allow classmates to find you when starting a conversation</small></span><input type="checkbox" data-preference="profile_visibility" /></label><p id="preferencesSaveStatus" class="settings-save-status" aria-live="polite"></p></div>
+      <div class="settings-card"><div class="settings-card-heading"><div><h2>Appearance and AI</h2><p>Adjust how EduFlow looks and supports your study routine.</p></div><i class="fa-solid fa-wand-magic-sparkles"></i></div><label class="settings-select-row"><span><strong>Theme</strong><small>Choose system preference or a fixed theme</small></span><select id="settingsTheme"><option value="system">System default</option><option value="light">Light</option><option value="dark">Dark</option></select></label><label class="settings-toggle-row"><span><strong>AI suggestions</strong><small>Allow EduAI to suggest study actions</small></span><input type="checkbox" data-preference="ai_suggestions" /></label><label class="settings-toggle-row"><span><strong>AI reminders</strong><small>Show helpful study reminders in the app</small></span><input type="checkbox" data-preference="ai_reminders" /></label><label class="settings-select-row"><span><strong>AI model</strong><small>Choose the model used by EduAI when available</small></span><select id="settingsAiModel"><option value="">Default model</option></select></label></div>
+      <div class="settings-card"><div class="settings-card-heading"><div><h2>Privacy</h2><p>Choose how other EduFlow users can discover you.</p></div><i class="fa-solid fa-lock"></i></div><label class="settings-toggle-row"><span><strong>Profile visibility</strong><small>Allow classmates to find you when starting a conversation</small></span><input type="checkbox" data-preference="profile_visibility" /></label><label class="settings-toggle-row"><span><strong>Data and analytics</strong><small>Allow anonymous product analytics when available</small></span><input type="checkbox" data-preference="analytics_sharing" /></label><p id="preferencesSaveStatus" class="settings-save-status" aria-live="polite"></p></div>
+      <div class="settings-card"><div class="settings-card-heading"><div><h2>About EduFlow</h2><p>Information about this EduFlow web app.</p></div><i class="fa-solid fa-circle-info"></i></div><div class="settings-about-row"><span>Application</span><strong>EduFlow — Smart Campus Assistant</strong></div><div class="settings-about-row"><span>Version</span><strong id="settingsAppVersion">1.0.0</strong></div><div class="settings-about-row"><span>Data</span><strong>Your account data is stored securely</strong></div><div class="settings-about-row"><span>Support</span><strong>Contact your EduFlow administrator</strong></div></div>
     </section>
 
     <!-- ACCOUNT SETTINGS -->
@@ -1688,7 +1693,7 @@ const state = {
   streak: null,
 };
 let activeSemesterId = null;
-state.preferences = { assignment_notifications: true, announcement_notifications: true, grade_notifications: true, message_notifications: true, ai_suggestions: true, ai_reminders: true, profile_visibility: true, theme: 'system' };
+state.preferences = { assignment_notifications: true, announcement_notifications: true, grade_notifications: true, message_notifications: true, ai_suggestions: true, ai_reminders: true, ai_model: '', analytics_sharing: true, profile_visibility: true, theme: 'system' };
 let notificationReadIds = new Set(JSON.parse(localStorage.getItem('eduflow_notification_read') || '[]'));
 let courseFilter = 'all';
 let courseSearch = '';
@@ -1745,6 +1750,11 @@ function renderSettings() {
   qsa('[data-preference]').forEach((input) => { input.checked = Boolean(state.preferences[input.dataset.preference]); });
   const theme = qs('#settingsTheme');
   if (theme) theme.value = state.preferences.theme || 'system';
+  const model = qs('#settingsAiModel');
+  if (model && model.options.length) {
+    const preferredModel = state.preferences.ai_model || localStorage.getItem('eduflow_assistant_model') || model.options[0].value;
+    if ([...model.options].some((option) => option.value === preferredModel)) model.value = preferredModel;
+  }
 }
 function applyThemePreference(theme) {
   if (theme === 'system') localStorage.removeItem('eduflow_theme');
@@ -3002,7 +3012,7 @@ function sendChat(text) {
     .filter((m) => !m.thinking && m !== thinkingMsg)
     .slice(-10)
     .map((m) => ({ role: m.role === 'user' ? 'user' : 'assistant', text: m.text }));
-  const selectedModel = localStorage.getItem('eduflow_assistant_model') || '';
+  const selectedModel = state.preferences.ai_model || localStorage.getItem('eduflow_assistant_model') || '';
 
   apiFetch('/api/assistant/chat', { method: 'POST', body: JSON.stringify({ message, model: selectedModel, history: historyForApi }) })
     .then((data) => {
@@ -3022,21 +3032,31 @@ function sendChat(text) {
     });
 }
 
+function syncSettingsAiModelOptions(models, defaultModel) {
+  const settingsSelect = qs('#settingsAiModel');
+  if (!settingsSelect) return;
+  settingsSelect.innerHTML = models.map((model) => `<option value="${escapeHtml(model.id)}">${escapeHtml(model.label)}</option>`).join('');
+  const preferred = state.preferences.ai_model || localStorage.getItem('eduflow_assistant_model') || defaultModel;
+  settingsSelect.value = models.some((model) => model.id === preferred) ? preferred : defaultModel;
+}
 async function initAssistantModels() {
   const select = qs('#assistantModelSelect');
   try {
     const data = await apiFetch('/api/assistant/models');
     qs('#assistantNotConfiguredNote').classList.toggle('hidden', data.aiConfigured);
     select.innerHTML = data.models.map((m) => `<option value="${m.id}">${escapeHtml(m.label)}</option>`).join('');
-    const saved = localStorage.getItem('eduflow_assistant_model');
+    const saved = state.preferences.ai_model || localStorage.getItem('eduflow_assistant_model');
     select.value = data.models.some((m) => m.id === saved) ? saved : data.default;
     localStorage.setItem('eduflow_assistant_model', select.value);
+    syncSettingsAiModelOptions(data.models, data.default);
   } catch (e) {
     select.innerHTML = '<option value="">Default</option>';
+    qs('#settingsAiModel').innerHTML = '<option value="">Default model</option>';
     qs('#assistantNotConfiguredNote').classList.remove('hidden');
   }
   select.addEventListener('change', () => {
     localStorage.setItem('eduflow_assistant_model', select.value);
+    savePreference('ai_model', select.value);
   });
 }
 
@@ -3247,6 +3267,7 @@ function init() {
   qs('#messagesSendForm').addEventListener('submit', sendMessage);
   qsa('[data-preference]').forEach((input) => input.addEventListener('change', () => savePreference(input.dataset.preference, input.checked)));
   qs('#settingsTheme').addEventListener('change', (e) => savePreference('theme', e.target.value));
+  qs('#settingsAiModel').addEventListener('change', (e) => { localStorage.setItem('eduflow_assistant_model', e.target.value); savePreference('ai_model', e.target.value); });
   qs('#markAllNotificationsBtn').addEventListener('click', () => { notificationRecords().forEach((record) => notificationReadIds.add(record.id)); localStorage.setItem('eduflow_notification_read', JSON.stringify([...notificationReadIds])); renderFullNotifications(); renderMobileNotifications(); });
   qs('#accountEmailForm').addEventListener('submit', handleUpdateEmail);
   qs('#accountPasswordForm').addEventListener('submit', handleUpdatePassword);
