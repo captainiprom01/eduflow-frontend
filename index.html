@@ -113,8 +113,43 @@
   .dark .profile-card-heading h2, .dark .profile-details-list strong { color: #f3f5fb; }
   .dark .profile-details-list > div { border-bottom-color: #303542; }
   .dark .profile-stat { border-color: #303542; color: #f3f5fb; background: #1d2028; }
+  .profile-enrichment-card { overflow: hidden; border: 1px solid #e9edf5; border-radius: 22px; background: #fff; box-shadow: 0 8px 20px rgba(27,45,79,.07); }
+  .profile-enrichment-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; padding: 16px 18px; border-bottom: 1px solid #edf0f5; }
+  .profile-enrichment-heading h2 { margin: 0; color: #101a32; font-size: 16px; font-weight: 800; }
+  .profile-enrichment-heading > i { color: #3562eb; font-size: 17px; }
+  .profile-section-kicker { margin: 0 0 4px; color: #3562eb; font-size: 10px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+  .profile-progress-summary, .profile-progress-meta { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 16px 18px 0; color: #7b879c; font-size: 12px; }
+  .profile-progress-summary strong { color: #101a32; font-size: 13px; }
+  .profile-progress-track { height: 10px; margin: 10px 18px 0; overflow: hidden; border-radius: 99px; background: #edf1f7; }
+  .profile-progress-track i { display: block; width: 0; height: 100%; border-radius: inherit; background: linear-gradient(90deg,#3562eb,#6b72f5); transition: width .3s ease; }
+  .profile-progress-meta { padding-top: 8px; font-size: 11px; }
+  .profile-progress-meta strong { color: #3562eb; }
+  .profile-course-progress { display: grid; gap: 12px; padding: 16px 18px 18px; }
+  .profile-course-progress-row { min-width: 0; }
+  .profile-course-progress-row > div { display: flex; justify-content: space-between; gap: 10px; color: #526078; font-size: 11px; font-weight: 700; }
+  .profile-course-progress-row > div strong { color: #3562eb; }
+  .profile-course-progress-row > i { display: block; height: 6px; margin-top: 5px; border-radius: 99px; background: #edf1f7; }
+  .profile-course-progress-row > i span { display: block; height: 100%; border-radius: inherit; background: #6b72f5; }
+  .profile-achievement-count { padding: 5px 8px; border-radius: 99px; color: #3562eb; background: #eef2ff; font-size: 11px; font-weight: 800; }
+  .profile-achievement-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 10px; padding: 16px 18px 18px; }
+  .profile-achievement { padding: 12px; border-radius: 16px; background: #f8fafc; }
+  .profile-achievement.unlocked { background: #eff6ff; }
+  .profile-achievement i { color: #a4afc0; font-size: 18px; }
+  .profile-achievement.unlocked i { color: #f59e0b; }
+  .profile-achievement strong { display: block; margin-top: 7px; color: #334155; font-size: 12px; }
+  .profile-achievement small { display: block; margin-top: 3px; color: #8c96aa; font-size: 10px; line-height: 1.35; }
+  .profile-quick-links > button { display: flex; align-items: center; gap: 12px; width: 100%; padding: 13px 18px; border: 0; border-bottom: 1px solid #edf0f5; color: inherit; background: transparent; text-align: left; }
+  .profile-quick-links > button:last-child { border-bottom: 0; }
+  .profile-quick-links > button:hover { background: #f8fafc; }
+  .profile-quick-links > button > span:nth-child(2) { flex: 1; min-width: 0; }
+  .profile-quick-links > button strong { display: block; color: #334155; font-size: 13px; }
+  .profile-quick-links > button small { display: block; margin-top: 3px; color: #8c96aa; font-size: 10px; }
+  .profile-quick-links > button > i:last-child { color: #b2bdce; font-size: 11px; }
+  .profile-quick-icon { display: grid; place-items: center; width: 34px; height: 34px; flex: 0 0 34px; border-radius: 11px; }
+  .profile-quick-icon.blue { color: #2563eb; background: #eff6ff; } .profile-quick-icon.violet { color: #7c3aed; background: #f5f3ff; } .profile-quick-icon.green { color: #059669; background: #ecfdf5; }
+  .dark .profile-enrichment-card { border-color: #303542; background: #1d2028; } .dark .profile-enrichment-heading, .dark .profile-quick-links > button { border-color: #303542; } .dark .profile-enrichment-heading h2, .dark .profile-progress-summary strong, .dark .profile-achievement strong, .dark .profile-quick-links > button strong { color: #f3f5fb; } .dark .profile-progress-track, .dark .profile-course-progress-row > i { background: #303542; } .dark .profile-achievement { background: #252a35; } .dark .profile-achievement.unlocked { background: #202a50; } .dark .profile-quick-links > button:hover { background: #252a35; }
   .dark .profile-email { color: #c6cff4; }
-  @media (max-width: 639px) { .profile-hero { padding: 20px; border-radius: 22px; } .profile-stat-grid { gap: 8px; } }
+  @media (max-width: 639px) { .profile-hero { padding: 20px; border-radius: 22px; } .profile-stat-grid { gap: 8px; } .profile-achievement-grid { gap: 8px; padding-left: 14px; padding-right: 14px; } .profile-progress-summary, .profile-progress-meta { padding-left: 14px; padding-right: 14px; } .profile-progress-track { margin-left: 14px; margin-right: 14px; } .profile-course-progress { padding-left: 14px; padding-right: 14px; } }
   @keyframes eduflow-marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
   @media (prefers-reduced-motion: reduce) { .maintenance-marquee-track { animation: none; } }
   .messages-compose { display: grid; place-items: center; width: 44px; height: 44px; border: 0; border-radius: 14px; color: #fff; background: linear-gradient(145deg, #3f68f4, #2d45d7); }
@@ -1139,6 +1174,9 @@ main > div:first-child { max-width:1240px; }
         </div>
         <button id="profileUpdateBtn" type="button" class="profile-update-btn"><i class="fa-solid fa-pen"></i>Update profile</button>
       </div>
+      <div class="profile-enrichment-card"><div class="profile-enrichment-heading"><div><p class="profile-section-kicker">Keep moving forward</p><h2>Academic progress</h2></div><i class="fa-solid fa-chart-line"></i></div><div class="profile-progress-summary"><span>Credits with grades</span><strong><span id="profileCreditsCompleted">0</span>/<span id="profileCreditsTotal">0</span> credits</strong></div><div class="profile-progress-track"><i id="profileDegreeProgress"></i></div><div class="profile-progress-meta"><span id="profileDegreeProgressLabel">Add grades to track credit progress</span><strong id="profileActivityProgress">0% activity</strong></div><div id="profileCourseProgress" class="profile-course-progress"></div></div>
+      <div class="profile-enrichment-card"><div class="profile-enrichment-heading"><div><p class="profile-section-kicker">Milestones</p><h2>Achievements</h2></div><span id="profileAchievementCount" class="profile-achievement-count">0/0</span></div><div id="profileAchievements" class="profile-achievement-grid"></div></div>
+      <div class="profile-enrichment-card profile-quick-links"><div class="profile-enrichment-heading"><div><p class="profile-section-kicker">Shortcuts</p><h2>Quick links</h2></div><i class="fa-solid fa-arrow-up-right-from-square"></i></div><button type="button" data-view="courses"><span class="profile-quick-icon blue"><i class="fa-solid fa-book-open"></i></span><span><strong>Enrolled courses</strong><small>Review your courses and activity</small></span><i class="fa-solid fa-chevron-right"></i></button><button type="button" data-view="timetable"><span class="profile-quick-icon violet"><i class="fa-solid fa-calendar-week"></i></span><span><strong>View timetable</strong><small>Check your class schedule</small></span><i class="fa-solid fa-chevron-right"></i></button><button type="button" data-view="settings"><span class="profile-quick-icon green"><i class="fa-solid fa-gear"></i></span><span><strong>Settings</strong><small>Manage preferences and account</small></span><i class="fa-solid fa-chevron-right"></i></button></div>
       <form id="profileDetailsForm" class="hidden bg-surface dark:bg-surface-dark rounded-2xl border border-ink/10 dark:border-ink-dark/10 p-5 sm:p-6 space-y-4">
         <div><h2 class="font-serif font-semibold text-lg">Profile information</h2><p class="text-xs text-inksoft dark:text-inksoft-dark mt-1">Add your academic details so your profile feels like home.</p></div>
         <div class="grid sm:grid-cols-2 gap-4">
@@ -1350,8 +1388,28 @@ function renderProfile() {
   qs('#profileProgrammeInput').value = currentUser.programme || '';
   qs('#profileLevelInput').value = currentUser.level || '';
   qs('#profileCourseCount').textContent = state.courses.length;
-  qs('#profileCgpa').textContent = state.cumulative.units ? state.cumulative.gpa.toFixed(2) : '—';
+  qs('#profileCgpa').textContent = state.cumulative && state.cumulative.units ? state.cumulative.gpa.toFixed(2) : '—';
   qs('#profileAssignmentCount').textContent = state.assignments.filter((a) => !a.done).length;
+  const cumulative = state.cumulative || { units: 0 };
+  const completedCredits = Number(cumulative.units || 0);
+  const totalCredits = state.courses.reduce((sum, course) => sum + Number(course.units || 0), 0);
+  const creditProgress = totalCredits ? Math.min(100, Math.round((completedCredits / totalCredits) * 100)) : 0;
+  qs('#profileCreditsCompleted').textContent = completedCredits;
+  qs('#profileCreditsTotal').textContent = totalCredits;
+  qs('#profileDegreeProgress').style.width = `${creditProgress}%`;
+  qs('#profileDegreeProgressLabel').textContent = totalCredits ? `${creditProgress}% of registered course credits have grades` : 'Add courses and grades to track credit progress';
+  qs('#profileActivityProgress').textContent = `${Number((state.progress && state.progress.percent) || 0)}% activity`;
+  const courseProgress = state.courses.slice(0, 4).map((course) => {
+    const activity = courseActivity(course.id);
+    const done = activity.assignments.filter((assignment) => assignment.done).length;
+    const percent = activity.assignments.length ? Math.round((done / activity.assignments.length) * 100) : 0;
+    return `<div class="profile-course-progress-row"><div><span class="truncate">${escapeHtml(course.code || course.name)}</span><strong>${activity.assignments.length ? `${percent}%` : 'No tasks'}</strong></div><i><span style="width:${percent}%"></span></i></div>`;
+  }).join('');
+  qs('#profileCourseProgress').innerHTML = courseProgress || '<p class="text-xs text-inksoft dark:text-inksoft-dark">Your course activity will appear here after you add courses.</p>';
+  const achievements = (state.streak && state.streak.achievements) || [];
+  const unlockedAchievements = achievements.filter((achievement) => achievement.unlocked).length;
+  qs('#profileAchievementCount').textContent = `${unlockedAchievements}/${achievements.length}`;
+  qs('#profileAchievements').innerHTML = achievements.length ? achievements.map((achievement) => `<div class="profile-achievement ${achievement.unlocked ? 'unlocked' : ''}"><i class="fa-solid ${escapeHtml(achievement.icon || 'fa-award')}"></i><strong>${escapeHtml(achievement.title)}</strong><small>${escapeHtml(achievement.unlocked ? achievement.description : `Locked · ${achievement.description}`)}</small></div>`).join('') : '<p class="text-xs text-inksoft dark:text-inksoft-dark">Achievements will appear as you build your academic activity.</p>';
   const hasSavedDetails = [currentUser.school, currentUser.department, currentUser.programme, currentUser.level].some((value) => String(value || '').trim());
   qs('#profileSchoolValue').textContent = currentUser.school || 'Not added yet';
   qs('#profileDepartmentValue').textContent = currentUser.department || 'Not added yet';
