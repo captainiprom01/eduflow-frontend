@@ -1,0 +1,2493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>EduFlow — Smart Campus Assistant</title>
+<link rel="icon" type="image/png" href="icon.png" />
+<link rel="manifest" href="manifest.json" />
+<link rel="apple-touch-icon" href="icon-192.png" />
+<meta name="theme-color" content="#1F7A6C" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="apple-mobile-web-app-title" content="EduFlow" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Lora:wght@500;600;700&family=Manrope:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/canvas-confetti/1.9.3/confetti.browser.min.js"></script>
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<script>
+  tailwind.config = {
+    darkMode: 'class',
+    theme: {
+      extend: {
+        fontFamily: {
+          serif: ['Lora', 'serif'],
+          sans: ['Manrope', 'sans-serif'],
+        },
+        colors: {
+          paper: '#EEF1F6',
+          surface: '#FFFFFF',
+          ink: '#12213F',
+          inksoft: '#54607F',
+          teal: { DEFAULT: '#1F7A6C', dark: '#175C52' },
+          amber: { DEFAULT: '#DE9A2C', dark: '#B87B1B' },
+          coral: '#D1495B',
+          'paper-dark': '#0B1220',
+          'surface-dark': '#141F35',
+          'ink-dark': '#E8ECF6',
+          'inksoft-dark': '#93A1C2',
+        },
+        boxShadow: { soft: '0 1px 2px rgba(18,33,63,0.06)' },
+      },
+    },
+  };
+</script>
+<style>
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Manrope', sans-serif; }
+  .font-serif { font-family: 'Lora', serif; }
+  ::-webkit-scrollbar { width: 8px; height: 8px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: rgba(84,96,127,0.3); border-radius: 4px; }
+  .view { animation: fadein .35s ease; }
+  @keyframes fadein { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+  input[type="date"]::-webkit-calendar-picker-indicator,
+  input[type="time"]::-webkit-calendar-picker-indicator { cursor: pointer; opacity: .6; }
+  @media (prefers-reduced-motion: reduce) {
+    .view { animation: none; }
+    html { scroll-behavior: auto; }
+  }
+  /* Casual copy-paste deterrents. Real protection is server-side (see the
+     backend) — this just discourages right-click / view-source grabs. */
+  body { -webkit-user-select: none; user-select: none; }
+  input, textarea, select, [contenteditable="true"] { -webkit-user-select: text; user-select: text; }
+  .mobile-hero-toolbar, .mobile-hero-pills, .mobile-ai-card, .mobile-progress-card, .mobile-bottom-nav, .mobile-avatar, .mobile-notification { display: none; }
+  .dashboard-insights { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+  .study-quote-card, .study-streak-card { display: flex; align-items: flex-start; gap: 12px; min-height: 116px; padding: 18px; border: 1px solid rgba(37,99,235,.08); border-radius: 22px; background: #fff; box-shadow: 0 8px 22px rgba(27,45,79,.07); }
+  .study-streak-card { background: linear-gradient(135deg, #f5f7ff, #fff); }
+  .insight-icon { display: grid; place-items: center; width: 38px; height: 38px; flex: 0 0 38px; border-radius: 13px; font-size: 16px; }
+  .quote-icon { color: #4f46e5; background: #eef2ff; } .streak-icon { color: #f59e0b; background: #fff7ed; }
+  .insight-label { margin: 0; color: #8c96aa; font-size: 11px; font-weight: 800; letter-spacing: .07em; text-transform: uppercase; }
+  .insight-quote { margin: 6px 0 0; color: #334155; font-size: 13px; line-height: 1.45; }
+  .streak-copy { min-width: 0; flex: 1; } .streak-value { margin: 4px 0 0; color: #101a32; font-size: 18px; font-weight: 800; } .streak-message { margin: 2px 0 0; color: #8c96aa; font-size: 11px; line-height: 1.35; } .streak-best { margin: 28px 0 0; color: #64748b; font-size: 10px; white-space: nowrap; }
+  .messages-hero { display: flex; align-items: center; justify-content: space-between; padding: 24px; border-radius: 24px; color: #fff; background: linear-gradient(145deg, #10164e, #202b80); }
+  .messages-kicker { margin: 0 0 4px; color: #aeb8d4; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; }
+  .messages-hero h1 { margin: 0; font-size: 28px; font-weight: 800; }
+  .messages-hero p:last-child { margin: 6px 0 0; color: #b8c2de; font-size: 13px; }
+  .messages-compose { display: grid; place-items: center; width: 44px; height: 44px; border: 0; border-radius: 14px; color: #fff; background: linear-gradient(145deg, #3f68f4, #2d45d7); }
+  .messages-search { display: flex; align-items: center; gap: 10px; padding: 14px 16px; border-radius: 18px; color: #94a3b8; background: #fff; box-shadow: 0 5px 14px rgba(27,45,79,.07); }
+  .messages-search input { width: 100%; border: 0; outline: 0; color: #101a32; background: transparent; }
+  .messages-online p, .messages-section-title { margin: 0 0 12px; color: #8c96aa; font-size: 12px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+  .messages-online > div { display: flex; gap: 14px; }
+  .message-avatar { position: relative; display: inline-grid; place-items: center; width: 48px; height: 48px; flex: 0 0 48px; border-radius: 16px; font-size: 13px; font-weight: 800; }
+  .message-avatar.blue { color: #2563eb; background: #eff6ff; } .message-avatar.violet { color: #7c3aed; background: #f5f3ff; } .message-avatar.green { color: #059669; background: #ecfdf5; }
+  .message-avatar i { position: absolute; right: 0; bottom: 0; width: 11px; height: 11px; border: 2px solid #fff; border-radius: 50%; background: #10b981; }
+  .messages-section-title { margin-top: 8px; }
+  .messages-list { display: grid; gap: 8px; }
+  .message-row { display: flex; align-items: center; gap: 12px; width: 100%; padding: 14px; border: 0; border-radius: 18px; text-align: left; background: #fff; box-shadow: 0 5px 14px rgba(27,45,79,.07); }
+  .message-copy { display: flex; flex: 1; min-width: 0; flex-direction: column; gap: 4px; } .message-copy strong { color: #101a32; font-size: 14px; } .message-copy small, .message-row time { overflow: hidden; color: #8c96aa; font-size: 12px; text-overflow: ellipsis; white-space: nowrap; } .message-row b { display: grid; place-items: center; width: 20px; height: 20px; border-radius: 50%; color: #fff; background: linear-gradient(145deg, #3f68f4, #2d45d7); font-size: 10px; }
+  @media (max-width: 767px) {
+    :root { --mobile-navy: #11195a; --mobile-blue: #2f5be9; --mobile-text: #101a32; --mobile-muted: #8c96aa; }
+    body { background: #f7f9fc !important; color: var(--mobile-text); padding-bottom: 84px; font-family: 'Inter', sans-serif; }
+    #view-overview h1, #view-overview h2, #view-overview h3, #view-overview button { font-family: 'Plus Jakarta Sans', 'Inter', sans-serif; }
+    .mobile-topbar { display: none; }
+    #appShell { background: #f7f9fc; }
+    #sidebar { width: min(86vw, 330px); }
+    main.md\:ml-72 { margin-left: 0; max-width: none; padding: 0 0 24px; }
+    #verifyBanner { margin: 12px 16px; }
+    #view-overview { gap: 20px; }
+    #view-overview > .mobile-dashboard-hero { margin: 0; padding: 28px 22px 24px; min-height: 252px; border: 0; border-radius: 0 0 38px 38px; background: linear-gradient(145deg, #10164e 0%, #202b80 100%) !important; color: #fff; box-shadow: 0 14px 32px rgba(17,25,90,.18); }
+    .mobile-dashboard-hero #ovGreeting, .mobile-dashboard-hero #ovDate, .mobile-dashboard-hero > p:not(#ovGreeting):not(#ovDate) { display: none; }
+    .mobile-hero-toolbar { display: flex; align-items: center; gap: 12px; }
+    .mobile-avatar { display: grid; place-items: center; width: 62px; height: 62px; flex: 0 0 62px; border-radius: 50%; background: linear-gradient(145deg, #4e77ff, #2b42d7); color: #fff; font-size: 20px; font-weight: 800; box-shadow: 0 6px 18px rgba(0,0,0,.2); }
+    .mobile-hero-copy { flex: 1; min-width: 0; }
+    .mobile-hero-kicker { margin: 0; color: #a9b1d0; font-size: 14px; }
+    .mobile-hero-name { margin: 3px 0 0; color: #fff; font-size: 21px; font-weight: 800; }
+    .mobile-notification { position: relative; display: grid; place-items: center; width: 56px; height: 56px; border: 0; border-radius: 16px; background: rgba(255,255,255,.1); color: #fff; font-size: 20px; }
+    .mobile-notification span { position: absolute; top: -4px; right: -4px; display: grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; background: #ee5571; font-size: 11px; font-weight: 800; }
+    .mobile-hero-pills { display: flex; gap: 12px; margin-top: 28px; }
+    .mobile-date-pill, .mobile-semester-pill { display: inline-flex; align-items: center; gap: 8px; padding: 13px 16px; border-radius: 24px; font-size: 14px; font-weight: 800; }
+    .mobile-date-pill { background: rgba(255,255,255,.12); color: #fff; }
+    .mobile-semester-pill { background: rgba(15,177,172,.25); color: #49d2c4; }
+    .mobile-ai-card { display: flex; align-items: center; gap: 14px; width: calc(100% - 40px); margin: 10px 20px 0; padding: 22px 18px; border: 0; border-radius: 24px; text-align: left; color: #fff; background: linear-gradient(135deg, #10164e, #202b80); box-shadow: 0 12px 24px rgba(17,25,90,.18); }
+    .mobile-ai-icon { display: grid; place-items: center; width: 68px; height: 68px; flex: 0 0 68px; border-radius: 20px; background: linear-gradient(145deg, #3d67f5, #2b43d8); font-size: 30px; }
+    .mobile-ai-copy { display: flex; flex: 1; flex-direction: column; gap: 4px; }
+    .mobile-ai-copy strong { font-size: 20px; }
+    .mobile-ai-copy small { color: #aeb8d4; font-size: 15px; }
+    .mobile-ai-badge { padding: 10px 12px; border-radius: 14px; background: rgba(117,119,239,.45); color: #d7d9ff; font-size: 15px; font-weight: 700; white-space: nowrap; }
+    .mobile-progress-card { display: block; margin: 0 20px; padding: 22px; border-radius: 24px; background: #fff; box-shadow: 0 8px 24px rgba(27,45,79,.09); }
+    .dashboard-insights { grid-template-columns: 1fr; gap: 12px; margin: 0 20px; }
+    .study-quote-card, .study-streak-card { min-height: 0; padding: 16px; border-radius: 20px; }
+    .mobile-progress-heading, .mobile-progress-meta { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+    .mobile-progress-heading h2 { margin: 0; font-size: 20px; font-weight: 800; }
+    .mobile-progress-heading p, .mobile-gpa span { margin: 5px 0 0; color: var(--mobile-muted); font-size: 14px; }
+    .mobile-gpa { display: flex; flex-direction: column; align-items: flex-end; }
+    .mobile-gpa strong { color: var(--mobile-blue); font-size: 29px; line-height: 1; }
+    .mobile-progress-meta { margin-top: 22px; color: var(--mobile-muted); font-size: 14px; }
+    .mobile-progress-meta strong { color: var(--mobile-text); }
+    .mobile-progress-track { height: 11px; margin-top: 10px; border-radius: 10px; background: #edf0f6; overflow: hidden; }
+    .mobile-progress-track span { display: block; width: 72%; height: 100%; border-radius: inherit; background: linear-gradient(90deg, #3163ec, #7457ec); }
+    .mobile-course-progress { display: flex; justify-content: space-between; gap: 8px; margin-top: 22px; }
+    .mobile-course-progress:empty { display: none; }
+    .mobile-course-progress span { display: grid; place-items: center; width: 58px; height: 58px; border: 5px solid #2f5be9; border-radius: 50%; color: #2f5be9; font-size: 12px; font-weight: 800; }
+    #view-overview > #levelCard, #view-overview > div:nth-of-type(4), #view-overview > div:nth-of-type(5) { display: none; }
+    #view-overview > div:nth-of-type(6) { display: block; margin: 0 20px; }
+    #view-overview > div:nth-of-type(6) > div { padding: 0; background: transparent; border: 0; }
+    #view-overview > div:nth-of-type(6) > div + div { margin-top: 24px; }
+    #view-overview > div:nth-of-type(6) h2 { color: var(--mobile-text); font-size: 20px; }
+    #view-overview > div:nth-of-type(6) .nav-link { color: var(--mobile-blue); font-size: 14px; }
+    #ovTodayClasses { display: flex; gap: 14px; overflow-x: auto; padding: 2px 2px 10px; margin: 0 -2px; }
+    #ovTodayClasses > div { min-width: 168px; min-height: 164px; padding: 16px; border: 1px solid #eef1f7; border-radius: 20px; background: #fff; box-shadow: 0 5px 14px rgba(27,45,79,.08); align-items: flex-start; flex-direction: column; }
+    #ovTodayClasses > div > button { display: none; }
+    #ovTodayClasses > div p:first-child { color: var(--mobile-blue); font-weight: 800; }
+    #ovTodayClasses > div p:last-of-type { color: #5f6b80; line-height: 1.35; }
+    #ovUpcomingAssignments > div { padding: 16px; border: 1px solid #eef1f7; border-radius: 20px; background: #fff; box-shadow: 0 5px 14px rgba(27,45,79,.08); }
+    .view:not(#view-overview) { padding: 20px; }
+    .mobile-bottom-nav { position: fixed; right: 0; bottom: 0; left: 0; z-index: 45; display: flex; justify-content: space-around; height: 78px; padding: 9px 8px max(9px, env(safe-area-inset-bottom)); border-top: 1px solid #eef0f6; background: rgba(255,255,255,.96); box-shadow: 0 -8px 25px rgba(27,45,79,.08); backdrop-filter: blur(18px); }
+    .mobile-nav-item { display: flex; align-items: center; flex: 1; flex-direction: column; justify-content: center; gap: 5px; border: 0; background: transparent; color: #9aa5b8; font-size: 11px; font-weight: 700; }
+    .mobile-nav-item i { font-size: 20px; }
+    .mobile-nav-item.mobile-nav-active { color: var(--mobile-blue); }
+    .mobile-nav-ai i { display: grid; place-items: center; width: 58px; height: 58px; margin-top: -32px; border-radius: 20px; background: linear-gradient(145deg, #3f68f4, #2d45d7); color: #fff; box-shadow: 0 9px 18px rgba(48,86,232,.3); }
+    #floatingAssistantBtn { display: none; }
+  }
+</style>
+</head>
+<body class="bg-paper dark:bg-paper-dark text-ink dark:text-ink-dark min-h-screen transition-colors duration-300">
+
+<!-- ============ AUTH SCREEN ============ -->
+<div id="authScreen" class="fixed inset-0 z-[200] bg-paper dark:bg-paper-dark flex items-center justify-center p-4 overflow-y-auto">
+  <div class="w-full max-w-md bg-surface dark:bg-surface-dark rounded-2xl border border-ink/10 dark:border-ink-dark/10 p-6 sm:p-8 my-8">
+    <div class="flex items-center gap-3 mb-6">
+      <img src="icon.png" alt="EduFlow logo" class="w-10 h-10 rounded-xl shadow-soft object-contain" />
+      <div>
+        <p class="font-serif font-semibold text-xl leading-tight">EduFlow</p>
+        <p class="text-xs text-inksoft dark:text-inksoft-dark">Sign in to your dashboard</p>
+      </div>
+    </div>
+
+    <div class="flex gap-1 bg-paper dark:bg-paper-dark rounded-lg p-1 mb-5">
+      <button type="button" id="authTabLogin" class="auth-tab flex-1 py-2 rounded-md text-sm font-semibold">Log in</button>
+      <button type="button" id="authTabSignup" class="auth-tab flex-1 py-2 rounded-md text-sm font-semibold">Sign up</button>
+    </div>
+
+    <div id="googleSignInWrap" class="hidden mb-5">
+      <div id="googleSignInBtn" class="w-full flex justify-center"></div>
+      <div class="flex items-center gap-3 my-4">
+        <div class="flex-1 h-px bg-ink/10 dark:bg-ink-dark/10"></div>
+        <span class="text-xs text-inksoft dark:text-inksoft-dark">or continue with email</span>
+        <div class="flex-1 h-px bg-ink/10 dark:bg-ink-dark/10"></div>
+      </div>
+    </div>
+
+    <form id="loginForm" class="space-y-3">
+      <div>
+        <label class="text-xs text-inksoft dark:text-inksoft-dark" for="loginEmail">Email</label>
+        <input id="loginEmail" type="email" required autocomplete="email" class="mt-1 w-full bg-paper dark:bg-paper-dark border border-ink/10 dark:border-ink-dark/10 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal" />
+      </div>
+      <div>
+        <label class="text-xs text-inksoft dark:text-inksoft-dark" for="loginPassword">Password</label>
+        <div class="relative mt-1">
+          <input id="loginPassword" type="password" required autocomplete="current-password" class="w-full bg-paper dark:bg-paper-dark border border-ink/10 dark:border-ink-dark/10 rounded-lg px-3 py-2 pr-10 text-sm focus:outline-none focus:ring-2 focus:ring-teal" />
+          <button type="button" data-toggle-password="loginPassword" aria-label="Show password" class="absolute right-2 top-1/2 -translate-y-1/2 w-7 h-7 flex items-center justify-center text-inksoft dark:text-inksoft-dark hover:text-ink dark:hover:text-ink-dark focus:outline-none">
+            <i class="fa-solid fa-eye text-sm"></i>
+          </button>
+        </div>
+      </div>
+      <button type="submit" id="loginSubmitBtn" class="w-full h-[42px] rounded-lg bg-teal dark:bg-teal-dark text-white text-sm font-semibold hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-teal">
+        Log in
+      </button>
+      <button type="button" id="showForgotFormBtn" class="w-full text-center text-xs text-teal dark:text-teal font-semibold hover:underline">
+        Forgot password?
+      </button>
+    </form>
+
+    <form id="forgotForm" class="space-y-3 hidden">
+      <div>
+        <p class="text-sm font-semibold mb-1">Reset your password</p>
+        <p class="text-xs text-inksoft dark:text-inksoft-dark">Enter your account email — we'll send a link to reset it.</p>
+      </div>
+      <div>
+        <label class="text-xs text-inksoft dark:text-inksoft-dark" for="forgotEmail">Email</label>
+        <input id="forgotEmail" type="email" required autocomplete="email" class="mt-1 w-full bg-paper dark:bg-paper-dark border border-ink/10 dark:border-ink-dark/10 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal" />
+      </div>
+      <button type="submit" id="forgotSubmitBtn" class="w-full h-[42px] rounded-lg bg-teal dark:bg-teal-dark text-white text-sm font-semibold hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-teal">
+        Send reset link
+      </button>
+      <button type="button" id="backToLoginBtn" class="w-full text-center text-xs text-teal dark:text-teal font-semibold hover:underline">
+        Back to log in
+      </button>
+    </form>
+
+    <form id="signupForm" class="space-y-3 hidden">
+      <div>
+        <label class="text-xs text-inksoft dark:text-inksoft-dark" for="signupName">Name</label>
+        <input id="signupName" type="text" required autocomplete="name" class="mt-1 w-full bg-paper dark:bg-paper-dark border border-ink/10 dark:border-ink-dark/10 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal" />
+      </div>
+      <div>
+        <label class="text-xs text-inksoft dark:text-inksoft-dark" for="signupEmail">Email</label>
+        <input id="signupEmail" type="email" required autocomplete="email" class="mt-1 w-full bg-paper dark:bg-paper-dark border border-ink/10 dark:border-ink-dark/10 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal" />
+      </div>
+      <div>
+        <label class="text-xs text-inksoft dark:text-inksoft-dark" for="signupPassword">Password</label>
+        <div class="relative mt-1">
+          <input id="signupPassword" type="password" required minlength="8" autocomplete="new-password" class="w-full bg-paper dark:bg-paper-dark border border-ink/10 dark:border-ink-dark/10 rounded-lg px-3 py-2 pr-10 text-sm focus:outline-none focus:ring-2 focus:ring-teal" />
+          <button type="button" data-toggle-password="signupPassword" aria-label="Show password" class="absolute right-2 top-1/2 -translate-y-1/2 w-7 h-7 flex items-center justify-center text-inksoft dark:text-inksoft-dark hover:text-ink dark:hover:text-ink-dark focus:outline-none">
+            <i class="fa-solid fa-eye text-sm"></i>
+          </button>
+        </div>
+        <p class="text-[11px] text-inksoft dark:text-inksoft-dark mt-1">At least 8 characters.</p>
+      </div>
+      <button type="submit" id="signupSubmitBtn" class="w-full h-[42px] rounded-lg bg-teal dark:bg-teal-dark text-white text-sm font-semibold hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-teal">
+        Create account
+      </button>
+    </form>
+
+    <p id="authError" class="hidden text-xs text-coral mt-3"></p>
+    <p id="authSuccess" class="hidden text-xs text-teal mt-3"></p>
+
+    <details class="mt-5 text-xs text-inksoft dark:text-inksoft-dark">
+      <summary class="cursor-pointer select-none font-semibold">Advanced: custom server</summary>
+      <input id="apiBaseInput" type="text" class="mt-2 w-full bg-paper dark:bg-paper-dark border border-ink/10 dark:border-ink-dark/10 rounded-lg px-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-teal" placeholder="https://your-backend.onrender.com" />
+      <p class="mt-1">Only change this if you're running your own backend (e.g. for local development). Saved on this device only.</p>
+    </details>
+  </div>
+</div>
+
+<!-- ============ RESET PASSWORD SCREEN (shown only when the page is opened via a reset link) ============ -->
+<div id="resetPasswordScreen" class="hidden fixed inset-0 z-[200] bg-paper dark:bg-paper-dark flex items-center justify-center p-4 overflow-y-auto">
+  <div class="w-full max-w-md bg-surface dark:bg-surface-dark rounded-2xl border border-ink/10 dark:border-ink-dark/10 p-6 sm:p-8 my-8">
+    <div class="flex items-center gap-3 mb-6">
+      <img src="icon.png" alt="EduFlow logo" class="w-10 h-10 rounded-xl shadow-soft object-contain" />
+      <div>
+        <p class="font-serif font-semibold text-xl leading-tight">EduFlow</p>
+        <p class="text-xs text-inksoft dark:text-inksoft-dark">Set a new password</p>
+      </div>
+    </div>
+    <form id="resetPasswordForm" class="space-y-3">
+      <div>
+        <label class="text-xs text-inksoft dark:text-inksoft-dark" for="resetNewPassword">New password</label>
+        <div class="relative mt-1">
+          <input id="resetNewPassword" type="password" required minlength="8" autocomplete="new-password" class="w-full bg-paper dark:bg-paper-dark border border-ink/10 dark:border-ink-dark/10 rounded-lg px-3 py-2 pr-10 text-sm focus:outline-none focus:ring-2 focus:ring-teal" />
+          <button type="button" data-toggle-password="resetNewPassword" aria-label="Show password" class="absolute right-2 top-1/2 -translate-y-1/2 w-7 h-7 flex items-center justify-center text-inksoft dark:text-inksoft-dark hover:text-ink dark:hover:text-ink-dark focus:outline-none">
+            <i class="fa-solid fa-eye text-sm"></i>
+          </button>
+        </div>
+        <p class="text-[11px] text-inksoft dark:text-inksoft-dark mt-1">At least 8 characters.</p>
+      </div>
+      <button type="submit" id="resetPasswordSubmitBtn" class="w-full h-[42px] rounded-lg bg-teal dark:bg-teal-dark text-white text-sm font-semibold hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-teal">
+        Set new password
+      </button>
+    </form>
+    <p id="resetPasswordError" class="hidden text-xs text-coral mt-3"></p>
+    <p id="resetPasswordSuccess" class="hidden text-xs text-teal mt-3"></p>
+  </div>
+</div>
+
+<!-- ============ VERIFY EMAIL SCREEN (shown only when the page is opened via a verification link) ============ -->
+<div id="verifyEmailScreen" class="hidden fixed inset-0 z-[200] bg-paper dark:bg-paper-dark flex items-center justify-center p-4 overflow-y-auto">
+  <div class="w-full max-w-md bg-surface dark:bg-surface-dark rounded-2xl border border-ink/10 dark:border-ink-dark/10 p-6 sm:p-8 my-8 text-center">
+    <div class="flex items-center justify-center gap-3 mb-6">
+      <img src="icon.png" alt="EduFlow logo" class="w-10 h-10 rounded-xl shadow-soft object-contain" />
+      <p class="font-serif font-semibold text-xl leading-tight">EduFlow</p>
+    </div>
+    <p id="verifyEmailStatus" class="text-sm">Verifying your email…</p>
+    <button id="verifyEmailContinueBtn" class="hidden mt-4 w-full h-[42px] rounded-lg bg-teal dark:bg-teal-dark text-white text-sm font-semibold hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-teal">
+      Continue to log in
+    </button>
+  </div>
+</div>
+
+<!-- ============ APP SHELL ============ -->
+<div id="appShell" class="hidden">
+
+  <div class="md:hidden flex items-center justify-between px-4 h-16 bg-surface dark:bg-surface-dark border-b border-ink/10 dark:border-ink-dark/10 sticky top-0 z-30 mobile-topbar">
+    <div class="flex items-center gap-2">
+      <img src="icon.png" alt="EduFlow logo" class="w-8 h-8 rounded-lg object-contain" />
+      <span class="font-serif font-semibold text-lg">EduFlow</span>
+    </div>
+    <button id="mobileMenuBtn" aria-label="Open navigation menu" class="w-10 h-10 flex items-center justify-center rounded-lg hover:bg-ink/5 dark:hover:bg-white/5 focus:outline-none focus:ring-2 focus:ring-teal">
+      <i class="fa-solid fa-bars text-lg"></i>
+    </button>
+  </div>
+
+  <div id="sidebarOverlay" class="fixed inset-0 bg-black/40 z-40 hidden md:hidden"></div>
+
+  <aside id="sidebar" class="fixed top-0 left-0 h-full w-72 bg-surface dark:bg-surface-dark border-r border-ink/10 dark:border-ink-dark/10 z-50 flex flex-col -translate-x-full md:translate-x-0 transition-transform duration-300">
+    <div class="flex items-center justify-between px-6 pt-6 pb-4">
+      <div class="flex items-center gap-3">
+        <img src="icon.png" alt="EduFlow logo" class="w-10 h-10 rounded-xl shadow-soft object-contain" />
+        <div>
+          <p class="font-serif font-semibold text-xl leading-tight">EduFlow</p>
+          <p class="text-xs text-inksoft dark:text-inksoft-dark">Campus dashboard</p>
+        </div>
+      </div>
+      <button id="closeSidebarBtn" class="md:hidden w-8 h-8 flex items-center justify-center rounded-lg hover:bg-ink/5 dark:hover:bg-white/5" aria-label="Close navigation menu">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+
+    <div class="px-6 pb-4">
+      <div class="bg-paper dark:bg-paper-dark rounded-lg p-3">
+        <div class="flex items-start justify-between gap-2">
+          <div class="min-w-0">
+            <p id="sidebarUserName" class="text-sm font-semibold truncate">Student</p>
+            <p id="sidebarUserEmail" class="text-xs text-inksoft dark:text-inksoft-dark truncate"></p>
+          </div>
+          <button data-view="account" aria-label="Account settings" class="shrink-0 w-7 h-7 flex items-center justify-center rounded-lg text-inksoft dark:text-inksoft-dark hover:text-ink dark:hover:text-ink-dark hover:bg-ink/5 dark:hover:bg-white/5 focus:outline-none focus:ring-2 focus:ring-teal">
+            <i class="fa-solid fa-gear text-sm"></i>
+          </button>
+        </div>
+        <button id="logoutBtn" class="mt-2 text-xs font-semibold text-coral hover:underline focus:outline-none">
+          <i class="fa-solid fa-arrow-right-from-bracket mr-1"></i>Log out
+        </button>
+      </div>
+    </div>
+
+    <div class="px-6 pb-3 relative">
+      <div class="relative">
+        <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-xs text-inksoft dark:text-inksoft-dark"></i>
+        <input id="globalSearchInput" type="text" placeholder="Search courses, assignments…" autocomplete="off"
+          class="w-full bg-paper dark:bg-paper-dark border border-ink/10 dark:border-ink-dark/10 rounded-lg pl-8 pr-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal" />
+      </div>
+      <div id="globalSearchResults" class="hidden absolute left-6 right-6 top-full mt-1 bg-surface dark:bg-surface-dark border border-ink/10 dark:border-ink-dark/10 rounded-xl shadow-lg max-h-80 overflow-y-auto z-30"></div>
+    </div>
+
+    <nav class="flex-1 overflow-y-auto px-3 space-y-1" id="navList">
+      <button data-view="overview" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium">
+        <i class="fa-solid fa-gauge-high w-5 text-center"></i><span>Overview</span>
+      </button>
+      <button data-view="courses" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium">
+        <i class="fa-solid fa-book-open w-5 text-center"></i><span>Courses</span>
+      </button>
+      <button data-view="timetable" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium">
+        <i class="fa-solid fa-calendar-week w-5 text-center"></i><span>Timetable</span>
+      </button>
+      <button data-view="assignments" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium">
+        <i class="fa-solid fa-list-check w-5 text-center"></i><span>Assignments</span>
+      </button>
+      <button data-view="cgpa" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium">
+        <i class="fa-solid fa-calculator w-5 text-center"></i><span>CGPA calculator</span>
+      </button>
+      <button data-view="progress" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium">
+        <i class="fa-solid fa-chart-line w-5 text-center"></i><span>Study progress</span>
+      </button>
+      <button data-view="assistant" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium">
+        <i class="fa-solid fa-message w-5 text-center"></i><span>Study assistant</span>
+      </button>
+      <button data-view="messages" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium">
+        <i class="fa-regular fa-comments w-5 text-center"></i><span>Messages</span>
+      </button>
+    </nav>
+
+    <div class="px-6 py-4 border-t border-ink/10 dark:border-ink-dark/10">
+      <button id="installAppBtn" class="hidden flex w-full items-center gap-2 px-3 py-2.5 rounded-lg bg-teal dark:bg-teal-dark text-white text-sm font-semibold mb-2 hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-teal">
+        <i class="fa-solid fa-arrow-down-to-line"></i><span>Install app</span>
+      </button>
+      <button id="themeToggleBtn" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg bg-paper dark:bg-paper-dark border border-ink/10 dark:border-ink-dark/10 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-teal">
+        <span class="flex items-center gap-2"><i id="themeIcon" class="fa-solid fa-moon"></i><span id="themeLabel">Dark mode</span></span>
+        <span class="relative w-9 h-5 rounded-full bg-ink/20 dark:bg-teal transition-colors">
+          <span class="absolute top-0.5 left-0.5 w-4 h-4 rounded-full bg-white shadow transition-transform dark:translate-x-4"></span>
+        </span>
+      </button>
+      <p class="text-[11px] text-inksoft dark:text-inksoft-dark mt-3 text-center">Your data lives on your account, not this device</p>
+    </div>
+  </aside>
+
+  <main class="md:ml-72 min-h-screen px-4 sm:px-6 lg:px-10 py-6 sm:py-8 max-w-6xl">
+
+    <div id="verifyBanner" class="hidden mb-6 flex flex-wrap items-center justify-between gap-3 bg-amber/10 border border-amber/30 rounded-xl px-4 py-3 text-sm">
+      <span><i class="fa-solid fa-envelope-circle-check mr-2 text-amber"></i>Verify your email to secure your account.</span>
+      <button id="resendVerificationBtn" class="text-xs font-semibold text-teal dark:text-teal hover:underline">Resend verification email</button>
+    </div>
+
+    <!-- OVERVIEW -->
+    <section id="view-overview" class="view space-y-6">
+      <div class="mobile-dashboard-hero bg-surface dark:bg-surface-dark rounded-2xl border border-ink/10 dark:border-ink-dark/10 p-6 sm:p-8">
+        <div class="mobile-hero-toolbar">
+          <div class="mobile-avatar" aria-hidden="true">AO</div>
+          <div class="mobile-hero-copy"><p class="mobile-hero-kicker">Good morning,</p><p id="mobileHeroName" class="mobile-hero-name">Student <span aria-hidden="true">👋</span></p></div>
+          <button class="mobile-notification" type="button" aria-label="Notifications"><i class="fa-solid fa-bell"></i><span>4</span></button>
+        </div>
+        <p id="ovGreeting" class="font-serif text-2xl sm:text-3xl font-semibold">Good day.</p>
+        <p id="ovDate" class="text-inksoft dark:text-inksoft-dark mt-1"></p>
+        <div class="mobile-hero-pills"><span class="mobile-date-pill"><i class="fa-regular fa-calendar"></i><span id="mobileDateLabel">Today</span></span><span class="mobile-semester-pill">2nd Sem</span></div>
+        <p class="text-inksoft dark:text-inksoft-dark mt-4 max-w-md">Everything about your semester, in one place — courses, classes, deadlines and your CGPA.</p>
+      </div>
+      <button type="button" data-view="assistant" class="mobile-ai-card"><span class="mobile-ai-icon"><i class="fa-solid fa-brain"></i></span><span class="mobile-ai-copy"><strong>Ask EduAI</strong><small>Explain a topic, get study help…</small></span><span class="mobile-ai-badge">AI <i class="fa-solid fa-sparkles"></i></span></button>
+      <section class="mobile-progress-card" aria-label="Academic progress"><div class="mobile-progress-heading"><div><h2>Academic Progress</h2><p>Current semester overview</p></div><div class="mobile-gpa"><strong id="mobileGpaValue">—</strong><span>Current GPA</span></div></div><div class="mobile-progress-meta"><span>Credits completed</span><strong id="mobileCreditCount">0</strong></div><div class="mobile-progress-track"><span id="mobileProgressBar"></span></div><div id="mobileProgressCourses" class="mobile-course-progress"></div></section>
+      <div class="dashboard-insights">
+        <article class="study-quote-card"><div class="insight-icon quote-icon"><i class="fa-solid fa-quote-left"></i></div><div><p class="insight-label">Today's focus</p><p id="dailyQuote" class="insight-quote">Small steps every day beat big pushes once in a while.</p></div></article>
+        <article id="streakCard" class="study-streak-card"><div class="insight-icon streak-icon"><i class="fa-solid fa-fire"></i></div><div class="streak-copy"><p class="insight-label">Study streak</p><p id="streakCount" class="streak-value">—</p><p id="streakMessage" class="streak-message">Keep showing up today.</p></div><p id="streakLongest" class="streak-best"></p></article>
+      </div>
+
+      <div id="levelCard" class="bg-surface dark:bg-surface-dark rounded-2xl border border-ink/10 dark:border-ink-dark/10 p-5 sm:p-6 flex items-center gap-4">
+        <div class="w-14 h-14 rounded-2xl bg-teal/15 flex items-center justify-center shrink-0">
+          <i class="fa-solid fa-star text-2xl text-teal"></i>
+        </div>
+        <div class="min-w-0 flex-1">
+          <div class="flex items-center justify-between">
+            <p id="levelLabel" class="font-serif text-lg font-semibold">Level 1</p>
+            <p id="xpLabel" class="text-xs text-inksoft dark:text-inksoft-dark"></p>
+          </div>
+          <div class="w-full h-2 rounded-full bg-ink/10 dark:bg-ink-dark/10 overflow-hidden mt-2">
+            <div id="xpBarFill" class="h-full bg-teal dark:bg-teal-dark rounded-full transition-all duration-500" style="width:0%"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+        <button type="button" data-view="courses" class="text-left bg-surface dark:bg-surface-dark rounded-xl border border-ink/10 dark:border-ink-dark/10 border-l-4 border-l-teal p-4 hover:shadow-md hover:-translate-y-0.5 transition focus:outline-none focus:ring-2 focus:ring-teal">
+          <p class="text-xs text-inksoft dark:text-inksoft-dark">Courses</p>
+          <p id="statCourses" class="font-serif text-2xl font-semibold mt-1">0</p>
+        </button>
+        <button type="button" data-view="assignments" class="text-left bg-surface dark:bg-surface-dark rounded-xl border border-ink/10 dark:border-ink-dark/10 border-l-4 border-l-amber p-4 hover:shadow-md hover:-translate-y-0.5 transition focus:outline-none focus:ring-2 focus:ring-teal">
+          <p class="text-xs text-inksoft dark:text-inksoft-dark">Pending assignments</p>
+          <p id="statPending" class="font-serif text-2xl font-semibold mt-1">0</p>
+        </button>
+        <button type="button" data-view="assignments" class="text-left bg-surface dark:bg-surface-dark rounded-xl border border-ink/10 dark:border-ink-dark/10 border-l-4 border-l-coral p-4 hover:shadow-md hover:-translate-y-0.5 transition focus:outline-none focus:ring-2 focus:ring-teal">
+          <p class="text-xs text-inksoft dark:text-inksoft-dark">Overdue</p>
+          <p id="statOverdue" class="font-serif text-2xl font-semibold mt-1">0</p>
+        </button>
+        <button type="button" data-view="cgpa" class="text-left bg-surface dark:bg-surface-dark rounded-xl border border-ink/10 dark:border-ink-dark/10 border-l-4 border-l-ink dark:border-l-ink-dark p-4 hover:shadow-md hover:-translate-y-0.5 transition focus:outline-none focus:ring-2 focus:ring-teal">
+          <p class="text-xs text-inksoft dark:text-inksoft-dark">Cumulative CGPA</p>
+          <p id="statCgpa" class="font-serif text-2xl font-semibold mt-1">—</p>
+        </button>
+      </div>
+
+      <div class="bg-surface dark:bg-surface-dark rounded-2xl border border-ink/10 dark:border-ink-dark/10 p-5 sm:p-6">
+        <div class="flex items-center justify-between mb-4">
+          <h2 class="font-serif font-semibold text-lg">Achievements</h2>
+          <p id="achievementsCount" class="text-xs text-inksoft dark:text-inksoft-dark"></p>
+        </div>
+        <div id="achievementsGrid" class="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-8 gap-3"></div>
+      </div>
+
+      <div class="grid lg:grid-cols-2 gap-4 sm:gap-6">
+        <div class="bg-surface dark:bg-surface-dark rounded-2xl border border-ink/10 dark:border-ink-dark/10 p-5 sm:p-6">
+          <div class="flex items-center justify-between mb-3">
+            <h2 class="font-serif font-semibold text-lg">Today's Classes</h2>
+            <button data-view="timetable" class="nav-link text-xs text-teal dark:text-teal font-semibold hover:underline">View all <i class="fa-solid fa-chevron-right ml-1"></i></button>
+          </div>
+          <div id="ovTodayClasses" class="space-y-2"></div>
+        </div>
+        <div class="bg-surface dark:bg-surface-dark rounded-2xl border border-ink/10 dark:border-ink-dark/10 p-5 sm:p-6">
+          <div class="flex items-center justify-between mb-3">
+            <h2 class="font-serif font-semibold text-lg">Next Deadline</h2>
+            <button data-view="assignments" class="nav-link text-xs text-teal dark:text-teal font-semibold hover:underline">All tasks <i class="fa-solid fa-chevron-right ml-1"></i></button>
+          </div>
+          <div id="ovUpcomingAssignments" class="space-y-2"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- COURSES -->
+    <section id="view-courses" class="view hidden space-y-6">
+      <div>
+        <h1 class="font-serif text-2xl font-semibold">Courses</h1>
+        <p class="text-inksoft dark:text-inksoft-dark text-sm mt-1">Add the courses you're registered for. They'll show up across your timetable and CGPA calculator.</p>
+      </div>
+
+      <form id="courseForm" class="bg-surface dark:bg-surface-dark rounded-2xl border border-ink/10 dark:border-ink-dark/10 p-5 sm:p-6 grid sm:grid-cols-2 lg:grid-cols-5 gap-3 sm:gap-4 items-end">
+        <div class="lg:col-span-2">
+          <label class="text-xs text-inksoft dark:text-inksoft-dark" for="courseName">Course title</label>
+          <input id="courseName" required type="text" placeholder="e.g. Data Structures" class="mt-1 w-full bg-paper dark:bg-paper-dark border border-ink/10 dark:border-ink-dark/10 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal" />
+        </div>
+        <div>
+          <label class="text-xs text-inksoft dark:text-inksoft-dark" for="courseCode">Course code</label>
+          <input id="courseCode" type="text" placeholder="CSC 201" class="mt-1 w-full bg-paper dark:bg-paper-dark border border-ink/10 dark:border-ink-dark/10 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal" />
+        </div>
+        <div>
+          <label class="text-xs text-inksoft dark:text-inksoft-dark" for="courseUnits">Units</label>
+          <input id="courseUnits" required type="number" min="1" max="12" placeholder="3" class="mt-1 w-full bg-paper dark:bg-paper-dark border border-ink/10 dark:border-ink-dark/10 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal" />
+        </div>
+        <div class="flex gap-2 items-end">
+          <div class="flex-1">
+            <label class="text-xs text-inksoft dark:text-inksoft-dark" for="courseInstructor">Lecturer</label>
+            <input id="courseInstructor" type="text" placeholder="Optional" class="mt-1 w-full bg-paper dark:bg-paper-dark border border-ink/10 dark:border-ink-dark/10 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal" />
+          </div>
+          <button type="submit" class="mt-1 h-[38px] px-4 rounded-lg bg-teal dark:bg-teal-dark text-white text-sm font-semibold hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-teal shrink-0">
+            <i class="fa-solid fa-plus mr-1"></i>Add
+          </button>
+        </div>
+      </form>
+
+      <div id="courseList" class="space-y-2"></div>
+    </section>
+
+    <!-- TIMETABLE -->
+    <section id="view-timetable" class="view hidden space-y-6">
+      <div class="flex items-start justify-between gap-3">
+        <div>
+          <h1 class="font-serif text-2xl font-semibold">Class timetable</h1>
+          <p class="text-inksoft dark:text-inksoft-dark text-sm mt-1">Plan your week and see what's next.</p>
+        </div>
+        <div class="flex gap-2 shrink-0">
+          <button id="exportTimetableIcsBtn" class="text-xs font-semibold px-3 py-2 rounded-lg border border-ink/15 dark:border-ink-dark/15 hover:bg-ink/5 dark:hover:bg-white/5 whitespace-nowrap">
+            <i class="fa-solid fa-calendar-plus mr-1"></i>Add to calendar
+          </button>
+          <button id="exportTimetablePdfBtn" class="text-xs font-semibold px-3 py-2 rounded-lg border border-ink/15 dark:border-ink-dark/15 hover:bg-ink/5 dark:hover:bg-white/5 whitespace-nowrap">
+            <i class="fa-solid fa-file-pdf mr-1"></i>Export PDF
+          </button>
+        </div>
+      </div>
+
+      <form id="timetableForm" class="bg-surface dark:bg-surface-dark rounded-2xl border border-ink/10 dark:border-ink-dark/10 p-5 sm:p-6 grid sm:grid-cols-2 lg:grid-cols-6 gap-3 sm:gap-4 items-end">
+        <div class="lg:col-span-2">
+          <label class="text-xs text-inksoft dark:text-inksoft-dark" for="ttCourse">Course</label>
+          <select id="ttCourse" required class="mt-1 w-full bg-paper dark:bg-paper-dark border border-ink/10 dark:border-ink-dark/10 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal"></select>
+        </div>
+        <div>
+          <label class="text-xs text-inksoft dark:text-inksoft-dark" for="ttDay">Day</label>
+          <select id="ttDay" required class="mt-1 w-full bg-paper dark:bg-paper-dark border border-ink/10 dark:border-ink-dark/10 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal">
+            <option>Monday</option><option>Tuesday</option><option>Wednesday</option>
+            <option>Thursday</option><option>Friday</option><option>Saturday</option>
+          </select>
+        </div>
+        <div>
+          <label class="text-xs text-inksoft dark:text-inksoft-dark" for="ttStart">Start time</label>
+          <input id="ttStart" required type="time" class="mt-1 w-full bg-paper dark:bg-paper-dark border border-ink/10 dark:border-ink-dark/10 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal" />
+        </div>
+        <div>
+          <label class="text-xs text-inksoft dark:text-inksoft-dark" for="ttEnd">End time</label>
+          <input id="ttEnd" required type="time" class="mt-1 w-full bg-paper dark:bg-paper-dark border border-ink/10 dark:border-ink-dark/10 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal" />
+        </div>
+        <div class="flex gap-2 items-end">
+          <div class="flex-1">
+            <label class="text-xs text-inksoft dark:text-inksoft-dark" for="ttLocation">Venue</label>
+            <input id="ttLocation" type="text" placeholder="Room / hall" class="mt-1 w-full bg-paper dark:bg-paper-dark border border-ink/10 dark:border-ink-dark/10 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal" />
+          </div>
+          <button type="submit" class="mt-1 h-[38px] px-4 rounded-lg bg-teal dark:bg-teal-dark text-white text-sm font-semibold hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-teal shrink-0">
+            <i class="fa-solid fa-plus mr-1"></i>Add
+          </button>
+        </div>
+      </form>
+
+      <div id="timetableEmptyCourses" class="hidden bg-amber/10 border border-amber/30 text-sm rounded-xl p-4">
+        Add a course in <button data-view="courses" class="nav-link font-semibold text-teal hover:underline">Courses</button> before scheduling classes for it.
+      </div>
+
+      <div class="grid lg:grid-cols-3 gap-4 sm:gap-6">
+        <div class="lg:col-span-1 bg-surface dark:bg-surface-dark rounded-2xl border border-ink/10 dark:border-ink-dark/10 p-5 sm:p-6">
+          <h2 class="font-serif font-semibold text-lg mb-3">Today · <span id="ttTodayName"></span></h2>
+          <div id="ttToday" class="space-y-2"></div>
+        </div>
+        <div class="lg:col-span-2 bg-surface dark:bg-surface-dark rounded-2xl border border-ink/10 dark:border-ink-dark/10 p-5 sm:p-6">
+          <h2 class="font-serif font-semibold text-lg mb-3">Full week</h2>
+          <div id="ttWeek" class="space-y-4"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ASSIGNMENTS -->
+    <section id="view-assignments" class="view hidden space-y-6">
+      <div>
+        <h1 class="font-serif text-2xl font-semibold">Assignment tracker</h1>
+        <p class="text-inksoft dark:text-inksoft-dark text-sm mt-1">Keep every deadline in view and mark work as done when it's finished.</p>
+      </div>
+
+      <form id="assignmentForm" class="bg-surface dark:bg-surface-dark rounded-2xl border border-ink/10 dark:border-ink-dark/10 p-5 sm:p-6 grid sm:grid-cols-2 lg:grid-cols-5 gap-3 sm:gap-4 items-end">
+        <div class="lg:col-span-2">
+          <label class="text-xs text-inksoft dark:text-inksoft-dark" for="asgTitle">Title</label>
+          <input id="asgTitle" required type="text" placeholder="e.g. Algorithms problem set 3" class="mt-1 w-full bg-paper dark:bg-paper-dark border border-ink/10 dark:border-ink-dark/10 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal" />
+        </div>
+        <div>
+          <label class="text-xs text-inksoft dark:text-inksoft-dark" for="asgCourse">Course</label>
+          <select id="asgCourse" class="mt-1 w-full bg-paper dark:bg-paper-dark border border-ink/10 dark:border-ink-dark/10 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal">
+            <option value="">General</option>
+          </select>
+        </div>
+        <div>
+          <label class="text-xs text-inksoft dark:text-inksoft-dark" for="asgDue">Due date</label>
+          <input id="asgDue" required type="date" class="mt-1 w-full bg-paper dark:bg-paper-dark border border-ink/10 dark:border-ink-dark/10 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal" />
+        </div>
+        <div class="flex gap-2 items-end">
+          <div class="flex-1">
+            <label class="text-xs text-inksoft dark:text-inksoft-dark" for="asgPriority">Priority</label>
+            <select id="asgPriority" class="mt-1 w-full bg-paper dark:bg-paper-dark border border-ink/10 dark:border-ink-dark/10 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal">
+              <option value="normal">Normal</option>
+              <option value="high">High</option>
+            </select>
+          </div>
+          <button type="submit" class="mt-1 h-[38px] px-4 rounded-lg bg-teal dark:bg-teal-dark text-white text-sm font-semibold hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-teal shrink-0">
+            <i class="fa-solid fa-plus mr-1"></i>Add
+          </button>
+        </div>
+      </form>
+
+      <div class="flex items-center gap-2 text-sm">
+        <span class="text-inksoft dark:text-inksoft-dark">Show:</span>
+        <button data-filter="all" class="asg-filter-btn px-3 py-1 rounded-full text-xs font-semibold">All</button>
+        <button data-filter="pending" class="asg-filter-btn px-3 py-1 rounded-full text-xs font-semibold">Pending</button>
+        <button data-filter="done" class="asg-filter-btn px-3 py-1 rounded-full text-xs font-semibold">Completed</button>
+      </div>
+
+      <div id="assignmentList" class="space-y-2"></div>
+    </section>
+
+    <!-- CGPA -->
+    <section id="view-cgpa" class="view hidden space-y-6">
+      <div class="flex items-start justify-between gap-3">
+        <div>
+          <h1 class="font-serif text-2xl font-semibold">CGPA calculator</h1>
+          <p class="text-inksoft dark:text-inksoft-dark text-sm mt-1">Grades are grouped by semester on the standard 5-point scale. The grade-point math runs on the server — this page only displays the result.</p>
+        </div>
+        <button id="exportCgpaPdfBtn" class="text-xs font-semibold px-3 py-2 rounded-lg border border-ink/15 dark:border-ink-dark/15 hover:bg-ink/5 dark:hover:bg-white/5 whitespace-nowrap shrink-0">
+          <i class="fa-solid fa-file-pdf mr-1"></i>Export PDF
+        </button>
+      </div>
+
+      <div id="cgpaEmptyCourses" class="hidden bg-amber/10 border border-amber/30 text-sm rounded-xl p-4">
+        Add a course in <button data-view="courses" class="nav-link font-semibold text-teal hover:underline">Courses</button> before adding a grade for it.
+      </div>
+
+      <div class="bg-surface dark:bg-surface-dark rounded-2xl border border-ink/10 dark:border-ink-dark/10 p-5 sm:p-6">
+        <h2 class="font-serif font-semibold text-lg mb-3">Semesters</h2>
+        <form id="semesterForm" class="flex flex-col sm:flex-row gap-2 mb-4">
+          <input id="semesterName" type="text" required placeholder="e.g. 200 Level — First Semester" class="flex-1 bg-paper dark:bg-paper-dark border border-ink/10 dark:border-ink-dark/10 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal" />
+          <button type="submit" class="px-4 h-[38px] rounded-lg bg-teal dark:bg-teal-dark text-white text-sm font-semibold hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-teal shrink-0">
+            <i class="fa-solid fa-plus mr-1"></i>Add semester
+          </button>
+        </form>
+        <div id="semesterPills" class="flex flex-wrap gap-2"></div>
+      </div>
+
+      <div id="cgpaEmptySemesters" class="hidden bg-amber/10 border border-amber/30 text-sm rounded-xl p-4">
+        Add a semester above, then choose a course and grade below to start logging grades.
+      </div>
+
+      <form id="cgpaForm" class="bg-surface dark:bg-surface-dark rounded-2xl border border-ink/10 dark:border-ink-dark/10 p-5 sm:p-6 grid sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 items-end">
+        <div class="lg:col-span-2">
+          <label class="text-xs text-inksoft dark:text-inksoft-dark" for="cgpaCourse">Course</label>
+          <select id="cgpaCourse" required class="mt-1 w-full bg-paper dark:bg-paper-dark border border-ink/10 dark:border-ink-dark/10 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal"></select>
+        </div>
+        <div>
+          <label class="text-xs text-inksoft dark:text-inksoft-dark" for="cgpaGrade">Grade</label>
+          <select id="cgpaGrade" required class="mt-1 w-full bg-paper dark:bg-paper-dark border border-ink/10 dark:border-ink-dark/10 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal">
+            <option value="A">A (70–100)</option>
+            <option value="B">B (60–69)</option>
+            <option value="C">C (50–59)</option>
+            <option value="D">D (45–49)</option>
+            <option value="E">E (40–44)</option>
+            <option value="F">F (0–39)</option>
+          </select>
+        </div>
+        <button type="submit" class="h-[38px] px-4 rounded-lg bg-teal dark:bg-teal-dark text-white text-sm font-semibold hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-teal">
+          <i class="fa-solid fa-plus mr-1"></i>Add grade
+        </button>
+      </form>
+
+      <div class="grid lg:grid-cols-3 gap-4 sm:gap-6">
+        <div class="lg:col-span-1 bg-surface dark:bg-surface-dark rounded-2xl border border-ink/10 dark:border-ink-dark/10 p-6 flex flex-col items-center text-center">
+          <p class="text-xs text-inksoft dark:text-inksoft-dark uppercase tracking-wide">Cumulative CGPA</p>
+          <p id="cgpaValue" class="font-serif text-5xl font-semibold mt-2">0.00</p>
+          <p id="cgpaClass" class="text-sm text-inksoft dark:text-inksoft-dark mt-2">Add grades to calculate</p>
+          <p id="cgpaUnits" class="text-xs text-inksoft dark:text-inksoft-dark mt-4">0 units logged</p>
+          <div class="w-full border-t border-ink/10 dark:border-ink-dark/10 mt-5 pt-4">
+            <p class="text-xs text-inksoft dark:text-inksoft-dark uppercase tracking-wide">Selected semester GPA</p>
+            <p id="semesterGpaValue" class="font-serif text-3xl font-semibold mt-1">0.00</p>
+            <p id="semesterGpaUnits" class="text-xs text-inksoft dark:text-inksoft-dark mt-1">0 units</p>
+          </div>
+        </div>
+        <div class="lg:col-span-2 bg-surface dark:bg-surface-dark rounded-2xl border border-ink/10 dark:border-ink-dark/10 p-5 sm:p-6">
+          <h2 class="font-serif font-semibold text-lg mb-3">Grade log <span id="cgpaLogSemesterName" class="text-inksoft dark:text-inksoft-dark font-normal text-sm"></span></h2>
+          <div id="cgpaList" class="space-y-2"></div>
+        </div>
+      </div>
+
+      <div class="bg-surface dark:bg-surface-dark rounded-2xl border border-ink/10 dark:border-ink-dark/10 p-5 sm:p-6">
+        <h2 class="font-serif font-semibold text-lg mb-3">GPA by semester</h2>
+        <div id="semesterSummaryList" class="space-y-2"></div>
+      </div>
+
+      <div class="bg-surface dark:bg-surface-dark rounded-2xl border border-ink/10 dark:border-ink-dark/10 p-5 sm:p-6">
+        <h2 class="font-serif font-semibold text-lg mb-1">What GPA do I need next semester?</h2>
+        <p class="text-xs text-inksoft dark:text-inksoft-dark mb-4">Uses your current cumulative CGPA and total units logged so far.</p>
+        <div class="grid sm:grid-cols-2 gap-3 sm:gap-4 items-end">
+          <div>
+            <label class="text-xs text-inksoft dark:text-inksoft-dark" for="targetCgpaInput">Target CGPA</label>
+            <input id="targetCgpaInput" type="number" step="0.01" min="0" max="5" placeholder="e.g. 4.50" class="mt-1 w-full bg-paper dark:bg-paper-dark border border-ink/10 dark:border-ink-dark/10 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal" />
+          </div>
+          <div>
+            <label class="text-xs text-inksoft dark:text-inksoft-dark" for="targetUnitsInput">Units next semester</label>
+            <input id="targetUnitsInput" type="number" step="1" min="1" placeholder="e.g. 21" class="mt-1 w-full bg-paper dark:bg-paper-dark border border-ink/10 dark:border-ink-dark/10 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal" />
+          </div>
+        </div>
+        <button id="calcTargetGpaBtn" class="mt-3 px-4 h-[38px] rounded-lg bg-teal dark:bg-teal-dark text-white text-sm font-semibold hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-teal">Calculate</button>
+        <p id="targetGpaResult" class="text-sm mt-3"></p>
+      </div>
+    </section>
+
+    <!-- PROGRESS -->
+    <section id="view-progress" class="view hidden space-y-6">
+      <div>
+        <h1 class="font-serif text-2xl font-semibold">Study progress</h1>
+        <p class="text-inksoft dark:text-inksoft-dark text-sm mt-1">A running view of your assignments plus any extra study tasks you set for yourself.</p>
+      </div>
+
+      <div class="bg-surface dark:bg-surface-dark rounded-2xl border border-ink/10 dark:border-ink-dark/10 p-6">
+        <div class="flex items-center justify-between mb-2">
+          <p class="font-semibold">Overall completion</p>
+          <p id="progressPercentLabel" class="font-serif text-2xl font-semibold">0%</p>
+        </div>
+        <div class="w-full h-3 rounded-full bg-ink/10 dark:bg-ink-dark/10 overflow-hidden">
+          <div id="progressBarFill" class="h-full bg-teal dark:bg-teal-dark rounded-full transition-all duration-500" style="width:0%"></div>
+        </div>
+        <p id="progressMessage" class="text-sm text-inksoft dark:text-inksoft-dark mt-3"></p>
+      </div>
+
+      <div class="grid lg:grid-cols-3 gap-4 sm:gap-6">
+        <div class="lg:col-span-1 bg-surface dark:bg-surface-dark rounded-2xl border border-ink/10 dark:border-ink-dark/10 p-6 flex flex-col items-center">
+          <h2 class="font-serif font-semibold text-lg mb-3 self-start">Breakdown</h2>
+          <div class="w-full max-w-[220px]"><canvas id="progressChart"></canvas></div>
+        </div>
+        <div class="lg:col-span-2 bg-surface dark:bg-surface-dark rounded-2xl border border-ink/10 dark:border-ink-dark/10 p-5 sm:p-6">
+          <div class="flex items-center justify-between mb-3">
+            <h2 class="font-serif font-semibold text-lg">Study tasks</h2>
+          </div>
+          <form id="taskForm" class="flex gap-2 mb-4">
+            <input id="taskInput" type="text" required placeholder="e.g. Revise chapter 4 notes" class="flex-1 bg-paper dark:bg-paper-dark border border-ink/10 dark:border-ink-dark/10 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal" />
+            <button type="submit" class="px-4 rounded-lg bg-teal dark:bg-teal-dark text-white text-sm font-semibold hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-teal">
+              <i class="fa-solid fa-plus"></i>
+            </button>
+          </form>
+          <div id="taskList" class="space-y-2"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ASSISTANT -->
+    <section id="view-assistant" class="view hidden space-y-6">
+      <div class="flex items-start justify-between gap-3 flex-wrap">
+        <div>
+          <h1 class="font-serif text-2xl font-semibold">Study assistant</h1>
+          <p class="text-inksoft dark:text-inksoft-dark text-sm mt-1">A full academic assistant — ask about any subject, or about your CGPA, deadlines and timetable. This chat isn't saved between sessions.</p>
+        </div>
+        <div class="shrink-0">
+          <label class="text-xs text-inksoft dark:text-inksoft-dark" for="assistantModelSelect">Model</label>
+          <select id="assistantModelSelect" class="mt-1 block bg-paper dark:bg-paper-dark border border-ink/10 dark:border-ink-dark/10 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal"></select>
+        </div>
+      </div>
+      <p id="assistantNotConfiguredNote" class="hidden text-xs text-amber bg-amber/10 border border-amber/30 rounded-xl px-4 py-3">
+        An AI model isn't set up on this server yet, so replies are using simple built-in logic for now.
+      </p>
+
+      <div class="bg-surface dark:bg-surface-dark rounded-2xl border border-ink/10 dark:border-ink-dark/10 flex flex-col h-[65vh] max-h-[640px]">
+        <div id="chatMessages" class="flex-1 overflow-y-auto p-4 sm:p-6 space-y-3"></div>
+        <form id="chatForm" class="border-t border-ink/10 dark:border-ink-dark/10 p-3 sm:p-4 flex gap-2">
+          <input id="chatInput" type="text" autocomplete="off" placeholder="Ask anything — your CGPA, a concept you're stuck on, an assignment…"
+            class="flex-1 bg-paper dark:bg-paper-dark border border-ink/10 dark:border-ink-dark/10 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal" />
+          <button type="submit" aria-label="Send message" class="w-10 h-10 shrink-0 rounded-lg bg-teal dark:bg-teal-dark text-white hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-teal">
+            <i class="fa-solid fa-paper-plane"></i>
+          </button>
+        </form>
+      </div>
+      <div class="flex flex-wrap gap-2">
+        <button class="chat-suggestion text-xs px-3 py-1.5 rounded-full border border-ink/15 dark:border-ink-dark/15 hover:bg-ink/5 dark:hover:bg-white/5">What's my CGPA?</button>
+        <button class="chat-suggestion text-xs px-3 py-1.5 rounded-full border border-ink/15 dark:border-ink-dark/15 hover:bg-ink/5 dark:hover:bg-white/5">What's due soon?</button>
+        <button class="chat-suggestion text-xs px-3 py-1.5 rounded-full border border-ink/15 dark:border-ink-dark/15 hover:bg-ink/5 dark:hover:bg-white/5">Explain a concept I'm stuck on</button>
+        <button class="chat-suggestion text-xs px-3 py-1.5 rounded-full border border-ink/15 dark:border-ink-dark/15 hover:bg-ink/5 dark:hover:bg-white/5">Help me plan my study week</button>
+      </div>
+    </section>
+
+    <!-- ACCOUNT SETTINGS -->
+    <section id="view-messages" class="view hidden space-y-6 max-w-2xl">
+      <div class="messages-hero"><div><p class="messages-kicker">Stay connected</p><h1>Messages</h1><p>Conversations with your classmates and campus groups.</p></div><button type="button" class="messages-compose" aria-label="New message"><i class="fa-solid fa-plus"></i></button></div>
+      <label class="messages-search"><i class="fa-solid fa-magnifying-glass"></i><input type="search" placeholder="Search conversations…" aria-label="Search conversations" /></label>
+      <div class="messages-online"><p>Online now</p><div><span class="message-avatar blue">AO<i></i></span><span class="message-avatar violet">JD<i></i></span><span class="message-avatar green">MK<i></i></span></div></div>
+      <div class="messages-section-title">All conversations</div>
+      <div class="messages-list"><button type="button" class="message-row"><span class="message-avatar blue">AO</span><span class="message-copy"><strong>Course Group</strong><small>Welcome to the new semester group.</small></span><time>09:12</time><b>2</b></button><button type="button" class="message-row"><span class="message-avatar violet">JD</span><span class="message-copy"><strong>John Doe</strong><small>Are you joining the study session?</small></span><time>Yesterday</time></button><button type="button" class="message-row"><span class="message-avatar green">MK</span><span class="message-copy"><strong>Course Representative</strong><small>The timetable has been updated.</small></span><time>Mon</time></button></div>
+    </section>
+
+    <!-- ACCOUNT SETTINGS -->
+    <section id="view-account" class="view hidden space-y-6 max-w-xl">
+      <div>
+        <h1 class="font-serif text-2xl font-semibold">Account settings</h1>
+        <p class="text-inksoft dark:text-inksoft-dark text-sm mt-1">Manage your name, email, password, and account.</p>
+      </div>
+
+      <form id="accountNameForm" class="bg-surface dark:bg-surface-dark rounded-2xl border border-ink/10 dark:border-ink-dark/10 p-5 sm:p-6 space-y-3">
+        <h2 class="font-serif font-semibold text-lg">Name</h2>
+        <div>
+          <label class="text-xs text-inksoft dark:text-inksoft-dark" for="accountNameInput">Display name</label>
+          <input id="accountNameInput" type="text" required class="mt-1 w-full bg-paper dark:bg-paper-dark border border-ink/10 dark:border-ink-dark/10 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal" />
+        </div>
+        <button type="submit" class="px-4 h-[38px] rounded-lg bg-teal dark:bg-teal-dark text-white text-sm font-semibold hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-teal">Save name</button>
+        <p class="account-name-msg text-xs hidden"></p>
+      </form>
+
+      <form id="accountEmailForm" class="bg-surface dark:bg-surface-dark rounded-2xl border border-ink/10 dark:border-ink-dark/10 p-5 sm:p-6 space-y-3">
+        <h2 class="font-serif font-semibold text-lg">Email</h2>
+        <div>
+          <label class="text-xs text-inksoft dark:text-inksoft-dark" for="accountEmailInput">Email address</label>
+          <input id="accountEmailInput" type="email" required class="mt-1 w-full bg-paper dark:bg-paper-dark border border-ink/10 dark:border-ink-dark/10 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal" />
+        </div>
+        <div id="accountEmailPasswordWrap">
+          <label class="text-xs text-inksoft dark:text-inksoft-dark" for="accountEmailPassword">Current password (to confirm this change)</label>
+          <input id="accountEmailPassword" type="password" autocomplete="current-password" class="mt-1 w-full bg-paper dark:bg-paper-dark border border-ink/10 dark:border-ink-dark/10 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal" />
+        </div>
+        <button type="submit" class="px-4 h-[38px] rounded-lg bg-teal dark:bg-teal-dark text-white text-sm font-semibold hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-teal">Save email</button>
+        <p class="account-email-msg text-xs hidden"></p>
+      </form>
+
+      <form id="accountPasswordForm" class="bg-surface dark:bg-surface-dark rounded-2xl border border-ink/10 dark:border-ink-dark/10 p-5 sm:p-6 space-y-3">
+        <h2 id="accountPasswordHeading" class="font-serif font-semibold text-lg">Password</h2>
+        <p id="accountPasswordHint" class="hidden text-xs text-inksoft dark:text-inksoft-dark">You signed in with Google. Set a password below so you can also log in with your email.</p>
+        <div id="accountCurrentPasswordWrap">
+          <label class="text-xs text-inksoft dark:text-inksoft-dark" for="accountCurrentPassword">Current password</label>
+          <input id="accountCurrentPassword" type="password" autocomplete="current-password" class="mt-1 w-full bg-paper dark:bg-paper-dark border border-ink/10 dark:border-ink-dark/10 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal" />
+        </div>
+        <div>
+          <label class="text-xs text-inksoft dark:text-inksoft-dark" for="accountNewPassword">New password</label>
+          <input id="accountNewPassword" type="password" required minlength="8" autocomplete="new-password" class="mt-1 w-full bg-paper dark:bg-paper-dark border border-ink/10 dark:border-ink-dark/10 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal" />
+          <p class="text-[11px] text-inksoft dark:text-inksoft-dark mt-1">At least 8 characters.</p>
+        </div>
+        <button id="accountPasswordSubmitBtn" type="submit" class="px-4 h-[38px] rounded-lg bg-teal dark:bg-teal-dark text-white text-sm font-semibold hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-teal">Update password</button>
+        <p class="account-password-msg text-xs hidden"></p>
+      </form>
+
+      <div class="bg-surface dark:bg-surface-dark rounded-2xl border border-ink/10 dark:border-ink-dark/10 p-5 sm:p-6 space-y-3">
+        <h2 class="font-serif font-semibold text-lg">Export your data</h2>
+        <p class="text-xs text-inksoft dark:text-inksoft-dark">Download everything in your account — courses, grades, timetable, assignments and study tasks — as a single JSON file.</p>
+        <button id="exportDataBtn" class="px-4 h-[38px] rounded-lg border border-ink/15 dark:border-ink-dark/15 text-sm font-semibold hover:bg-ink/5 dark:hover:bg-white/5 focus:outline-none focus:ring-2 focus:ring-teal">
+          <i class="fa-solid fa-download mr-1"></i>Download my data
+        </button>
+        <p class="account-export-msg text-xs hidden"></p>
+      </div>
+
+      <div class="bg-surface dark:bg-surface-dark rounded-2xl border border-coral/30 p-5 sm:p-6 space-y-3">
+        <h2 class="font-serif font-semibold text-lg text-coral">Delete account</h2>
+        <p class="text-xs text-inksoft dark:text-inksoft-dark">This permanently deletes your account and every course, grade, class, assignment and task in it. This can't be undone.</p>
+        <form id="accountDeleteForm" class="space-y-3">
+          <div id="accountDeletePasswordWrap">
+            <label class="text-xs text-inksoft dark:text-inksoft-dark" for="accountDeletePassword">Enter your password to confirm</label>
+            <input id="accountDeletePassword" type="password" autocomplete="current-password" class="mt-1 w-full bg-paper dark:bg-paper-dark border border-ink/10 dark:border-ink-dark/10 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal" />
+          </div>
+          <button type="submit" class="px-4 h-[38px] rounded-lg bg-coral text-white text-sm font-semibold hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-coral">Delete my account permanently</button>
+          <p class="account-delete-msg text-xs hidden"></p>
+        </form>
+      </div>
+    </section>
+
+  </main>
+
+  <nav class="mobile-bottom-nav" aria-label="Primary navigation"><button type="button" data-view="overview" data-mobile-nav class="mobile-nav-item mobile-nav-active"><i class="fa-solid fa-house"></i><span>Home</span></button><button type="button" data-view="courses" data-mobile-nav class="mobile-nav-item"><i class="fa-solid fa-book-open"></i><span>Courses</span></button><button type="button" data-view="assistant" data-mobile-nav class="mobile-nav-item mobile-nav-ai"><i class="fa-solid fa-brain"></i><span>AI</span></button><button type="button" data-view="messages" data-mobile-nav class="mobile-nav-item"><i class="fa-regular fa-message"></i><span>Messages</span></button><button type="button" data-view="account" data-mobile-nav class="mobile-nav-item"><i class="fa-regular fa-user"></i><span>Profile</span></button></nav>
+  <button id="floatingAssistantBtn" data-view="assistant" aria-label="Open study assistant" class="fixed bottom-5 right-5 z-40 w-14 h-14 rounded-full bg-gradient-to-br from-teal to-amber dark:from-teal-dark dark:to-amber-dark text-white shadow-lg flex items-center justify-center hover:opacity-90 hover:scale-105 transition focus:outline-none focus:ring-2 focus:ring-teal">
+    <svg viewBox="0 0 24 24" class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <circle cx="12" cy="4" r="1.3" fill="currentColor" stroke="none"/>
+      <line x1="12" y1="5.3" x2="12" y2="7.5"/>
+      <rect x="4.5" y="7.5" width="15" height="11" rx="4"/>
+      <circle cx="9" cy="13" r="1.2" fill="currentColor" stroke="none"/>
+      <circle cx="15" cy="13" r="1.2" fill="currentColor" stroke="none"/>
+      <path d="M9.5 16.2c0.8 0.8 3.2 0.8 4 0"/>
+    </svg>
+  </button>
+  <div id="assistantWelcomeBubble" class="hidden fixed bottom-24 right-5 z-40 max-w-[220px] bg-surface dark:bg-surface-dark border border-ink/10 dark:border-ink-dark/10 rounded-2xl rounded-br-md shadow-lg p-3 cursor-pointer">
+    <button id="dismissAssistantWelcomeBtn" aria-label="Dismiss" type="button" class="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-ink dark:bg-ink-dark text-white flex items-center justify-center text-xs focus:outline-none">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+    <p class="text-sm">👋 Need help? I'm your study assistant — tap anytime.</p>
+  </div>
+</div>
+
+<script>
+'use strict';
+
+/* ---------- tiny helpers ---------- */
+function qs(sel, root) { return (root || document).querySelector(sel); }
+function qsa(sel, root) { return Array.from((root || document).querySelectorAll(sel)); }
+function escapeHtml(str) {
+  return String(str).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+}
+
+/* ---------- copy deterrents ----------
+   Not real protection (any downloaded page can be read via dev tools) —
+   the actual protection is that grading math and user data now live on
+   the server, not in this file. This just discourages casual copying. */
+let toastTimer = null;
+function showToast(message) {
+  let toast = document.getElementById('appToast');
+  if (!toast) {
+    toast = document.createElement('div');
+    toast.id = 'appToast';
+    toast.className = 'fixed bottom-4 left-1/2 -translate-x-1/2 z-[300] bg-ink dark:bg-surface-dark text-white text-xs font-medium px-4 py-2 rounded-full shadow-lg opacity-0 pointer-events-none transition-opacity duration-300 max-w-[90vw] text-center';
+    document.body.appendChild(toast);
+  }
+  toast.textContent = message;
+  toast.classList.remove('opacity-0');
+  toast.classList.add('opacity-100');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => {
+    toast.classList.remove('opacity-100');
+    toast.classList.add('opacity-0');
+  }, 2400);
+}
+document.addEventListener('contextmenu', (e) => { e.preventDefault(); showToast('Right-click is disabled on this page.'); });
+document.addEventListener('keydown', (e) => {
+  const key = e.key ? e.key.toLowerCase() : '';
+  const isDevToolsKey = key === 'f12';
+  const isDevToolsCombo = (e.ctrlKey || e.metaKey) && e.shiftKey && ['i', 'j', 'c'].includes(key);
+  const isViewSourceOrSave = (e.ctrlKey || e.metaKey) && (key === 'u' || key === 's');
+  if (isDevToolsKey || isDevToolsCombo || isViewSourceOrSave) {
+    e.preventDefault();
+    showToast('That shortcut is disabled on this page.');
+  }
+});
+console.log('%cEduFlow', 'font-size:20px;font-weight:700;color:#1F7A6C;font-family:Manrope,sans-serif;');
+console.log('%cThis code belongs to its author. Please don\u2019t copy or redistribute it without permission.', 'font-size:12px;color:#54607F;font-family:Manrope,sans-serif;');
+
+/* ---------- auth + API ---------- */
+let authToken = localStorage.getItem('eduflow_token') || null;
+let currentUser = null;
+const DEFAULT_API_BASE = 'https://eduflow-s7wu.onrender.com';
+let API_BASE = localStorage.getItem('eduflow_api_base') || DEFAULT_API_BASE;
+
+async function apiFetch(path, options) {
+  options = options || {};
+  const headers = Object.assign({ 'Content-Type': 'application/json' }, options.headers || {});
+  if (authToken) headers['Authorization'] = 'Bearer ' + authToken;
+  let res;
+  try {
+    res = await fetch(API_BASE + path, Object.assign({}, options, { headers }));
+  } catch (e) {
+    throw new Error('Could not reach the server. It may be waking up from sleep — wait 30 seconds and try again.');
+  }
+  if (res.status === 401) {
+    const isAuthEndpoint = path === '/api/auth/login' || path === '/api/auth/signup';
+    if (!isAuthEndpoint) {
+      throw new Error('SESSION_EXPIRED');
+    }
+  }
+  let data = null;
+  try { data = await res.json(); } catch (e) { /* no JSON body, that's fine for 204s */ }
+  if (!res.ok) throw new Error((data && data.error) || 'Something went wrong. If the server was asleep, try again in a moment.');
+  return data;
+}
+
+function showAuthScreen() {
+  qs('#authScreen').classList.remove('hidden');
+  qs('#appShell').classList.add('hidden');
+}
+function showApp() {
+  qs('#authScreen').classList.add('hidden');
+  qs('#appShell').classList.remove('hidden');
+}
+function logout() {
+  authToken = null;
+  currentUser = null;
+  localStorage.removeItem('eduflow_token');
+  showAuthScreen();
+}
+function getName() {
+  return (currentUser && currentUser.name) || 'there';
+}
+
+/* ---------- account settings ---------- */
+function showFieldMessage(el, message, isError) {
+  el.textContent = message;
+  el.classList.remove('hidden', 'text-coral', 'text-teal');
+  el.classList.add(isError ? 'text-coral' : 'text-teal');
+}
+function renderAccountSettings() {
+  if (!currentUser) return;
+  qs('#accountNameInput').value = currentUser.name;
+  qs('#accountEmailInput').value = currentUser.email;
+  const hasPassword = !!currentUser.has_password;
+  qs('#accountEmailPasswordWrap').classList.toggle('hidden', !hasPassword);
+  qs('#accountCurrentPasswordWrap').classList.toggle('hidden', !hasPassword);
+  qs('#accountPasswordHint').classList.toggle('hidden', hasPassword);
+  qs('#accountPasswordHeading').textContent = hasPassword ? 'Password' : 'Set a password';
+  qs('#accountPasswordSubmitBtn').textContent = hasPassword ? 'Update password' : 'Set password';
+  qs('#accountDeletePasswordWrap').classList.toggle('hidden', !hasPassword);
+  qsa('.account-name-msg, .account-email-msg, .account-password-msg, .account-delete-msg').forEach((el) => el.classList.add('hidden'));
+}
+async function handleUpdateName(e) {
+  e.preventDefault();
+  const msg = qs('.account-name-msg');
+  try {
+    const data = await apiFetch('/api/account/profile', { method: 'PATCH', body: JSON.stringify({ name: qs('#accountNameInput').value.trim() }) });
+    currentUser = data.user;
+    qs('#sidebarUserName').textContent = currentUser.name;
+    showFieldMessage(msg, 'Name updated.', false);
+  } catch (err) {
+    showFieldMessage(msg, err.message, true);
+  }
+}
+async function handleUpdateEmail(e) {
+  e.preventDefault();
+  const msg = qs('.account-email-msg');
+  try {
+    const data = await apiFetch('/api/account/email', {
+      method: 'PATCH',
+      body: JSON.stringify({ newEmail: qs('#accountEmailInput').value.trim(), currentPassword: qs('#accountEmailPassword').value }),
+    });
+    currentUser = data.user;
+    qs('#sidebarUserEmail').textContent = currentUser.email;
+    qs('#accountEmailPassword').value = '';
+    showFieldMessage(msg, 'Email updated.', false);
+  } catch (err) {
+    showFieldMessage(msg, err.message, true);
+  }
+}
+async function handleUpdatePassword(e) {
+  e.preventDefault();
+  const msg = qs('.account-password-msg');
+  try {
+    const data = await apiFetch('/api/account/password', {
+      method: 'PATCH',
+      body: JSON.stringify({ currentPassword: qs('#accountCurrentPassword').value, newPassword: qs('#accountNewPassword').value }),
+    });
+    currentUser.has_password = true;
+    qs('#accountPasswordForm').reset();
+    renderAccountSettings();
+    showFieldMessage(qs('.account-password-msg'), data.message, false);
+  } catch (err) {
+    showFieldMessage(msg, err.message, true);
+  }
+}
+async function handleExportData() {
+  const btn = qs('#exportDataBtn');
+  const msg = qs('.account-export-msg');
+  btn.disabled = true;
+  try {
+    const data = await apiFetch('/api/account/export');
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `eduflow-data-${new Date().toISOString().slice(0, 10)}.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  } catch (err) {
+    showFieldMessage(msg, err.message, true);
+  } finally {
+    btn.disabled = false;
+  }
+}
+
+async function handleDeleteAccount(e) {
+  e.preventDefault();
+  const msg = qs('.account-delete-msg');
+  const confirmed = window.confirm("This permanently deletes your account and everything in it. This can't be undone. Continue?");
+  if (!confirmed) return;
+  try {
+    await apiFetch('/api/account', { method: 'DELETE', body: JSON.stringify({ currentPassword: qs('#accountDeletePassword').value }) });
+    logout();
+  } catch (err) {
+    showFieldMessage(msg, err.message, true);
+  }
+}
+
+function showAuthError(message) {
+  qs('#authSuccess').classList.add('hidden');
+  const el = qs('#authError');
+  el.textContent = message;
+  el.classList.remove('hidden');
+}
+function hideAuthError() {
+  qs('#authError').classList.add('hidden');
+}
+function showAuthSuccess(message) {
+  hideAuthError();
+  const el = qs('#authSuccess');
+  el.textContent = message;
+  el.classList.remove('hidden');
+}
+
+function setAuthTab(tab) {
+  const isLogin = tab === 'login';
+  qs('#loginForm').classList.toggle('hidden', !isLogin);
+  qs('#signupForm').classList.toggle('hidden', isLogin);
+  qs('#forgotForm').classList.add('hidden');
+  qs('#authTabLogin').classList.toggle('bg-teal', isLogin);
+  qs('#authTabLogin').classList.toggle('text-white', isLogin);
+  qs('#authTabSignup').classList.toggle('bg-teal', !isLogin);
+  qs('#authTabSignup').classList.toggle('text-white', !isLogin);
+  hideAuthError();
+  qs('#authSuccess').classList.add('hidden');
+}
+function showForgotForm() {
+  qs('#loginForm').classList.add('hidden');
+  qs('#signupForm').classList.add('hidden');
+  qs('#forgotForm').classList.remove('hidden');
+  hideAuthError();
+  qs('#authSuccess').classList.add('hidden');
+}
+function backToLogin() {
+  qs('#forgotForm').classList.add('hidden');
+  setAuthTab('login');
+}
+
+async function handleForgotPassword(e) {
+  e.preventDefault();
+  hideAuthError();
+  const btn = qs('#forgotSubmitBtn');
+  btn.disabled = true;
+  try {
+    const email = qs('#forgotEmail').value.trim();
+    await apiFetch('/api/auth/forgot-password', { method: 'POST', body: JSON.stringify({ email }) });
+    showAuthSuccess("If that email is registered, we've sent a reset link to it. Check your inbox.");
+    qs('#forgotForm').reset();
+  } catch (err) {
+    showAuthError(err.message);
+  } finally {
+    btn.disabled = false;
+  }
+}
+
+async function handleResetPassword(e) {
+  e.preventDefault();
+  const errorEl = qs('#resetPasswordError');
+  const successEl = qs('#resetPasswordSuccess');
+  errorEl.classList.add('hidden');
+  successEl.classList.add('hidden');
+  const btn = qs('#resetPasswordSubmitBtn');
+  btn.disabled = true;
+  try {
+    const password = qs('#resetNewPassword').value;
+    const params = new URLSearchParams(window.location.search);
+    const token = params.get('resetToken');
+    await apiFetch('/api/auth/reset-password', { method: 'POST', body: JSON.stringify({ token, password }) });
+    successEl.textContent = 'Password updated. Redirecting you to log in…';
+    successEl.classList.remove('hidden');
+    setTimeout(() => {
+      window.location.href = window.location.origin + window.location.pathname;
+    }, 1800);
+  } catch (err) {
+    errorEl.textContent = err.message;
+    errorEl.classList.remove('hidden');
+  } finally {
+    btn.disabled = false;
+  }
+}
+
+async function runEmailVerification(token) {
+  const statusEl = qs('#verifyEmailStatus');
+  const continueBtn = qs('#verifyEmailContinueBtn');
+  try {
+    const data = await apiFetch('/api/auth/verify-email', { method: 'POST', body: JSON.stringify({ token }) });
+    statusEl.textContent = data.message || 'Email verified. Thanks!';
+  } catch (err) {
+    statusEl.textContent = err.message;
+  } finally {
+    continueBtn.classList.remove('hidden');
+    continueBtn.addEventListener('click', () => {
+      window.location.href = window.location.origin + window.location.pathname;
+    });
+  }
+}
+
+async function handleResendVerification() {
+  const btn = qs('#resendVerificationBtn');
+  const originalText = btn.textContent;
+  btn.disabled = true;
+  try {
+    const data = await apiFetch('/api/auth/resend-verification', { method: 'POST' });
+    btn.textContent = data.message;
+    setTimeout(() => { btn.textContent = originalText; btn.disabled = false; }, 4000);
+  } catch (err) {
+    btn.textContent = err.message;
+    setTimeout(() => { btn.textContent = originalText; btn.disabled = false; }, 4000);
+  }
+}
+
+/* ---------- Google sign-in ----------
+   GOOGLE_CLIENT_ID is a public identifier (not a secret) — safe to ship in
+   frontend code. Leave it blank to hide the Google button entirely. */
+const GOOGLE_CLIENT_ID = '505128710649-3s67r8pjadik3apc7f7j8ifk8jm78hgs.apps.googleusercontent.com';
+
+async function handleGoogleCredentialResponse(response) {
+  hideAuthError();
+  try {
+    const data = await apiFetch('/api/auth/google', { method: 'POST', body: JSON.stringify({ credential: response.credential }) });
+    authToken = data.token;
+    currentUser = data.user;
+    localStorage.setItem('eduflow_token', authToken);
+    await bootApp();
+  } catch (err) {
+    showAuthError(err.message);
+  }
+}
+function initGoogleSignIn() {
+  if (!GOOGLE_CLIENT_ID || typeof google === 'undefined') return;
+  qs('#googleSignInWrap').classList.remove('hidden');
+  google.accounts.id.initialize({ client_id: GOOGLE_CLIENT_ID, callback: handleGoogleCredentialResponse });
+  google.accounts.id.renderButton(qs('#googleSignInBtn'), { theme: 'outline', size: 'large', width: 320 });
+}
+
+async function handleLogin(e) {
+  e.preventDefault();
+  hideAuthError();
+  const btn = qs('#loginSubmitBtn');
+  btn.disabled = true;
+  try {
+    const email = qs('#loginEmail').value.trim();
+    const password = qs('#loginPassword').value;
+    const data = await apiFetch('/api/auth/login', { method: 'POST', body: JSON.stringify({ email, password }) });
+    authToken = data.token;
+    currentUser = data.user;
+    localStorage.setItem('eduflow_token', authToken);
+    await bootApp();
+  } catch (err) {
+    showAuthError(err.message);
+  } finally {
+    btn.disabled = false;
+  }
+}
+async function handleSignup(e) {
+  e.preventDefault();
+  hideAuthError();
+  const btn = qs('#signupSubmitBtn');
+  btn.disabled = true;
+  try {
+    const name = qs('#signupName').value.trim();
+    const email = qs('#signupEmail').value.trim();
+    const password = qs('#signupPassword').value;
+    const data = await apiFetch('/api/auth/signup', { method: 'POST', body: JSON.stringify({ name, email, password }) });
+    authToken = data.token;
+    currentUser = data.user;
+    localStorage.setItem('eduflow_token', authToken);
+    await bootApp();
+  } catch (err) {
+    showAuthError(err.message);
+  } finally {
+    btn.disabled = false;
+  }
+}
+
+/* ---------- state (client-side cache of what the server returns) ---------- */
+const state = {
+  courses: [],
+  timetable: [],
+  assignments: [],
+  tasks: [],
+  chat: [],
+  cgpaEntries: [],
+  semesters: [],
+  cumulative: { gpa: 0, units: 0, classification: 'Add grades to calculate' },
+  progress: { totalItems: 0, doneItems: 0, overdue: 0, percent: 0 },
+  streak: null,
+};
+let activeSemesterId = null;
+
+const DAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+const WEEK_DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+// The device's own calendar date (not UTC) — sent with the streak check-in
+// so someone in a timezone ahead of UTC doesn't get an incorrect reset
+// just because the server's clock hasn't reached "tomorrow" yet.
+function localDateStr() {
+  const d = new Date();
+  const local = new Date(d.getTime() - d.getTimezoneOffset() * 60000);
+  return local.toISOString().slice(0, 10);
+}
+
+async function reloadAll() {
+  const results = await Promise.allSettled([
+    apiFetch('/api/courses'),
+    apiFetch('/api/cgpa'),
+    apiFetch('/api/semesters'),
+    apiFetch('/api/timetable'),
+    apiFetch('/api/assignments'),
+    apiFetch('/api/tasks'),
+    apiFetch('/api/progress'),
+    apiFetch('/api/streak?localDate=' + localDateStr()),
+  ]);
+  const [coursesRes, cgpaRes, semRes, ttRes, asgRes, taskRes, progRes, streakRes] = results.map((r) => (r.status === 'fulfilled' ? r.value : null));
+  const anyFailed = results.some((r) => r.status === 'rejected');
+  const anySessionExpired = results.some((r) => r.status === 'rejected' && r.reason && r.reason.message === 'SESSION_EXPIRED');
+
+  if (anySessionExpired) {
+    logout();
+    showAuthError('Your session expired. Please log in again.');
+    return;
+  }
+
+  state.courses = (coursesRes && coursesRes.courses) || state.courses || [];
+  state.cgpaEntries = (cgpaRes && cgpaRes.entries) || state.cgpaEntries || [];
+  state.semesters = (cgpaRes && cgpaRes.semesters) || state.semesters || [];
+  state.cumulative = (cgpaRes && cgpaRes.cumulative) || state.cumulative || null;
+  state.timetable = (ttRes && ttRes.timetable) || state.timetable || [];
+  state.assignments = (asgRes && asgRes.assignments) || state.assignments || [];
+  state.tasks = (taskRes && taskRes.tasks) || state.tasks || [];
+  state.progress = progRes || state.progress || null;
+  state.streak = streakRes || state.streak || null;
+
+  if (!activeSemesterId || !state.semesters.some((s) => String(s.id) === String(activeSemesterId))) {
+    activeSemesterId = state.semesters.length ? state.semesters[state.semesters.length - 1].id : null;
+  }
+  renderAllViews();
+  if (anyFailed) {
+    showDeterrentToast("Some data didn't load — the server may still be waking up. Try refreshing in a few seconds.");
+  }
+}
+function renderAllViews() {
+  populateCourseSelects();
+  renderCourses();
+  renderTimetable();
+  renderAssignments();
+  renderCgpa();
+  renderProgress();
+  renderOverview();
+}
+
+async function bootApp() {
+  showApp();
+  qs('#sidebarUserName').textContent = currentUser ? currentUser.name : 'Student';
+  qs('#sidebarUserEmail').textContent = currentUser ? currentUser.email : '';
+  qs('#verifyBanner').classList.toggle('hidden', !currentUser || currentUser.email_verified !== false);
+  initAssistantModels();
+  await reloadAll();
+  renderChat();
+  showView('overview');
+}
+async function tryResumeSession() {
+  if (!authToken) { showAuthScreen(); return; }
+  try {
+    const data = await apiFetch('/api/auth/me');
+    currentUser = data.user;
+    await bootApp();
+  } catch (e) {
+    logout();
+  }
+}
+
+/* ---------- theme ---------- */
+function initTheme() {
+  const saved = localStorage.getItem('eduflow_theme');
+  const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+  const isDark = saved === null ? prefersDark : saved === 'dark';
+  document.documentElement.classList.toggle('dark', isDark);
+  updateThemeToggleUI(isDark);
+}
+function toggleTheme() {
+  const isDark = document.documentElement.classList.toggle('dark');
+  localStorage.setItem('eduflow_theme', isDark ? 'dark' : 'light');
+  updateThemeToggleUI(isDark);
+  if (progressChartInstance) renderProgressChart();
+}
+function updateThemeToggleUI(isDark) {
+  qs('#themeIcon').className = isDark ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+  qs('#themeLabel').textContent = isDark ? 'Light mode' : 'Dark mode';
+}
+
+/* ---------- navigation ---------- */
+const VIEWS = ['overview', 'courses', 'timetable', 'assignments', 'cgpa', 'progress', 'assistant', 'messages', 'account'];
+function showView(name) {
+  VIEWS.forEach((v) => {
+    const el = qs('#view-' + v);
+    if (el) el.classList.toggle('hidden', v !== name);
+  });
+  qsa('.nav-btn').forEach((btn) => {
+    const active = btn.dataset.view === name;
+    btn.classList.toggle('bg-teal', active);
+    btn.classList.toggle('dark:bg-teal-dark', active);
+    btn.classList.toggle('text-white', active);
+    btn.classList.toggle('text-inksoft', !active);
+    btn.classList.toggle('dark:text-inksoft-dark', !active);
+  });
+  qsa('[data-mobile-nav]').forEach((btn) => btn.classList.toggle('mobile-nav-active', btn.dataset.view === name));
+  closeSidebar();
+  if (name === 'progress') renderProgressChart();
+  if (name === 'account') renderAccountSettings();
+  qs('#floatingAssistantBtn').classList.toggle('hidden', name === 'assistant');
+  window.scrollTo(0, 0);
+}
+function initNav() {
+  qsa('[data-view]').forEach((btn) => {
+    btn.addEventListener('click', () => showView(btn.dataset.view));
+  });
+}
+function openSidebar() {
+  qs('#sidebar').classList.remove('-translate-x-full');
+  qs('#sidebarOverlay').classList.remove('hidden');
+}
+function closeSidebar() {
+  if (window.innerWidth < 768) {
+    qs('#sidebar').classList.add('-translate-x-full');
+    qs('#sidebarOverlay').classList.add('hidden');
+  }
+}
+
+function greeting() {
+  const h = new Date().getHours();
+  if (h < 12) return 'Good morning';
+  if (h < 17) return 'Good afternoon';
+  return 'Good evening';
+}
+function emptyState(icon, title, subtitle) {
+  return `
+    <div class="text-center py-6">
+      <i class="fa-solid ${icon} text-2xl text-inksoft dark:text-inksoft-dark opacity-60"></i>
+      <p class="text-sm font-semibold mt-2">${title}</p>
+      <p class="text-xs text-inksoft dark:text-inksoft-dark mt-0.5">${subtitle}</p>
+    </div>
+  `;
+}
+
+/* ================= COURSES ================= */
+async function addCourse(e) {
+  e.preventDefault();
+  const name = qs('#courseName').value.trim();
+  const code = qs('#courseCode').value.trim();
+  const units = parseInt(qs('#courseUnits').value, 10);
+  const instructor = qs('#courseInstructor').value.trim();
+  if (!name || !units) return;
+  try {
+    await apiFetch('/api/courses', { method: 'POST', body: JSON.stringify({ name, code, units, instructor }) });
+    e.target.reset();
+    await reloadAll();
+  } catch (err) { showToast(err.message); }
+}
+async function deleteCourse(id) {
+  try {
+    await apiFetch('/api/courses/' + id, { method: 'DELETE' });
+    await reloadAll();
+  } catch (err) { showToast(err.message); }
+}
+function courseById(id) {
+  return state.courses.find((c) => String(c.id) === String(id));
+}
+function renderCourses() {
+  const wrap = qs('#courseList');
+  if (!state.courses.length) {
+    wrap.innerHTML = emptyState('fa-book-open', 'No courses yet', 'Add your first course above to start building your timetable and CGPA.');
+    return;
+  }
+  wrap.innerHTML = state.courses.map((c) => `
+    <div class="bg-surface dark:bg-surface-dark rounded-xl border border-ink/10 dark:border-ink-dark/10 p-4 flex items-center justify-between gap-3">
+      <div class="min-w-0">
+        <p class="font-semibold truncate">${escapeHtml(c.name)} ${c.code ? `<span class="text-inksoft dark:text-inksoft-dark font-normal">· ${escapeHtml(c.code)}</span>` : ''}</p>
+        <p class="text-xs text-inksoft dark:text-inksoft-dark mt-0.5">${c.units} unit${c.units == 1 ? '' : 's'}${c.instructor ? ' · ' + escapeHtml(c.instructor) : ''}</p>
+      </div>
+      <button aria-label="Delete course" onclick="deleteCourse('${c.id}')" class="w-8 h-8 shrink-0 rounded-lg text-coral hover:bg-coral/10 focus:outline-none focus:ring-2 focus:ring-coral">
+        <i class="fa-solid fa-trash text-sm"></i>
+      </button>
+    </div>
+  `).join('');
+}
+function populateCourseSelects() {
+  const options = state.courses.map((c) => `<option value="${c.id}">${escapeHtml(c.name)}${c.code ? ' (' + escapeHtml(c.code) + ')' : ''}</option>`).join('');
+  const hasCourses = state.courses.length > 0;
+
+  qs('#ttCourse').innerHTML = hasCourses ? options : '<option value="">Add a course first</option>';
+  qs('#cgpaCourse').innerHTML = hasCourses ? options : '<option value="">Add a course first</option>';
+  qs('#asgCourse').innerHTML = '<option value="">General</option>' + options;
+
+  qs('#timetableEmptyCourses').classList.toggle('hidden', hasCourses);
+  qs('#cgpaEmptyCourses').classList.toggle('hidden', hasCourses);
+  qs('#timetableForm').querySelectorAll('input,select,button').forEach((el) => { el.disabled = !hasCourses; });
+  qs('#cgpaCourse').disabled = !hasCourses;
+  qs('#cgpaForm').querySelector('button[type="submit"]').disabled = !hasCourses || !state.semesters.length;
+}
+
+/* ================= TIMETABLE ================= */
+async function addClass(e) {
+  e.preventDefault();
+  const courseId = qs('#ttCourse').value;
+  const day = qs('#ttDay').value;
+  const start = qs('#ttStart').value;
+  const end = qs('#ttEnd').value;
+  const location = qs('#ttLocation').value.trim();
+  if (!courseId || !day || !start || !end) return;
+  try {
+    await apiFetch('/api/timetable', { method: 'POST', body: JSON.stringify({ courseId, day, start, end, location }) });
+    e.target.reset();
+    await reloadAll();
+  } catch (err) { showToast(err.message); }
+}
+async function deleteClass(id) {
+  try {
+    await apiFetch('/api/timetable/' + id, { method: 'DELETE' });
+    await reloadAll();
+  } catch (err) { showToast(err.message); }
+}
+function classLabel(entry) {
+  const title = entry.course_name || 'Unknown course';
+  return `
+    <div class="bg-paper dark:bg-paper-dark rounded-lg p-3 flex items-center justify-between gap-3 border border-ink/5 dark:border-ink-dark/5">
+      <div class="min-w-0">
+        <p class="font-semibold text-sm truncate">${escapeHtml(title)}</p>
+        <p class="text-xs text-inksoft dark:text-inksoft-dark mt-0.5">${entry.start_time}–${entry.end_time}${entry.location ? ' · ' + escapeHtml(entry.location) : ''}</p>
+      </div>
+      <button aria-label="Delete class" onclick="deleteClass('${entry.id}')" class="w-7 h-7 shrink-0 rounded-lg text-coral hover:bg-coral/10 focus:outline-none focus:ring-2 focus:ring-coral">
+        <i class="fa-solid fa-trash text-xs"></i>
+      </button>
+    </div>
+  `;
+}
+function renderTimetable() {
+  const todayName = DAYS[new Date().getDay()];
+  qs('#ttTodayName').textContent = todayName;
+
+  const todays = state.timetable.filter((t) => t.day === todayName).sort((a, b) => a.start_time.localeCompare(b.start_time));
+  qs('#ttToday').innerHTML = todays.length
+    ? todays.map(classLabel).join('')
+    : emptyState('fa-mug-hot', 'No classes today', 'Enjoy the free time, or get ahead on an assignment.');
+
+  qs('#ttWeek').innerHTML = WEEK_DAYS.map((day) => {
+    const entries = state.timetable.filter((t) => t.day === day).sort((a, b) => a.start_time.localeCompare(b.start_time));
+    return `
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-wide text-inksoft dark:text-inksoft-dark mb-2">${day}${day === todayName ? ' <span class="text-teal">· today</span>' : ''}</p>
+        ${entries.length ? `<div class="space-y-2">${entries.map(classLabel).join('')}</div>` : `<p class="text-sm text-inksoft dark:text-inksoft-dark">No classes scheduled.</p>`}
+      </div>
+    `;
+  }).join('');
+}
+
+/* ================= ASSIGNMENTS ================= */
+let assignmentFilter = 'all';
+async function addAssignment(e) {
+  e.preventDefault();
+  const title = qs('#asgTitle').value.trim();
+  const courseId = qs('#asgCourse').value || null;
+  const due = qs('#asgDue').value;
+  const priority = qs('#asgPriority').value;
+  if (!title || !due) return;
+  try {
+    await apiFetch('/api/assignments', { method: 'POST', body: JSON.stringify({ title, courseId, due, priority }) });
+    e.target.reset();
+    await reloadAll();
+  } catch (err) { showToast(err.message); }
+}
+async function toggleAssignment(id, currentlyDone) {
+  try {
+    await apiFetch('/api/assignments/' + id, { method: 'PATCH', body: JSON.stringify({ done: !currentlyDone }) });
+    if (!currentlyDone) celebrate();
+    await reloadAll();
+  } catch (err) { showToast(err.message); }
+}
+async function deleteAssignment(id) {
+  try {
+    await apiFetch('/api/assignments/' + id, { method: 'DELETE' });
+    await reloadAll();
+  } catch (err) { showToast(err.message); }
+}
+function daysUntil(dateStr) {
+  const due = new Date(dateStr + 'T00:00:00');
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  return Math.round((due - today) / 86400000);
+}
+function dueLabel(dateStr, done) {
+  const d = daysUntil(dateStr);
+  if (done) return { text: 'Completed', cls: 'text-teal' };
+  if (d < 0) return { text: `${Math.abs(d)} day${Math.abs(d) === 1 ? '' : 's'} overdue`, cls: 'text-coral font-semibold' };
+  if (d === 0) return { text: 'Due today', cls: 'text-amber font-semibold' };
+  if (d === 1) return { text: 'Due tomorrow', cls: 'text-amber' };
+  return { text: `Due in ${d} days`, cls: 'text-inksoft dark:text-inksoft-dark' };
+}
+function renderAssignments() {
+  qsa('.asg-filter-btn').forEach((b) => {
+    const active = b.dataset.filter === assignmentFilter;
+    b.classList.toggle('bg-teal', active);
+    b.classList.toggle('text-white', active);
+    b.classList.toggle('bg-ink/5', !active);
+    b.classList.toggle('dark:bg-white/5', !active);
+    b.classList.toggle('text-inksoft', !active);
+    b.classList.toggle('dark:text-inksoft-dark', !active);
+  });
+
+  let list = [...state.assignments];
+  if (assignmentFilter === 'pending') list = list.filter((a) => !a.done);
+  if (assignmentFilter === 'done') list = list.filter((a) => a.done);
+  list.sort((a, b) => a.due_date.localeCompare(b.due_date));
+
+  const wrap = qs('#assignmentList');
+  if (!list.length) {
+    wrap.innerHTML = emptyState('fa-list-check', 'Nothing here', 'Add an assignment above to start tracking it.');
+    return;
+  }
+  wrap.innerHTML = list.map((a) => {
+    const due = dueLabel(a.due_date, a.done);
+    return `
+      <div class="bg-surface dark:bg-surface-dark rounded-xl border border-ink/10 dark:border-ink-dark/10 p-4 flex items-start gap-3 ${a.priority === 'high' && !a.done ? 'border-l-4 border-l-coral' : ''}">
+        <button aria-label="${a.done ? 'Mark as pending' : 'Mark as complete'}" onclick="toggleAssignment('${a.id}', ${a.done})" class="mt-0.5 w-6 h-6 shrink-0 rounded-full border-2 ${a.done ? 'bg-teal border-teal' : 'border-ink/30 dark:border-ink-dark/30'} flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-teal">
+          ${a.done ? '<i class="fa-solid fa-check text-white text-[10px]"></i>' : ''}
+        </button>
+        <div class="min-w-0 flex-1">
+          <p class="font-semibold text-sm ${a.done ? 'line-through text-inksoft dark:text-inksoft-dark' : ''} truncate">${escapeHtml(a.title)}</p>
+          <p class="text-xs text-inksoft dark:text-inksoft-dark mt-0.5">${a.course_name ? escapeHtml(a.course_name) + ' · ' : ''}${a.due_date}</p>
+          <p class="text-xs mt-1 ${due.cls}">${due.text}</p>
+        </div>
+        <button aria-label="Delete assignment" onclick="deleteAssignment('${a.id}')" class="w-8 h-8 shrink-0 rounded-lg text-coral hover:bg-coral/10 focus:outline-none focus:ring-2 focus:ring-coral">
+          <i class="fa-solid fa-trash text-sm"></i>
+        </button>
+      </div>
+    `;
+  }).join('');
+}
+function initAssignmentFilters() {
+  qsa('.asg-filter-btn').forEach((b) => {
+    b.addEventListener('click', () => { assignmentFilter = b.dataset.filter; renderAssignments(); });
+  });
+}
+
+/* ================= SEMESTERS + CGPA ================= */
+/* Note: no grade-point table or classification logic here on purpose —
+   the server computes gpa/cumulative/classification and this file just
+   displays state.semesters / state.cumulative as returned. */
+async function addSemester(e) {
+  e.preventDefault();
+  const name = qs('#semesterName').value.trim();
+  if (!name) return;
+  try {
+    const data = await apiFetch('/api/semesters', { method: 'POST', body: JSON.stringify({ name }) });
+    e.target.reset();
+    activeSemesterId = data.semester.id;
+    await reloadAll();
+  } catch (err) { showToast(err.message); }
+}
+async function deleteSemester(id) {
+  const semester = state.semesters.find((s) => String(s.id) === String(id));
+  const gradeCount = state.cgpaEntries.filter((en) => String(en.semester_id) === String(id)).length;
+  if (gradeCount > 0) {
+    const ok = window.confirm(`Delete "${semester ? semester.name : 'this semester'}" and its ${gradeCount} grade${gradeCount === 1 ? '' : 's'}?`);
+    if (!ok) return;
+  }
+  try {
+    await apiFetch('/api/semesters/' + id, { method: 'DELETE' });
+    if (String(activeSemesterId) === String(id)) activeSemesterId = null;
+    await reloadAll();
+  } catch (err) { showToast(err.message); }
+}
+function selectSemester(id) {
+  activeSemesterId = id;
+  renderCgpa();
+}
+async function addCgpaEntry(e) {
+  e.preventDefault();
+  const courseId = qs('#cgpaCourse').value;
+  const grade = qs('#cgpaGrade').value;
+  if (!courseId || !grade || !activeSemesterId) return;
+  try {
+    await apiFetch('/api/cgpa', { method: 'POST', body: JSON.stringify({ semesterId: activeSemesterId, courseId, grade }) });
+    await reloadAll();
+  } catch (err) { showToast(err.message); }
+}
+async function deleteCgpaEntry(id) {
+  try {
+    await apiFetch('/api/cgpa/' + id, { method: 'DELETE' });
+    await reloadAll();
+  } catch (err) { showToast(err.message); }
+}
+function renderCgpa() {
+  const hasSemesters = state.semesters.length > 0;
+  qs('#cgpaEmptySemesters').classList.toggle('hidden', hasSemesters);
+  qs('#cgpaForm').querySelectorAll('select,button').forEach((el) => { el.disabled = !hasSemesters || !state.courses.length; });
+
+  qs('#semesterPills').innerHTML = state.semesters.map((s) => {
+    const active = String(s.id) === String(activeSemesterId);
+    return `
+      <span class="inline-flex items-center gap-2 pl-3 pr-1.5 py-1.5 rounded-full text-xs font-semibold border ${active ? 'bg-teal text-white border-teal' : 'bg-paper dark:bg-paper-dark border-ink/10 dark:border-ink-dark/10 text-inksoft dark:text-inksoft-dark'}">
+        <button onclick="selectSemester('${s.id}')" class="focus:outline-none">${escapeHtml(s.name)} · ${s.gpa.toFixed(2)}</button>
+        <button aria-label="Delete semester" onclick="deleteSemester('${s.id}')" class="w-5 h-5 rounded-full flex items-center justify-center ${active ? 'hover:bg-white/20' : 'hover:bg-coral/10 text-coral'}">
+          <i class="fa-solid fa-xmark text-[10px]"></i>
+        </button>
+      </span>
+    `;
+  }).join('') || '<p class="text-sm text-inksoft dark:text-inksoft-dark">No semesters yet — add one above.</p>';
+
+  const cum = state.cumulative;
+  qs('#cgpaValue').textContent = cum.gpa.toFixed(2);
+  qs('#cgpaClass').textContent = cum.classification;
+  qs('#cgpaUnits').textContent = `${cum.units} unit${cum.units === 1 ? '' : 's'} logged`;
+
+  const activeSemester = state.semesters.find((s) => String(s.id) === String(activeSemesterId));
+  qs('#semesterGpaValue').textContent = activeSemester ? activeSemester.gpa.toFixed(2) : '0.00';
+  qs('#semesterGpaUnits').textContent = activeSemester ? `${activeSemester.units} unit${activeSemester.units === 1 ? '' : 's'}` : '0 units';
+  qs('#cgpaLogSemesterName').textContent = activeSemester ? `— ${activeSemester.name}` : '';
+
+  const entries = state.cgpaEntries.filter((en) => String(en.semester_id) === String(activeSemesterId));
+  const listWrap = qs('#cgpaList');
+  if (!activeSemester) {
+    listWrap.innerHTML = emptyState('fa-calculator', 'No semester selected', 'Add a semester above to start logging grades.');
+  } else if (!entries.length) {
+    listWrap.innerHTML = emptyState('fa-calculator', 'No grades logged', 'Choose a course and grade above to add one to this semester.');
+  } else {
+    listWrap.innerHTML = entries.map((en) => `
+      <div class="bg-paper dark:bg-paper-dark rounded-lg p-3 flex items-center justify-between gap-3 border border-ink/5 dark:border-ink-dark/5">
+        <div class="min-w-0">
+          <p class="font-semibold text-sm truncate">${escapeHtml(en.course_name)}</p>
+          <p class="text-xs text-inksoft dark:text-inksoft-dark mt-0.5">${en.units} units · grade ${en.grade}</p>
+        </div>
+        <button aria-label="Delete grade" onclick="deleteCgpaEntry('${en.id}')" class="w-7 h-7 shrink-0 rounded-lg text-coral hover:bg-coral/10 focus:outline-none focus:ring-2 focus:ring-coral">
+          <i class="fa-solid fa-trash text-xs"></i>
+        </button>
+      </div>
+    `).join('');
+  }
+
+  qs('#semesterSummaryList').innerHTML = state.semesters.length
+    ? state.semesters.map((s) => `
+        <div class="bg-paper dark:bg-paper-dark rounded-lg p-3 flex items-center justify-between gap-3 border border-ink/5 dark:border-ink-dark/5">
+          <p class="font-semibold text-sm">${escapeHtml(s.name)}</p>
+          <p class="text-sm font-semibold">${s.gpa.toFixed(2)} <span class="text-xs font-normal text-inksoft dark:text-inksoft-dark">(${s.units} units)</span></p>
+        </div>
+      `).join('')
+    : emptyState('fa-layer-group', 'No semesters yet', 'Add your first semester above.');
+}
+
+/* ================= REVERSE CGPA CALCULATOR (client-side, non-sensitive arithmetic) ================= */
+function calculateTargetGpa() {
+  const resultEl = qs('#targetGpaResult');
+  const target = parseFloat(qs('#targetCgpaInput').value);
+  const nextUnits = parseFloat(qs('#targetUnitsInput').value);
+
+  if (!target || target <= 0 || target > 5) {
+    resultEl.textContent = 'Enter a target CGPA between 0 and 5.';
+    resultEl.className = 'text-sm mt-3 text-coral';
+    return;
+  }
+  if (!nextUnits || nextUnits <= 0) {
+    resultEl.textContent = 'Enter how many units you plan to take next semester.';
+    resultEl.className = 'text-sm mt-3 text-coral';
+    return;
+  }
+
+  const currentUnits = (state.cumulative && state.cumulative.units) || 0;
+  const currentGpa = (state.cumulative && state.cumulative.gpa) || 0;
+  const currentPoints = currentGpa * currentUnits;
+  const neededPoints = target * (currentUnits + nextUnits) - currentPoints;
+  const neededGpa = neededPoints / nextUnits;
+
+  if (neededGpa <= 0) {
+    resultEl.textContent = "You're already above that target — any GPA next semester keeps your cumulative CGPA there or higher.";
+    resultEl.className = 'text-sm mt-3 text-teal';
+  } else if (neededGpa > 5) {
+    resultEl.textContent = `Not reachable in one semester — even a perfect 5.00 GPA next semester wouldn't get you to ${target.toFixed(2)}. It'll take more than one semester.`;
+    resultEl.className = 'text-sm mt-3 text-coral';
+  } else {
+    resultEl.textContent = `You need a GPA of ${neededGpa.toFixed(2)} next semester to reach a cumulative CGPA of ${target.toFixed(2)}.`;
+    resultEl.className = 'text-sm mt-3 font-semibold';
+  }
+}
+
+/* ================= PDF EXPORTS ================= */
+function exportCgpaPdf() {
+  if (typeof window.jspdf === 'undefined') { showDeterrentToast('PDF export failed to load — check your connection and try again.'); return; }
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+  const name = getName();
+  const cum = state.cumulative || { gpa: 0, units: 0, classification: '—' };
+
+  doc.setFontSize(16);
+  doc.text('EduFlow — CGPA Report', 14, 18);
+  doc.setFontSize(10);
+  doc.setTextColor(100);
+  doc.text(`${name} — generated ${new Date().toLocaleDateString()}`, 14, 25);
+  doc.setTextColor(0);
+  doc.setFontSize(12);
+  doc.text(`Cumulative CGPA: ${cum.gpa.toFixed(2)} (${cum.classification}) — ${cum.units} units logged`, 14, 35);
+
+  let y = 44;
+  if (!state.semesters.length) {
+    doc.setFontSize(10);
+    doc.text('No semesters or grades logged yet.', 14, y);
+  }
+  state.semesters.forEach((sem) => {
+    if (y > 270) { doc.addPage(); y = 20; }
+    doc.setFontSize(12);
+    doc.text(`${sem.name} — GPA ${sem.gpa.toFixed(2)} (${sem.units} units)`, 14, y);
+    y += 4;
+    const rows = state.cgpaEntries
+      .filter((en) => String(en.semester_id) === String(sem.id))
+      .map((en) => [en.course_name, String(en.units), en.grade, Number(en.points).toFixed(1)]);
+    doc.autoTable({
+      startY: y,
+      head: [['Course', 'Units', 'Grade', 'Points']],
+      body: rows.length ? rows : [['No grades logged for this semester', '', '', '']],
+      styles: { fontSize: 9 },
+      margin: { left: 14, right: 14 },
+      theme: 'grid',
+      headStyles: { fillColor: [31, 122, 108] },
+    });
+    y = doc.lastAutoTable.finalY + 10;
+  });
+
+  doc.save(`eduflow-cgpa-${name.replace(/\s+/g, '-').toLowerCase()}.pdf`);
+}
+
+function exportTimetablePdf() {
+  if (typeof window.jspdf === 'undefined') { showDeterrentToast('PDF export failed to load — check your connection and try again.'); return; }
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+  const name = getName();
+
+  doc.setFontSize(16);
+  doc.text('EduFlow — Class Timetable', 14, 18);
+  doc.setFontSize(10);
+  doc.setTextColor(100);
+  doc.text(`${name} — generated ${new Date().toLocaleDateString()}`, 14, 25);
+  doc.setTextColor(0);
+
+  const rows = [];
+  WEEK_DAYS.forEach((day) => {
+    state.timetable
+      .filter((t) => t.day === day)
+      .sort((a, b) => a.start_time.localeCompare(b.start_time))
+      .forEach((t) => rows.push([day, `${t.start_time}–${t.end_time}`, t.course_name || '—', t.location || '—']));
+  });
+
+  doc.autoTable({
+    startY: 33,
+    head: [['Day', 'Time', 'Course', 'Venue']],
+    body: rows.length ? rows : [['No classes scheduled yet', '', '', '']],
+    styles: { fontSize: 9 },
+    margin: { left: 14, right: 14 },
+    theme: 'grid',
+    headStyles: { fillColor: [31, 122, 108] },
+  });
+
+  doc.save(`eduflow-timetable-${name.replace(/\s+/g, '-').toLowerCase()}.pdf`);
+}
+
+/* ================= CALENDAR (.ics) EXPORT =================
+   A real, live Google Calendar *sync* would need a full OAuth flow asking
+   for calendar write access — a much bigger, more sensitive permission
+   than the sign-in scope this app already uses, and one Google requires
+   a manual app review to grant to the public. A standard .ics file gets
+   your timetable into Google Calendar (or Apple/Outlook Calendar) with
+   one import click, no extra permissions or review needed. */
+function icsEscape(text) {
+  return String(text).replace(/[\\,;]/g, (c) => '\\' + c);
+}
+function nextDateForWeekday(targetDayName) {
+  const targetIndex = DAYS.indexOf(targetDayName);
+  const d = new Date();
+  const diff = (targetIndex - d.getDay() + 7) % 7;
+  d.setDate(d.getDate() + diff);
+  return d;
+}
+function icsDateTime(date, timeStr) {
+  const [h, m] = timeStr.split(':').map(Number);
+  const dt = new Date(date);
+  dt.setHours(h, m, 0, 0);
+  const pad = (n) => String(n).padStart(2, '0');
+  return `${dt.getFullYear()}${pad(dt.getMonth() + 1)}${pad(dt.getDate())}T${pad(dt.getHours())}${pad(dt.getMinutes())}00`;
+}
+const ICS_DAY_CODES = { Monday: 'MO', Tuesday: 'TU', Wednesday: 'WE', Thursday: 'TH', Friday: 'FR', Saturday: 'SA', Sunday: 'SU' };
+function exportTimetableIcs() {
+  if (!state.timetable.length) { showDeterrentToast('Add a class to your timetable first.'); return; }
+  const lines = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//EduFlow//Timetable//EN', 'CALSCALE:GREGORIAN'];
+  state.timetable.forEach((t) => {
+    const firstDate = nextDateForWeekday(t.day);
+    lines.push(
+      'BEGIN:VEVENT',
+      `UID:eduflow-${t.id}@eduflow`,
+      `DTSTART:${icsDateTime(firstDate, t.start_time)}`,
+      `DTEND:${icsDateTime(firstDate, t.end_time)}`,
+      `RRULE:FREQ=WEEKLY;BYDAY=${ICS_DAY_CODES[t.day]}`,
+      `SUMMARY:${icsEscape(t.course_name || 'Class')}`,
+      t.location ? `LOCATION:${icsEscape(t.location)}` : null,
+      'END:VEVENT'
+    );
+  });
+  lines.push('END:VCALENDAR');
+  const blob = new Blob([lines.filter(Boolean).join('\r\n')], { type: 'text/calendar' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'eduflow-timetable.ics';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+/* ================= STUDY TASKS + PROGRESS ================= */
+async function addTask(e) {
+  e.preventDefault();
+  const input = qs('#taskInput');
+  const text = input.value.trim();
+  if (!text) return;
+  try {
+    await apiFetch('/api/tasks', { method: 'POST', body: JSON.stringify({ text }) });
+    input.value = '';
+    await reloadAll();
+  } catch (err) { showToast(err.message); }
+}
+async function toggleTask(id, currentlyDone) {
+  try {
+    await apiFetch('/api/tasks/' + id, { method: 'PATCH', body: JSON.stringify({ done: !currentlyDone }) });
+    if (!currentlyDone) celebrate();
+    await reloadAll();
+  } catch (err) { showToast(err.message); }
+}
+async function deleteTask(id) {
+  try {
+    await apiFetch('/api/tasks/' + id, { method: 'DELETE' });
+    await reloadAll();
+  } catch (err) { showToast(err.message); }
+}
+function renderTasks() {
+  const wrap = qs('#taskList');
+  if (!state.tasks.length) {
+    wrap.innerHTML = emptyState('fa-pen', 'No study tasks yet', 'Add small study goals to track alongside your assignments.');
+    return;
+  }
+  wrap.innerHTML = state.tasks.map((t) => `
+    <div class="bg-paper dark:bg-paper-dark rounded-lg p-3 flex items-center gap-3 border border-ink/5 dark:border-ink-dark/5">
+      <button aria-label="${t.done ? 'Mark as pending' : 'Mark as complete'}" onclick="toggleTask('${t.id}', ${t.done})" class="w-6 h-6 shrink-0 rounded-full border-2 ${t.done ? 'bg-teal border-teal' : 'border-ink/30 dark:border-ink-dark/30'} flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-teal">
+        ${t.done ? '<i class="fa-solid fa-check text-white text-[10px]"></i>' : ''}
+      </button>
+      <p class="flex-1 text-sm ${t.done ? 'line-through text-inksoft dark:text-inksoft-dark' : ''}">${escapeHtml(t.text)}</p>
+      <button aria-label="Delete task" onclick="deleteTask('${t.id}')" class="w-7 h-7 shrink-0 rounded-lg text-coral hover:bg-coral/10 focus:outline-none focus:ring-2 focus:ring-coral">
+        <i class="fa-solid fa-trash text-xs"></i>
+      </button>
+    </div>
+  `).join('');
+}
+let progressChartInstance = null;
+function renderProgress() {
+  const { percent, totalItems } = state.progress;
+  qs('#progressPercentLabel').textContent = percent + '%';
+  qs('#progressBarFill').style.width = percent + '%';
+  let msg = 'Add assignments or study tasks to start tracking your progress.';
+  if (totalItems) {
+    if (percent === 100) msg = 'Everything is done. Great work — add new tasks to keep the momentum going.';
+    else if (percent >= 70) msg = 'Almost there — a few tasks left to close out.';
+    else if (percent >= 30) msg = "Steady progress. Keep chipping away at what's left.";
+    else msg = 'Just getting started — small consistent steps add up.';
+  }
+  qs('#progressMessage').textContent = msg;
+  renderTasks();
+  renderProgressChart();
+}
+function renderProgressChart() {
+  const canvas = qs('#progressChart');
+  if (!canvas || typeof Chart === 'undefined') return;
+  const { totalItems, doneItems } = state.progress;
+  const pending = totalItems - doneItems;
+  const data = totalItems ? [doneItems, pending] : [0, 1];
+  const isDark = document.documentElement.classList.contains('dark');
+  if (progressChartInstance) {
+    progressChartInstance.data.datasets[0].data = data;
+    progressChartInstance.data.datasets[0].backgroundColor = ['#1F7A6C', totalItems ? '#DE9A2C' : (isDark ? '#243250' : '#E4E8F0')];
+    progressChartInstance.options.plugins.legend.labels.color = isDark ? '#93A1C2' : '#54607F';
+    progressChartInstance.update();
+    return;
+  }
+  progressChartInstance = new Chart(canvas.getContext('2d'), {
+    type: 'doughnut',
+    data: {
+      labels: ['Completed', 'Pending'],
+      datasets: [{ data, backgroundColor: ['#1F7A6C', totalItems ? '#DE9A2C' : (isDark ? '#243250' : '#E4E8F0')], borderWidth: 0 }],
+    },
+    options: {
+      responsive: true,
+      cutout: '68%',
+      plugins: { legend: { position: 'bottom', labels: { color: isDark ? '#93A1C2' : '#54607F', boxWidth: 10, padding: 12, font: { size: 11 } } } },
+    },
+  });
+}
+
+/* ================= OVERVIEW ================= */
+/* ---------- celebration ---------- */
+function celebrate() {
+  if (typeof confetti !== 'function') return;
+  confetti({ particleCount: 90, spread: 70, origin: { y: 0.7 }, colors: ['#1F7A6C', '#DE9A2C', '#12213F'] });
+}
+
+
+/* ---------- daily focus insight ---------- */
+const DAILY_QUOTES = [
+  'Small steps every day beat big pushes once in a while.',
+  'Progress, not perfection. Focus on the next useful step.',
+  'Consistency beats intensity. Give yourself a focused session today.',
+  'Every assignment you finish is one less thing carrying weight in your head.',
+  'Study smart, not just hard. Protect your focus and your rest.',
+];
+function renderQuoteOfTheDay() {
+  const dayOfYear = Math.floor((Date.now() - new Date(new Date().getFullYear(), 0, 0)) / 86400000);
+  const quoteEl = qs('#dailyQuote');
+  if (quoteEl) quoteEl.textContent = DAILY_QUOTES[dayOfYear % DAILY_QUOTES.length];
+}
+/* ---------- XP / level ---------- */
+function computeXp() {
+  const completedAssignments = state.assignments.filter((a) => a.done).length;
+  const completedTasks = state.tasks.filter((t) => t.done).length;
+  const unlockedAchievements = state.streak ? state.streak.unlockedCount : 0;
+  const longestStreak = state.streak ? state.streak.longestStreak : 0;
+  const semesterCount = state.semesters.length;
+  return completedAssignments * 10 + completedTasks * 10 + unlockedAchievements * 50 + longestStreak * 5 + semesterCount * 20;
+}
+function levelForXp(xp) {
+  let level = 1;
+  let threshold = 100;
+  let remaining = xp;
+  while (remaining >= threshold) {
+    remaining -= threshold;
+    level++;
+    threshold = Math.round(threshold * 1.25);
+  }
+  return { level, xpIntoLevel: remaining, xpForNextLevel: threshold };
+}
+function renderLevel() {
+  const xp = computeXp();
+  const { level, xpIntoLevel, xpForNextLevel } = levelForXp(xp);
+  qs('#levelLabel').textContent = `Level ${level}`;
+  qs('#xpLabel').textContent = `${xpIntoLevel} / ${xpForNextLevel} XP`;
+  qs('#xpBarFill').style.width = `${Math.min(100, Math.round((xpIntoLevel / xpForNextLevel) * 100))}%`;
+}
+
+function renderStreak() {
+  const s = state.streak;
+  if (!s) return;
+
+  // Celebrate any achievement that's unlocked now but wasn't the last time
+  // we checked — tracked on this device only, purely for the confetti
+  // moment, not a source of truth (the server always recomputes fresh).
+  const seenKey = 'eduflow_seen_achievements';
+  const previouslySeen = new Set(JSON.parse(localStorage.getItem(seenKey) || '[]'));
+  const nowUnlocked = s.achievements.filter((a) => a.unlocked).map((a) => a.title);
+  const newlyUnlocked = nowUnlocked.filter((title) => !previouslySeen.has(title));
+  if (newlyUnlocked.length && previouslySeen.size > 0) {
+    celebrate();
+    showToast(`🎉 Achievement unlocked: ${newlyUnlocked[0]}${newlyUnlocked.length > 1 ? ` (+${newlyUnlocked.length - 1} more)` : ''}`);
+  }
+  localStorage.setItem(seenKey, JSON.stringify(nowUnlocked));
+
+  const countEl = qs('#streakCount');
+  const msgEl = qs('#streakMessage');
+  const longestEl = qs('#streakLongest');
+
+  countEl.textContent = `${s.currentStreak} day${s.currentStreak === 1 ? '' : 's'} streak`;
+  longestEl.textContent = `Best: ${s.longestStreak} day${s.longestStreak === 1 ? '' : 's'}`;
+
+  if (s.currentStreak === 0) {
+    msgEl.textContent = 'Complete something today to start a new streak.';
+  } else if (s.currentStreak >= 7) {
+    msgEl.textContent = "You're on fire — keep showing up.";
+  } else {
+    msgEl.textContent = "You're checked in for today. Come back tomorrow to keep it going.";
+  }
+
+  qs('#achievementsCount').textContent = `${s.unlockedCount} of ${s.totalCount} unlocked`;
+  qs('#achievementsGrid').innerHTML = s.achievements.map((a) => `
+    <div class="flex flex-col items-center text-center gap-1.5 p-2 rounded-xl ${a.unlocked ? '' : 'opacity-40'}" title="${escapeHtml(a.description)}">
+      <div class="w-12 h-12 rounded-full flex items-center justify-center ${a.unlocked ? 'bg-gradient-to-br from-teal to-amber text-white' : 'bg-ink/10 dark:bg-ink-dark/10 text-inksoft dark:text-inksoft-dark'}">
+        <i class="fa-solid ${a.icon} text-lg"></i>
+      </div>
+      <p class="text-[11px] font-semibold leading-tight">${escapeHtml(a.title)}</p>
+    </div>
+  `).join('');
+
+  renderLevel();
+}
+function renderOverview() {
+  qs('#ovGreeting').textContent = `${greeting()}, ${getName()}.`;
+  const mobileName = qs('#mobileHeroName');
+  if (mobileName) mobileName.innerHTML = `${escapeHtml(getName())} <span aria-hidden="true">👋</span>`;
+  const formattedDate = new Date().toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+  qs('#ovDate').textContent = formattedDate;
+  const mobileDate = qs('#mobileDateLabel');
+  if (mobileDate) mobileDate.textContent = formattedDate;
+  renderQuoteOfTheDay();
+  renderStreak();
+
+
+  qs('#statCourses').textContent = state.courses.length;
+  qs('#statPending').textContent = state.assignments.filter((a) => !a.done).length;
+  qs('#statOverdue').textContent = state.progress.overdue;
+  qs('#statCgpa').textContent = state.cumulative.units ? state.cumulative.gpa.toFixed(2) : '—';
+  const mobileGpa = qs('#mobileGpaValue');
+  if (mobileGpa) mobileGpa.textContent = state.cumulative.units ? state.cumulative.gpa.toFixed(2) : '—';
+  const mobileCredits = qs('#mobileCreditCount');
+  if (mobileCredits) mobileCredits.textContent = state.cumulative.units ? `${state.cumulative.units}` : '0';
+  const mobileBar = qs('#mobileProgressBar');
+  if (mobileBar) mobileBar.style.width = `${Math.min(100, Math.max(8, state.courses.length ? Math.round((state.cumulative.units / Math.max(state.courses.reduce((sum, c) => sum + Number(c.units || 0), 0), 1)) * 100) : 8))}%`;
+  const mobileCourses = qs('#mobileProgressCourses');
+  if (mobileCourses) mobileCourses.innerHTML = state.courses.slice(0, 3).map((course, index) => `<span title="${escapeHtml(course.name || course.code || 'Course')}">${[72, 58, 85][index] || 64}%</span>`).join('');
+
+  const todayName = DAYS[new Date().getDay()];
+  const todays = state.timetable.filter((t) => t.day === todayName).sort((a, b) => a.start_time.localeCompare(b.start_time));
+  qs('#ovTodayClasses').innerHTML = todays.length
+    ? todays.slice(0, 4).map(classLabel).join('')
+    : emptyState('fa-mug-hot', 'No classes today', 'A good day to focus on assignments.');
+
+  const upcoming = [...state.assignments].filter((a) => !a.done).sort((a, b) => a.due_date.localeCompare(b.due_date)).slice(0, 4);
+  qs('#ovUpcomingAssignments').innerHTML = upcoming.length
+    ? upcoming.map((a) => {
+        const due = dueLabel(a.due_date, a.done);
+        return `
+          <div class="bg-paper dark:bg-paper-dark rounded-lg p-3 flex items-center justify-between gap-3 border border-ink/5 dark:border-ink-dark/5">
+            <div class="min-w-0">
+              <p class="font-semibold text-sm truncate">${escapeHtml(a.title)}</p>
+              <p class="text-xs text-inksoft dark:text-inksoft-dark mt-0.5">${a.course_name ? escapeHtml(a.course_name) : 'General'}</p>
+            </div>
+            <p class="text-xs shrink-0 ${due.cls}">${due.text}</p>
+          </div>
+        `;
+      }).join('')
+    : emptyState('fa-champagne-glasses', "Nothing pending", "You're all caught up on assignments.");
+}
+
+/* ================= ASSISTANT (client-side only, not persisted) ================= */
+const MOTIVATION = [
+  "Progress beats perfection — one page of notes today is worth more than a perfect plan tomorrow.",
+  "Break the next task into a 20-minute chunk. Starting is the hardest part.",
+  "You've gotten through every hard week so far. This one is no different.",
+  "Short, focused study sessions beat long, distracted ones. Try 25 minutes on, 5 off.",
+];
+const FALLBACKS = [
+  "I'm a simple assistant, so I work best with questions about your CGPA, timetable, assignments or study progress. Try one of the suggestions below.",
+  "I didn't quite catch that. Ask me about your deadlines, your next class, or your CGPA.",
+  'I can help with things already on your dashboard — try asking "what\'s due soon" or "what\'s my CGPA".',
+];
+function pushChat(role, text) {
+  state.chat.push({ role, text });
+}
+function renderChat() {
+  const wrap = qs('#chatMessages');
+  if (!state.chat.length) {
+    pushChat('bot', `Hi ${getName() === 'there' ? '' : getName()}! I'm your study assistant. Ask me about your CGPA, deadlines, or today's classes.`);
+  }
+  wrap.innerHTML = state.chat.map((m) => `
+    <div class="flex ${m.role === 'user' ? 'justify-end' : 'justify-start'}">
+      <div class="max-w-[80%] rounded-2xl px-4 py-2.5 text-sm ${m.role === 'user' ? 'bg-teal dark:bg-teal-dark text-white rounded-br-sm' : 'bg-paper dark:bg-paper-dark rounded-bl-sm'} ${m.thinking ? 'animate-pulse' : ''}">
+        ${escapeHtml(m.text)}
+      </div>
+    </div>
+  `).join('');
+  wrap.scrollTop = wrap.scrollHeight;
+}
+function botReply(rawInput) {
+  const input = rawInput.toLowerCase();
+
+  if (/\b(cgpa|gpa|grade point)\b/.test(input)) {
+    if (!state.cumulative.units) return "You haven't logged any grades yet. Head to the CGPA calculator to add your courses and grades.";
+    return `Your cumulative CGPA is ${state.cumulative.gpa.toFixed(2)} (${state.cumulative.classification}) across ${state.cumulative.units} units.`;
+  }
+  if (/\b(due|deadline|assignment|submit)\b/.test(input)) {
+    const pending = [...state.assignments].filter((a) => !a.done).sort((a, b) => a.due_date.localeCompare(b.due_date));
+    if (!pending.length) return "Nothing pending right now — you're all caught up on assignments.";
+    const next = pending[0];
+    const due = dueLabel(next.due_date, next.done);
+    return `You have ${pending.length} assignment${pending.length === 1 ? '' : 's'} pending. The nearest is "${next.title}" — ${due.text.toLowerCase()}.`;
+  }
+  if (/\b(class|timetable|schedule|lecture)\b/.test(input)) {
+    const todayName = DAYS[new Date().getDay()];
+    const todays = state.timetable.filter((t) => t.day === todayName).sort((a, b) => a.start_time.localeCompare(b.start_time));
+    if (!todays.length) return `No classes are scheduled for ${todayName} in your timetable.`;
+    const now = new Date();
+    const nowMinutes = now.getHours() * 60 + now.getMinutes();
+    const next = todays.find((t) => {
+      const parts = t.start_time.split(':').map(Number);
+      return parts[0] * 60 + parts[1] >= nowMinutes;
+    });
+    if (!next) return `You've got ${todays.length} class${todays.length === 1 ? '' : 'es'} today, and it looks like they're all done.`;
+    return `Your next class today is ${next.course_name || 'a class'} at ${next.start_time}${next.location ? ' in ' + next.location : ''}.`;
+  }
+  if (/\b(progress|task|complet)\b/.test(input)) {
+    if (!state.progress.totalItems) return "There's nothing tracked yet — add an assignment or a study task to see your progress.";
+    return `You're at ${state.progress.percent}% completion across your assignments and study tasks.`;
+  }
+  if (/\b(hello|hi|hey|good morning|good afternoon|good evening)\b/.test(input)) {
+    return `Hey ${getName() === 'there' ? '' : getName()}! What would you like to check — your CGPA, timetable, or assignments?`;
+  }
+  if (/\b(thank|thanks|thank you)\b/.test(input)) return 'Happy to help — good luck with your studies!';
+  if (/\b(who are you|what are you)\b/.test(input)) {
+    return "I'm EduFlow's built-in study assistant — a lightweight helper running on simple logic, not a connected AI model. I answer using the data already on your dashboard.";
+  }
+  if (/\b(help|what can you do)\b/.test(input)) {
+    return "I can tell you your CGPA, what's due soon, your next class, your study progress, or share a quick study tip. Just ask.";
+  }
+  if (/\b(motivat|tired|stress|stuck|burn|study tip|tip|advice)\b/.test(input)) {
+    return MOTIVATION[Math.floor(Math.random() * MOTIVATION.length)];
+  }
+  return FALLBACKS[Math.floor(Math.random() * FALLBACKS.length)];
+}
+function sendChat(text) {
+  const message = text.trim();
+  if (!message) return;
+  pushChat('user', message);
+  renderChat();
+
+  const thinkingMsg = { role: 'bot', text: '…', thinking: true };
+  state.chat.push(thinkingMsg);
+  renderChat();
+
+  const historyForApi = state.chat
+    .filter((m) => !m.thinking && m !== thinkingMsg)
+    .slice(-10)
+    .map((m) => ({ role: m.role === 'user' ? 'user' : 'assistant', text: m.text }));
+  const selectedModel = localStorage.getItem('eduflow_assistant_model') || '';
+
+  apiFetch('/api/assistant/chat', { method: 'POST', body: JSON.stringify({ message, model: selectedModel, history: historyForApi }) })
+    .then((data) => {
+      state.chat = state.chat.filter((m) => m !== thinkingMsg);
+      const reply = data.aiConfigured && data.reply ? data.reply : botReply(message);
+      pushChat('bot', reply);
+      renderChat();
+    })
+    .catch((err) => {
+      state.chat = state.chat.filter((m) => m !== thinkingMsg);
+      // A real response from the server (e.g. an hourly limit hit) carries
+      // a specific message worth showing as-is. Only a genuine connection
+      // failure falls back to the old built-in keyword replies.
+      const isConnectionFailure = err.message.startsWith('Could not reach the server');
+      pushChat('bot', isConnectionFailure ? botReply(message) : err.message);
+      renderChat();
+    });
+}
+
+async function initAssistantModels() {
+  const select = qs('#assistantModelSelect');
+  try {
+    const data = await apiFetch('/api/assistant/models');
+    qs('#assistantNotConfiguredNote').classList.toggle('hidden', data.aiConfigured);
+    select.innerHTML = data.models.map((m) => `<option value="${m.id}">${escapeHtml(m.label)}</option>`).join('');
+    const saved = localStorage.getItem('eduflow_assistant_model');
+    select.value = data.models.some((m) => m.id === saved) ? saved : data.default;
+    localStorage.setItem('eduflow_assistant_model', select.value);
+  } catch (e) {
+    select.innerHTML = '<option value="">Default</option>';
+    qs('#assistantNotConfiguredNote').classList.remove('hidden');
+  }
+  select.addEventListener('change', () => {
+    localStorage.setItem('eduflow_assistant_model', select.value);
+  });
+}
+
+/* ================= INIT ================= */
+function pollForGoogleSignIn(attemptsLeft) {
+  if (typeof google !== 'undefined' && google.accounts) {
+    initGoogleSignIn();
+    return;
+  }
+  if (attemptsLeft <= 0) return;
+  setTimeout(() => pollForGoogleSignIn(attemptsLeft - 1), 300);
+}
+
+/* ---------- PWA: install prompt + service worker ---------- */
+let deferredInstallPrompt = null;
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredInstallPrompt = e;
+  const btn = document.getElementById('installAppBtn');
+  if (btn) btn.classList.remove('hidden');
+});
+window.addEventListener('appinstalled', () => {
+  deferredInstallPrompt = null;
+  const btn = document.getElementById('installAppBtn');
+  if (btn) btn.classList.add('hidden');
+});
+/* ---------- global search ---------- */
+function runGlobalSearch(rawQuery) {
+  const q = rawQuery.trim().toLowerCase();
+  if (!q) return [];
+  const results = [];
+
+  state.courses.forEach((c) => {
+    if (c.name.toLowerCase().includes(q) || (c.code && c.code.toLowerCase().includes(q))) {
+      results.push({ icon: 'fa-book-open', title: c.name, subtitle: c.code || `${c.units} units`, view: 'courses' });
+    }
+  });
+  state.assignments.forEach((a) => {
+    if (a.title.toLowerCase().includes(q)) {
+      results.push({ icon: 'fa-list-check', title: a.title, subtitle: a.done ? 'Completed' : `Due ${a.due_date}`, view: 'assignments' });
+    }
+  });
+  state.timetable.forEach((t) => {
+    const course = t.course_name || '';
+    if (course.toLowerCase().includes(q) || (t.location && t.location.toLowerCase().includes(q))) {
+      results.push({ icon: 'fa-calendar-week', title: course || 'Class', subtitle: `${t.day} · ${t.start_time}${t.location ? ' · ' + t.location : ''}`, view: 'timetable' });
+    }
+  });
+  state.tasks.forEach((task) => {
+    if (task.text.toLowerCase().includes(q)) {
+      results.push({ icon: 'fa-chart-line', title: task.text, subtitle: task.done ? 'Completed' : 'Study task', view: 'progress' });
+    }
+  });
+
+  return results.slice(0, 8);
+}
+function renderSearchResults(results, query) {
+  const wrap = qs('#globalSearchResults');
+  if (!query.trim()) {
+    wrap.classList.add('hidden');
+    wrap.innerHTML = '';
+    return;
+  }
+  wrap.classList.remove('hidden');
+  wrap.innerHTML = results.length
+    ? results.map((r) => `
+        <button data-search-view="${r.view}" class="w-full text-left px-3 py-2.5 flex items-center gap-3 hover:bg-ink/5 dark:hover:bg-white/5 border-b border-ink/5 dark:border-ink-dark/5 last:border-b-0">
+          <i class="fa-solid ${r.icon} text-xs text-inksoft dark:text-inksoft-dark w-4 text-center shrink-0"></i>
+          <span class="min-w-0">
+            <span class="block text-sm font-medium truncate">${escapeHtml(r.title)}</span>
+            <span class="block text-xs text-inksoft dark:text-inksoft-dark truncate">${escapeHtml(r.subtitle)}</span>
+          </span>
+        </button>
+      `).join('')
+    : `<p class="px-3 py-3 text-sm text-inksoft dark:text-inksoft-dark">No matches for "${escapeHtml(query)}"</p>`;
+}
+function initGlobalSearch() {
+  const input = qs('#globalSearchInput');
+  const wrap = qs('#globalSearchResults');
+  input.addEventListener('input', () => {
+    renderSearchResults(runGlobalSearch(input.value), input.value);
+  });
+  wrap.addEventListener('click', (e) => {
+    const btn = e.target.closest('[data-search-view]');
+    if (!btn) return;
+    showView(btn.dataset.searchView);
+    input.value = '';
+    wrap.classList.add('hidden');
+  });
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('#globalSearchInput') && !e.target.closest('#globalSearchResults')) {
+      wrap.classList.add('hidden');
+    }
+  });
+  input.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') { input.value = ''; wrap.classList.add('hidden'); input.blur(); }
+  });
+}
+
+/* ---------- floating assistant button + one-time welcome bubble ---------- */
+function initFloatingAssistant() {
+  const btn = qs('#floatingAssistantBtn');
+  const bubble = qs('#assistantWelcomeBubble');
+
+  function dismissBubble() {
+    bubble.classList.add('hidden');
+    localStorage.setItem('eduflow_seen_assistant_welcome', '1');
+  }
+
+  if (!localStorage.getItem('eduflow_seen_assistant_welcome')) {
+    setTimeout(() => bubble.classList.remove('hidden'), 1200);
+  }
+  bubble.addEventListener('click', () => {
+    dismissBubble();
+    showView('assistant');
+  });
+  qs('#dismissAssistantWelcomeBtn').addEventListener('click', (e) => {
+    e.stopPropagation();
+    dismissBubble();
+  });
+  btn.addEventListener('click', dismissBubble);
+}
+
+function initInstallPrompt() {
+  const btn = qs('#installAppBtn');
+  btn.addEventListener('click', async () => {
+    if (!deferredInstallPrompt) return;
+    deferredInstallPrompt.prompt();
+    await deferredInstallPrompt.userChoice;
+    deferredInstallPrompt = null;
+    btn.classList.add('hidden');
+  });
+}
+function registerServiceWorker() {
+  if (!('serviceWorker' in navigator)) return;
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch(() => { /* offline caching just won't be available — app still works online */ });
+  });
+}
+
+function init() {
+  initTheme();
+  registerServiceWorker();
+  initInstallPrompt();
+  initGlobalSearch();
+  initFloatingAssistant();
+
+  qsa('[data-toggle-password]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const input = qs('#' + btn.dataset.togglePassword);
+      const showing = input.type === 'text';
+      input.type = showing ? 'password' : 'text';
+      btn.querySelector('i').className = showing ? 'fa-solid fa-eye text-sm' : 'fa-solid fa-eye-slash text-sm';
+      btn.setAttribute('aria-label', showing ? 'Show password' : 'Hide password');
+    });
+  });
+
+  // A password-reset link looks like index.html?resetToken=xxxx — if that's
+  // how the page was opened, show only the "set new password" screen and
+  // skip the normal login flow entirely.
+  const resetToken = new URLSearchParams(window.location.search).get('resetToken');
+  if (resetToken) {
+    qs('#resetPasswordScreen').classList.remove('hidden');
+    qs('#resetPasswordForm').addEventListener('submit', handleResetPassword);
+    return;
+  }
+
+  // Same idea for an email-verification link: index.html?verifyToken=xxxx
+  const verifyToken = new URLSearchParams(window.location.search).get('verifyToken');
+  if (verifyToken) {
+    qs('#verifyEmailScreen').classList.remove('hidden');
+    runEmailVerification(verifyToken);
+    return;
+  }
+
+  initNav();
+  initAssignmentFilters();
+
+  qs('#authTabLogin').addEventListener('click', () => setAuthTab('login'));
+  qs('#authTabSignup').addEventListener('click', () => setAuthTab('signup'));
+  setAuthTab('login');
+  qs('#loginForm').addEventListener('submit', handleLogin);
+  qs('#signupForm').addEventListener('submit', handleSignup);
+  qs('#forgotForm').addEventListener('submit', handleForgotPassword);
+  qs('#showForgotFormBtn').addEventListener('click', showForgotForm);
+  qs('#backToLoginBtn').addEventListener('click', backToLogin);
+  pollForGoogleSignIn(15);
+  qs('#apiBaseInput').value = API_BASE;
+  qs('#apiBaseInput').addEventListener('change', (e) => {
+    API_BASE = e.target.value.trim().replace(/\/$/, '') || DEFAULT_API_BASE;
+    localStorage.setItem('eduflow_api_base', API_BASE);
+  });
+  qs('#logoutBtn').addEventListener('click', logout);
+  qs('#accountNameForm').addEventListener('submit', handleUpdateName);
+  qs('#accountEmailForm').addEventListener('submit', handleUpdateEmail);
+  qs('#accountPasswordForm').addEventListener('submit', handleUpdatePassword);
+  qs('#accountDeleteForm').addEventListener('submit', handleDeleteAccount);
+  qs('#exportDataBtn').addEventListener('click', handleExportData);
+  qs('#resendVerificationBtn').addEventListener('click', handleResendVerification);
+
+  qs('#courseForm').addEventListener('submit', addCourse);
+  qs('#timetableForm').addEventListener('submit', addClass);
+  qs('#assignmentForm').addEventListener('submit', addAssignment);
+  qs('#semesterForm').addEventListener('submit', addSemester);
+  qs('#cgpaForm').addEventListener('submit', addCgpaEntry);
+  qs('#calcTargetGpaBtn').addEventListener('click', calculateTargetGpa);
+  qs('#exportCgpaPdfBtn').addEventListener('click', exportCgpaPdf);
+  qs('#exportTimetablePdfBtn').addEventListener('click', exportTimetablePdf);
+  qs('#exportTimetableIcsBtn').addEventListener('click', exportTimetableIcs);
+  qs('#taskForm').addEventListener('submit', addTask);
+
+  qs('#chatForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const input = qs('#chatInput');
+    sendChat(input.value);
+    input.value = '';
+  });
+  qsa('.chat-suggestion').forEach((btn) => {
+    btn.addEventListener('click', () => sendChat(btn.textContent));
+  });
+
+  qs('#themeToggleBtn').addEventListener('click', toggleTheme);
+  qs('#mobileMenuBtn').addEventListener('click', openSidebar);
+  qs('#closeSidebarBtn').addEventListener('click', closeSidebar);
+  qs('#sidebarOverlay').addEventListener('click', closeSidebar);
+
+  tryResumeSession().then(() => {
+    if (currentUser) {
+      qs('#sidebarUserName').textContent = currentUser.name;
+      qs('#sidebarUserEmail').textContent = currentUser.email;
+    }
+  });
+}
+document.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>
