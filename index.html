@@ -171,6 +171,46 @@
   .dark .message-contact-check:hover { background: #252a35; }
   .dark .messages-thread-back { color: #cbd5e1; background: #2a303b; }
   @media (max-width: 639px) { .messages-thread-panel { min-height: calc(100vh - 210px); } .messages-thread-list { min-height: 300px; } .message-bubble-row { max-width: 90%; } }
+  .course-search { display: flex; align-items: center; gap: 10px; padding: 12px 14px; border: 1px solid #e3e8f2; border-radius: 14px; color: #94a3b8; background: #f8fafc; }
+  .course-search input { width: 100%; border: 0; outline: 0; color: #101a32; background: transparent; font-size: 13px; }
+  .course-filter-tabs { display: flex; gap: 8px; margin-top: 12px; overflow-x: auto; padding-bottom: 2px; }
+  .course-filter-tab { flex: 0 0 auto; padding: 8px 12px; border: 1px solid #e3e8f2; border-radius: 999px; color: #7b879c; background: transparent; font-size: 11px; font-weight: 800; white-space: nowrap; }
+  .course-filter-tab.active { border-color: #3562eb; color: #fff; background: linear-gradient(145deg,#3562eb,#4f46e5); }
+  .course-list-card { cursor: pointer; transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease; }
+  .course-list-card:hover { transform: translateY(-2px); border-color: rgba(53,98,235,.35); box-shadow: 0 10px 22px rgba(27,45,79,.08); }
+  .course-list-arrow { color: #3562eb; }
+  .course-card-mark { display: grid; place-items: center; width: 34px; height: 34px; flex: 0 0 34px; border-radius: 11px; color: #3562eb; background: #eef2ff; }
+  .course-card-progress { margin: 10px 0 0 46px; }
+  .course-card-progress > span { color: #8c96aa; font-size: 10px; }
+  .course-card-progress > strong { float: right; color: #3562eb; font-size: 10px; }
+  .course-card-progress > div { clear: both; height: 5px; margin-top: 5px; overflow: hidden; border-radius: 99px; background: #e9edf5; }
+  .course-card-progress i { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg,#3562eb,#6b72f5); }
+  .course-detail-back { display: inline-flex; align-items: center; gap: 8px; border: 0; color: #3562eb; background: transparent; font-size: 13px; font-weight: 800; }
+  .course-detail-hero { display: flex; align-items: center; gap: 16px; padding: 24px; border-radius: 24px; color: #fff; background: linear-gradient(135deg,#11195a 0%,#3562eb 68%,#6575f5 100%); box-shadow: 0 16px 30px rgba(42,58,166,.2); }
+  .course-detail-icon { display: grid; place-items: center; width: 58px; height: 58px; flex: 0 0 58px; border-radius: 18px; color: #dbeafe; background: rgba(255,255,255,.16); font-size: 23px; }
+  .course-detail-kicker, .course-detail-section-kicker { margin: 0 0 4px; color: #9caaf5; font-size: 11px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+  .course-detail-hero h1 { margin: 0; font-family: 'Plus Jakarta Sans','Inter',sans-serif; font-size: clamp(22px,4vw,32px); font-weight: 800; letter-spacing: -.04em; }
+  .course-detail-hero #courseDetailMeta { margin: 6px 0 0; color: #dbe4ff; font-size: 13px; }
+  .course-detail-stats { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 12px; }
+  .course-detail-stat { padding: 16px; border: 1px solid rgba(53,98,235,.12); border-radius: 18px; background: linear-gradient(180deg,#fff,#f6f8ff); }
+  .course-detail-stat i { color: #3562eb; }
+  .course-detail-stat strong { display: block; margin-top: 8px; color: #101a32; font-size: 21px; }
+  .course-detail-stat span { display: block; margin-top: 2px; color: #7b879c; font-size: 11px; }
+  .course-detail-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 16px; }
+  .course-detail-section-kicker { color: #3562eb; }
+  .course-detail-item { display: flex; align-items: center; gap: 10px; padding: 11px 0; border-top: 1px solid #edf0f5; }
+  .course-detail-item:first-child { border-top: 0; padding-top: 0; }
+  .course-detail-item strong { display: block; color: #101a32; font-size: 13px; }
+  .course-detail-item small { display: block; margin-top: 3px; color: #8c96aa; font-size: 11px; }
+  .course-detail-item > i { width: 26px; color: #3562eb; text-align: center; }
+  .course-detail-empty { padding: 12px 0; color: #8c96aa; font-size: 12px; }
+  .dark .course-search, .dark .course-detail-stat { border-color: #303542; background: #1d2028; }
+  .dark .course-search input, .dark .course-detail-stat strong, .dark .course-detail-item strong { color: #f3f5fb; }
+  .dark .course-card-mark { background: #202a50; }
+  .dark .course-card-progress > div { background: #303542; }
+  .dark .course-filter-tab { border-color: #3a414e; color: #cbd5e1; }
+  .dark .course-detail-item { border-color: #303542; }
+  @media (max-width: 767px) { .course-detail-stats { grid-template-columns: repeat(2,minmax(0,1fr)); } .course-detail-grid { grid-template-columns: 1fr; gap: 12px; } .course-detail-hero { padding: 20px; border-radius: 20px; } }
   @media (max-width: 767px) {
     :root { --mobile-navy: #11195a; --mobile-blue: #2f5be9; --mobile-text: #101a32; --mobile-muted: #8c96aa; }
     body { background: #f7f9fc !important; color: var(--mobile-text); padding-bottom: 84px; font-family: 'Inter', sans-serif; }
@@ -669,6 +709,11 @@ main > div:first-child { max-width:1240px; }
         <p class="text-inksoft dark:text-inksoft-dark text-sm mt-1">Add the courses you're registered for. They'll show up across your timetable and CGPA calculator.</p>
       </div>
 
+      <div class="course-browser-controls bg-surface dark:bg-surface-dark rounded-2xl border border-ink/10 dark:border-ink-dark/10 p-4 sm:p-5">
+        <label class="course-search" for="courseSearch"><i class="fa-solid fa-magnifying-glass"></i><input id="courseSearch" type="search" placeholder="Search courses, codes, or lecturers..." autocomplete="off" /></label>
+        <div id="courseFilterTabs" class="course-filter-tabs" role="tablist" aria-label="Course filters"><button type="button" data-course-filter="all" class="course-filter-tab active" role="tab" aria-selected="true">All courses</button><button type="button" data-course-filter="tasks" class="course-filter-tab" role="tab" aria-selected="false">With tasks</button><button type="button" data-course-filter="scheduled" class="course-filter-tab" role="tab" aria-selected="false">Scheduled</button><button type="button" data-course-filter="graded" class="course-filter-tab" role="tab" aria-selected="false">Graded</button></div>
+      </div>
+
       <form id="courseForm" class="bg-surface dark:bg-surface-dark rounded-2xl border border-ink/10 dark:border-ink-dark/10 p-5 sm:p-6 grid sm:grid-cols-2 lg:grid-cols-5 gap-3 sm:gap-4 items-end">
         <div class="lg:col-span-2">
           <label class="text-xs text-inksoft dark:text-inksoft-dark" for="courseName">Course title</label>
@@ -703,6 +748,18 @@ main > div:first-child { max-width:1240px; }
       </div>
 
       <div id="courseList" class="space-y-2"></div>
+    </section>
+
+    <!-- COURSE DETAIL -->
+    <section id="view-course-detail" class="view hidden space-y-6 max-w-4xl">
+      <button type="button" data-view="courses" class="course-detail-back"><i class="fa-solid fa-arrow-left"></i><span>Back to courses</span></button>
+      <div id="courseDetailHero" class="course-detail-hero"><div class="course-detail-icon"><i class="fa-solid fa-book-open"></i></div><div class="min-w-0"><p class="course-detail-kicker">Course overview</p><h1 id="courseDetailName">Course</h1><p id="courseDetailMeta">Course details</p></div></div>
+      <div id="courseDetailStats" class="course-detail-stats"></div>
+      <div class="course-detail-grid">
+        <div class="bg-surface dark:bg-surface-dark rounded-2xl border border-ink/10 dark:border-ink-dark/10 p-5 sm:p-6"><div class="flex items-center justify-between mb-4"><div><p class="course-detail-section-kicker">Assignments</p><h2 class="font-serif font-semibold text-lg">Course activity</h2></div><button type="button" data-view="assignments" class="text-xs text-teal font-semibold">View all <i class="fa-solid fa-chevron-right ml-1"></i></button></div><div id="courseDetailAssignments"></div></div>
+        <div class="bg-surface dark:bg-surface-dark rounded-2xl border border-ink/10 dark:border-ink-dark/10 p-5 sm:p-6"><div class="flex items-center justify-between mb-4"><div><p class="course-detail-section-kicker">Timetable</p><h2 class="font-serif font-semibold text-lg">Class schedule</h2></div><button type="button" data-view="timetable" class="text-xs text-teal font-semibold">Open timetable <i class="fa-solid fa-chevron-right ml-1"></i></button></div><div id="courseDetailSchedule"></div></div>
+      </div>
+      <div class="bg-surface dark:bg-surface-dark rounded-2xl border border-ink/10 dark:border-ink-dark/10 p-5 sm:p-6"><div class="flex items-center justify-between mb-4"><div><p class="course-detail-section-kicker">Academic record</p><h2 class="font-serif font-semibold text-lg">Grades and CGPA</h2></div><button type="button" data-view="cgpa" class="text-xs text-teal font-semibold">Open CGPA <i class="fa-solid fa-chevron-right ml-1"></i></button></div><div id="courseDetailGrades"></div></div>
     </section>
 
     <!-- TIMETABLE -->
@@ -1576,6 +1633,9 @@ const state = {
   streak: null,
 };
 let activeSemesterId = null;
+let courseFilter = 'all';
+let courseSearch = '';
+let activeCourseId = null;
 
 const DAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 const WEEK_DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
@@ -1706,7 +1766,7 @@ function updateThemeToggleUI(isDark) {
 }
 
 /* ---------- navigation ---------- */
-const VIEWS = ['overview', 'courses', 'timetable', 'assignments', 'cgpa', 'progress', 'assistant', 'messages', 'profile', 'account'];
+const VIEWS = ['overview', 'courses', 'course-detail', 'timetable', 'assignments', 'cgpa', 'progress', 'assistant', 'messages', 'profile', 'account'];
 function showView(name) {
   document.documentElement.dataset.eduflowNavState = name;
   const notificationPanel = qs('#mobileNotificationPanel');
@@ -1728,6 +1788,7 @@ function showView(name) {
   qsa('[data-mobile-nav]').forEach((btn) => btn.classList.toggle('mobile-nav-active', btn.dataset.view === name));
   closeSidebar();
   if (name === 'progress') renderProgressChart();
+  if (name === 'course-detail') renderCourseDetail();
   if (name === 'profile') renderProfile();
   if (name === 'messages') { loadMessageContacts(); loadConversations(); }
   if (name === 'account') renderAccountSettings();
@@ -1789,23 +1850,62 @@ async function deleteCourse(id) {
 function courseById(id) {
   return state.courses.find((c) => String(c.id) === String(id));
 }
+function courseActivity(courseId) {
+  const key = String(courseId);
+  return {
+    assignments: state.assignments.filter((item) => String(item.course_id) === key),
+    schedule: state.timetable.filter((item) => String(item.course_id) === key),
+    grades: state.cgpaEntries.filter((item) => String(item.course_id) === key),
+  };
+}
+function courseMatchesFilter(course) {
+  const activity = courseActivity(course.id);
+  if (courseFilter === 'tasks') return activity.assignments.length > 0;
+  if (courseFilter === 'scheduled') return activity.schedule.length > 0;
+  if (courseFilter === 'graded') return activity.grades.length > 0;
+  return true;
+}
 function renderCourses() {
   const wrap = qs('#courseList');
   if (!state.courses.length) {
     wrap.innerHTML = emptyState('fa-book-open', 'No courses yet', 'Add your first course above to start building your timetable and CGPA.');
     return;
   }
-  wrap.innerHTML = state.courses.map((c) => `
-    <div class="bg-surface dark:bg-surface-dark rounded-xl border border-ink/10 dark:border-ink-dark/10 p-4 flex items-center justify-between gap-3">
-      <div class="min-w-0">
-        <p class="font-semibold truncate">${escapeHtml(c.name)} ${c.code ? `<span class="text-inksoft dark:text-inksoft-dark font-normal">· ${escapeHtml(c.code)}</span>` : ''}</p>
-        <p class="text-xs text-inksoft dark:text-inksoft-dark mt-0.5">${c.units} unit${c.units == 1 ? '' : 's'}${c.instructor ? ' · ' + escapeHtml(c.instructor) : ''}</p>
-      </div>
-      <button aria-label="Delete course" onclick="deleteCourse('${c.id}')" class="w-8 h-8 shrink-0 rounded-lg text-coral hover:bg-coral/10 focus:outline-none focus:ring-2 focus:ring-coral">
-        <i class="fa-solid fa-trash text-sm"></i>
-      </button>
-    </div>
-  `).join('');
+  const query = courseSearch.toLowerCase();
+  const courses = state.courses.filter((course) => {
+    const text = `${course.name} ${course.code || ''} ${course.instructor || ''}`.toLowerCase();
+    return text.includes(query) && courseMatchesFilter(course);
+  });
+  if (!courses.length) {
+    wrap.innerHTML = emptyState('fa-filter', 'No matching courses', 'Try another search or choose a different filter.');
+    return;
+  }
+  wrap.innerHTML = courses.map((c) => {
+    const activity = courseActivity(c.id);
+    const completed = activity.assignments.filter((item) => item.done).length;
+    const progress = activity.assignments.length ? Math.round((completed / activity.assignments.length) * 100) : 0;
+    const progressText = activity.assignments.length ? `${progress}%` : 'No tasks';
+    return `<article class="course-list-card bg-surface dark:bg-surface-dark rounded-xl border border-ink/10 dark:border-ink-dark/10 p-4 flex items-center justify-between gap-3" onclick="openCourseDetail('${c.id}')"><div class="min-w-0 flex-1"><div class="flex items-center gap-2 min-w-0"><span class="course-card-mark"><i class="fa-solid fa-book-open"></i></span><div class="min-w-0"><p class="font-semibold truncate">${escapeHtml(c.name)} ${c.code ? `<span class="text-inksoft dark:text-inksoft-dark font-normal">· ${escapeHtml(c.code)}</span>` : ''}</p><p class="text-xs text-inksoft dark:text-inksoft-dark mt-0.5">${c.units} unit${c.units == 1 ? '' : 's'}${c.instructor ? ' · ' + escapeHtml(c.instructor) : ''}</p></div></div><div class="course-card-progress"><span>Activity progress</span><strong>${progressText}</strong><div><i style="width:${progress}%"></i></div></div></div><div class="flex items-center gap-2 shrink-0"><button aria-label="Delete course" onclick="event.stopPropagation(); deleteCourse('${c.id}')" class="w-8 h-8 rounded-lg text-coral hover:bg-coral/10 focus:outline-none focus:ring-2 focus:ring-coral"><i class="fa-solid fa-trash text-sm"></i></button><i class="course-list-arrow fa-solid fa-chevron-right"></i></div></article>`;
+  }).join('');
+}
+function openCourseDetail(id) {
+  activeCourseId = id;
+  showView('course-detail');
+}
+function renderCourseDetail() {
+  const course = courseById(activeCourseId);
+  if (!course) { showView('courses'); return; }
+  const activity = courseActivity(course.id);
+  const completed = activity.assignments.filter((item) => item.done).length;
+  const pending = activity.assignments.length - completed;
+  const grades = activity.grades;
+  qs('#courseDetailName').textContent = course.name;
+  qs('#courseDetailMeta').textContent = [course.code, `${course.units} unit${course.units == 1 ? '' : 's'}`, course.instructor || 'Lecturer not added'].filter(Boolean).join(' · ');
+  qs('#courseDetailStats').innerHTML = `<div class="course-detail-stat"><i class="fa-solid fa-list-check"></i><strong>${pending}</strong><span>Pending tasks</span></div><div class="course-detail-stat"><i class="fa-solid fa-circle-check"></i><strong>${completed}</strong><span>Completed tasks</span></div><div class="course-detail-stat"><i class="fa-solid fa-calendar-days"></i><strong>${activity.schedule.length}</strong><span>Class entries</span></div><div class="course-detail-stat"><i class="fa-solid fa-star"></i><strong>${grades.length ? escapeHtml(grades[grades.length - 1].grade) : '—'}</strong><span>Latest grade</span></div>`;
+  const assignments = activity.assignments.slice().sort((a, b) => String(a.due_date || '').localeCompare(String(b.due_date || '')));
+  qs('#courseDetailAssignments').innerHTML = assignments.length ? assignments.map((item) => `<div class="course-detail-item"><i class="fa-solid ${item.done ? 'fa-circle-check text-teal' : 'fa-clock'}"></i><div><strong>${escapeHtml(item.title)}</strong><small>${item.done ? 'Completed' : `Due ${escapeHtml(item.due_date || 'date not set')}`}</small></div></div>`).join('') : '<p class="course-detail-empty">No assignments are linked to this course yet.</p>';
+  qs('#courseDetailSchedule').innerHTML = activity.schedule.length ? activity.schedule.map((item) => `<div class="course-detail-item"><i class="fa-solid fa-calendar-day"></i><div><strong>${escapeHtml(item.day)} · ${escapeHtml(item.start_time)}–${escapeHtml(item.end_time)}</strong><small>${escapeHtml(item.location || 'Location not added')}</small></div></div>`).join('') : '<p class="course-detail-empty">No timetable entries are linked to this course yet.</p>';
+  qs('#courseDetailGrades').innerHTML = grades.length ? grades.map((item) => { const semester = state.semesters.find((s) => String(s.id) === String(item.semester_id)); return `<div class="course-detail-item"><i class="fa-solid fa-award"></i><div><strong>${escapeHtml(item.grade)}</strong><small>${escapeHtml(semester ? semester.name : 'Semester')}</small></div></div>`; }).join('') : '<p class="course-detail-empty">No grade has been recorded for this course yet.</p>';
 }
 function populateCourseSelects() {
   const options = state.courses.map((c) => `<option value="${c.id}">${escapeHtml(c.name)}${c.code ? ' (' + escapeHtml(c.code) + ')' : ''}</option>`).join('');
@@ -3003,6 +3103,12 @@ function init() {
   qs('#resendVerificationBtn').addEventListener('click', handleResendVerification);
 
   qs('#courseForm').addEventListener('submit', addCourse);
+  qs('#courseSearch').addEventListener('input', (e) => { courseSearch = e.target.value.trim(); renderCourses(); });
+  qsa('[data-course-filter]').forEach((tab) => tab.addEventListener('click', () => {
+    courseFilter = tab.dataset.courseFilter;
+    qsa('[data-course-filter]').forEach((item) => { const active = item === tab; item.classList.toggle('active', active); item.setAttribute('aria-selected', String(active)); });
+    renderCourses();
+  }));
   qs('#timetableForm').addEventListener('submit', addClass);
   qs('#assignmentForm').addEventListener('submit', addAssignment);
   qs('#semesterForm').addEventListener('submit', addSemester);
