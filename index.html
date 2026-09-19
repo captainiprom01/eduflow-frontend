@@ -125,6 +125,7 @@
   .message-avatar { position: relative; display: inline-grid; place-items: center; width: 48px; height: 48px; flex: 0 0 48px; border-radius: 16px; font-size: 13px; font-weight: 800; }
   .message-avatar.blue { color: #2563eb; background: #eff6ff; } .message-avatar.violet { color: #7c3aed; background: #f5f3ff; } .message-avatar.green { color: #059669; background: #ecfdf5; }
   .message-avatar i { position: absolute; right: 0; bottom: 0; width: 11px; height: 11px; border: 2px solid #fff; border-radius: 50%; background: #10b981; }
+  .message-avatar i.offline { background: #cbd5e1; }
   .messages-section-title { margin-top: 8px; }
   .messages-list { display: grid; gap: 8px; }
   .message-row { display: flex; align-items: center; gap: 12px; width: 100%; padding: 14px; border: 0; border-radius: 18px; text-align: left; background: #fff; box-shadow: 0 5px 14px rgba(27,45,79,.07); }
@@ -211,6 +212,40 @@
   .dark .course-filter-tab { border-color: #3a414e; color: #cbd5e1; }
   .dark .course-detail-item { border-color: #303542; }
   @media (max-width: 767px) { .course-detail-stats { grid-template-columns: repeat(2,minmax(0,1fr)); } .course-detail-grid { grid-template-columns: 1fr; gap: 12px; } .course-detail-hero { padding: 20px; border-radius: 20px; } }
+  .settings-page-hero { display: flex; align-items: center; gap: 16px; padding: 24px; border-radius: 24px; color: #fff; background: linear-gradient(135deg,#11195a,#3562eb 68%,#6575f5); box-shadow: 0 16px 30px rgba(42,58,166,.2); }
+  .settings-hero-icon { display: grid; place-items: center; width: 58px; height: 58px; flex: 0 0 58px; border-radius: 18px; color: #dbeafe; background: rgba(255,255,255,.16); font-size: 23px; }
+  .settings-kicker { margin: 0 0 4px; color: #9caaf5; font-size: 11px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+  .settings-page-hero h1 { margin: 0; font-family: 'Plus Jakarta Sans','Inter',sans-serif; font-size: 28px; font-weight: 800; letter-spacing: -.04em; }
+  .settings-page-hero p:last-child { margin: 6px 0 0; color: #dbe4ff; font-size: 13px; }
+  .settings-card { overflow: hidden; border: 1px solid rgba(53,98,235,.12); border-radius: 20px; background: #fff; box-shadow: 0 5px 14px rgba(27,45,79,.05); }
+  .settings-card-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 14px; padding: 18px; border-bottom: 1px solid #edf0f5; }
+  .settings-card-heading h2 { margin: 0; color: #101a32; font-size: 16px; font-weight: 800; }
+  .settings-card-heading p { margin: 4px 0 0; color: #8c96aa; font-size: 11px; }
+  .settings-card-heading > i { color: #3562eb; font-size: 18px; }
+  .settings-link-row, .settings-toggle-row, .settings-select-row { display: flex; align-items: center; gap: 12px; width: 100%; padding: 14px 18px; border: 0; border-bottom: 1px solid #edf0f5; color: inherit; background: transparent; text-align: left; }
+  .settings-link-row:last-child, .settings-toggle-row:last-of-type, .settings-select-row:last-child { border-bottom: 0; }
+  .settings-link-row:hover { background: #f8fafc; }
+  .settings-link-row > span:nth-child(2), .settings-toggle-row > span, .settings-select-row > span { flex: 1; min-width: 0; }
+  .settings-link-row strong, .settings-toggle-row strong, .settings-select-row strong { display: block; color: #101a32; font-size: 13px; }
+  .settings-link-row small, .settings-toggle-row small, .settings-select-row small { display: block; margin-top: 3px; color: #8c96aa; font-size: 11px; line-height: 1.35; }
+  .settings-link-row > i:last-child { color: #b2bdce; font-size: 12px; }
+  .settings-row-icon { display: grid; place-items: center; width: 34px; height: 34px; flex: 0 0 34px; border-radius: 11px; }
+  .settings-row-icon.green { color: #059669; background: #ecfdf5; } .settings-row-icon.blue { color: #2563eb; background: #eff6ff; }
+  .settings-toggle-row input { position: relative; width: 42px; height: 24px; flex: 0 0 42px; appearance: none; border-radius: 99px; outline: 0; background: #d8dfeb; cursor: pointer; transition: background .2s ease; }
+  .settings-toggle-row input::after { position: absolute; top: 3px; left: 3px; width: 18px; height: 18px; border-radius: 50%; background: #fff; box-shadow: 0 2px 5px rgba(15,23,42,.2); content: ''; transition: transform .2s ease; }
+  .settings-toggle-row input:checked { background: #3562eb; } .settings-toggle-row input:checked::after { transform: translateX(18px); }
+  .settings-select-row select { min-width: 132px; padding: 8px 10px; border: 1px solid #e3e8f2; border-radius: 10px; color: #334155; background: #f8fafc; font-size: 12px; }
+  .settings-save-status { min-height: 18px; margin: 0; padding: 0 18px 14px; color: #059669; font-size: 11px; }
+  .settings-secondary-btn { padding: 8px 12px; border: 1px solid #dbe2ee; border-radius: 10px; color: #3562eb; background: transparent; font-size: 11px; font-weight: 800; }
+  .notifications-list { display: grid; gap: 20px; }
+  .notification-group h3 { margin: 0 0 8px; color: #8c96aa; font-size: 11px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+  .notification-item { display: flex; align-items: flex-start; gap: 12px; width: 100%; padding: 14px; border: 1px solid #edf0f5; border-radius: 16px; color: inherit; background: #fff; text-align: left; box-shadow: 0 4px 12px rgba(27,45,79,.04); }
+  .notification-item.unread { border-color: #c9d5ff; background: #f6f8ff; } .notification-item:hover { border-color: #aebeff; }
+  .notification-icon { display: grid; place-items: center; width: 38px; height: 38px; flex: 0 0 38px; border-radius: 12px; color: #3562eb; background: #eef2ff; }
+  .notification-item strong { display: block; color: #101a32; font-size: 13px; } .notification-item p { margin: 4px 0 0; color: #7b879c; font-size: 12px; line-height: 1.4; } .notification-item time { display: block; margin-top: 5px; color: #a0a9b8; font-size: 10px; }
+  .notification-unread-dot { width: 7px; height: 7px; margin-top: 5px; flex: 0 0 7px; border-radius: 50%; background: #3562eb; }
+  .dark .settings-card, .dark .notification-item { border-color: #303542; background: #1d2028; } .dark .settings-card-heading, .dark .settings-link-row, .dark .settings-toggle-row { border-color: #303542; } .dark .settings-card-heading h2, .dark .settings-link-row strong, .dark .settings-toggle-row strong, .dark .settings-select-row strong, .dark .notification-item strong { color: #f3f5fb; } .dark .settings-link-row:hover { background: #252a35; } .dark .settings-select-row select { border-color: #3a414e; color: #cbd5e1; background: #252a35; } .dark .notification-item.unread { border-color: #3f4f91; background: #202640; } .dark .notification-item p { color: #aeb8ca; }
+  @media (max-width: 639px) { .settings-page-hero { padding: 20px; border-radius: 20px; } .settings-page-hero h1 { font-size: 24px; } .settings-select-row { align-items: flex-start; flex-direction: column; } .settings-select-row select { width: 100%; } }
   @media (max-width: 767px) {
     :root { --mobile-navy: #11195a; --mobile-blue: #2f5be9; --mobile-text: #101a32; --mobile-muted: #8c96aa; }
     body { background: #f7f9fc !important; color: var(--mobile-text); padding-bottom: 84px; font-family: 'Inter', sans-serif; }
@@ -298,6 +333,7 @@
   .mobile-notification-item strong { display: block; font-size: 12px; }
   .mobile-notification-item small { display: block; margin-top: 2px; color: #7b879c; font-size: 11px; line-height: 1.35; }
   .mobile-notification-empty { margin: 0; color: #7b879c; font-size: 12px; line-height: 1.45; }
+  .mobile-notification-view-all { display: flex; align-items: center; justify-content: space-between; width: 100%; margin-top: 8px; padding: 10px 0 0; border: 0; border-top: 1px solid #eef1f7; color: #3562eb; background: transparent; font-size: 11px; font-weight: 800; text-align: left; }
 }
 </style>
 
@@ -551,7 +587,7 @@ main > div:first-child { max-width:1240px; }
             <p id="sidebarUserName" class="text-sm font-semibold truncate">Student</p>
             <p id="sidebarUserEmail" class="text-xs text-inksoft dark:text-inksoft-dark truncate"></p>
           </div>
-          <button data-view="account" aria-label="Account settings" class="shrink-0 w-7 h-7 flex items-center justify-center rounded-lg text-inksoft dark:text-inksoft-dark hover:text-ink dark:hover:text-ink-dark hover:bg-ink/5 dark:hover:bg-white/5 focus:outline-none focus:ring-2 focus:ring-teal">
+          <button data-view="settings" aria-label="Settings" class="shrink-0 w-7 h-7 flex items-center justify-center rounded-lg text-inksoft dark:text-inksoft-dark hover:text-ink dark:hover:text-ink-dark hover:bg-ink/5 dark:hover:bg-white/5 focus:outline-none focus:ring-2 focus:ring-teal">
             <i class="fa-solid fa-gear text-sm"></i>
           </button>
         </div>
@@ -595,7 +631,10 @@ main > div:first-child { max-width:1240px; }
       <button data-view="messages" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium">
         <i class="fa-regular fa-comments w-5 text-center"></i><span>Messages</span>
       </button>
-      <button data-view="account" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium">
+      <button data-view="notifications" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium">
+        <i class="fa-regular fa-bell w-5 text-center"></i><span>Notifications</span>
+      </button>
+      <button data-view="settings" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium">
         <i class="fa-solid fa-gear w-5 text-center"></i><span>Settings</span>
       </button>
     </nav>
@@ -1058,6 +1097,22 @@ main > div:first-child { max-width:1240px; }
         <form id="messagesSendForm" class="messages-send-form"><label class="sr-only" for="messagesInput">Message</label><textarea id="messagesInput" rows="1" maxlength="4000" placeholder="Write a message..." required></textarea><button type="submit" aria-label="Send message"><i class="fa-solid fa-paper-plane"></i></button></form>
       </div>
     </section>
+    <!-- NOTIFICATIONS -->
+    <section id="view-notifications" class="view hidden space-y-6 max-w-3xl">
+      <div class="settings-page-hero"><div class="settings-hero-icon"><i class="fa-regular fa-bell"></i></div><div><p class="settings-kicker">Stay up to date</p><h1>Notifications</h1><p>Assignment reminders, messages, and account updates in one place.</p></div></div>
+      <div class="flex items-center justify-between gap-3"><div><h2 class="font-serif font-semibold text-lg">Your updates</h2><p id="notificationsSummary" class="text-xs text-inksoft dark:text-inksoft-dark mt-1"></p></div><button id="markAllNotificationsBtn" type="button" class="settings-secondary-btn">Mark all as read</button></div>
+      <div id="notificationsList" class="notifications-list"></div>
+    </section>
+
+    <!-- SETTINGS -->
+    <section id="view-settings" class="view hidden space-y-6 max-w-3xl">
+      <div class="settings-page-hero"><div class="settings-hero-icon"><i class="fa-solid fa-sliders"></i></div><div><p class="settings-kicker">Make EduFlow yours</p><h1>Settings</h1><p>Control your notifications, appearance, AI, and privacy preferences.</p></div></div>
+      <div class="settings-card"><div class="settings-card-heading"><div><h2>Profile and account</h2><p>Manage your personal information and account security.</p></div><i class="fa-solid fa-user-gear"></i></div><button type="button" data-view="profile" class="settings-link-row"><span class="settings-row-icon green"><i class="fa-regular fa-user"></i></span><span><strong>Profile information</strong><small>Academic details and profile summary</small></span><i class="fa-solid fa-chevron-right"></i></button><button type="button" data-view="account" class="settings-link-row"><span class="settings-row-icon blue"><i class="fa-solid fa-shield-halved"></i></span><span><strong>Account and security</strong><small>Email, password, export, and account controls</small></span><i class="fa-solid fa-chevron-right"></i></button></div>
+      <form id="preferencesForm" class="settings-card"><div class="settings-card-heading"><div><h2>Notifications</h2><p>Choose which updates you want to receive.</p></div><i class="fa-regular fa-bell"></i></div><label class="settings-toggle-row"><span><strong>Assignment deadlines</strong><small>Get reminders for pending and overdue assignments</small></span><input type="checkbox" data-preference="assignment_notifications" /></label><label class="settings-toggle-row"><span><strong>Campus announcements</strong><small>Receive official EduFlow updates when available</small></span><input type="checkbox" data-preference="announcement_notifications" /></label><label class="settings-toggle-row"><span><strong>Grade updates</strong><small>Show updates when grades or CGPA records change</small></span><input type="checkbox" data-preference="grade_notifications" /></label><label class="settings-toggle-row"><span><strong>New messages</strong><small>Show unread message notifications and chat updates</small></span><input type="checkbox" data-preference="message_notifications" /></label></form>
+      <div class="settings-card"><div class="settings-card-heading"><div><h2>Appearance and AI</h2><p>Adjust how EduFlow looks and supports your study routine.</p></div><i class="fa-solid fa-wand-magic-sparkles"></i></div><label class="settings-select-row"><span><strong>Theme</strong><small>Choose system preference or a fixed theme</small></span><select id="settingsTheme"><option value="system">System default</option><option value="light">Light</option><option value="dark">Dark</option></select></label><label class="settings-toggle-row"><span><strong>AI suggestions</strong><small>Allow EduAI to suggest study actions</small></span><input type="checkbox" data-preference="ai_suggestions" /></label><label class="settings-toggle-row"><span><strong>AI reminders</strong><small>Show helpful study reminders in the app</small></span><input type="checkbox" data-preference="ai_reminders" /></label></div>
+      <div class="settings-card"><div class="settings-card-heading"><div><h2>Privacy</h2><p>Choose how other EduFlow users can discover you.</p></div><i class="fa-solid fa-lock"></i></div><label class="settings-toggle-row"><span><strong>Profile visibility</strong><small>Allow classmates to find you when starting a conversation</small></span><input type="checkbox" data-preference="profile_visibility" /></label><p id="preferencesSaveStatus" class="settings-save-status" aria-live="polite"></p></div>
+    </section>
+
     <!-- ACCOUNT SETTINGS -->
     <section id="view-profile" class="view hidden space-y-6 max-w-2xl">
       <div class="profile-hero">
@@ -1633,9 +1688,85 @@ const state = {
   streak: null,
 };
 let activeSemesterId = null;
+state.preferences = { assignment_notifications: true, announcement_notifications: true, grade_notifications: true, message_notifications: true, ai_suggestions: true, ai_reminders: true, profile_visibility: true, theme: 'system' };
+let notificationReadIds = new Set(JSON.parse(localStorage.getItem('eduflow_notification_read') || '[]'));
 let courseFilter = 'all';
 let courseSearch = '';
 let activeCourseId = null;
+const presenceUsers = new Set();
+
+function notificationRecords() {
+  const records = [];
+  if (state.preferences.assignment_notifications) {
+    state.assignments.filter((assignment) => !assignment.done).forEach((assignment) => {
+      const overdue = assignment.due_date && new Date(`${assignment.due_date}T23:59:59`) < new Date();
+      records.push({ id: `assignment:${assignment.id}`, type: overdue ? 'Overdue assignment' : 'Assignment reminder', icon: overdue ? 'fa-clock' : 'fa-list-check', title: assignment.title, detail: overdue ? 'This assignment is overdue. Open Assignments to review it.' : `Due ${assignment.due_date || 'soon'}${assignment.course_name ? ` · ${assignment.course_name}` : ''}`, view: 'assignments', timestamp: assignment.due_date ? new Date(`${assignment.due_date}T12:00:00`) : new Date() });
+    });
+  }
+  if (state.preferences.message_notifications && typeof messageState !== 'undefined') {
+    messageState.conversations.filter((conversation) => Number(conversation.unread_count || 0) > 0).forEach((conversation) => records.push({ id: `message:${conversation.id}`, type: 'Unread message', icon: 'fa-message', title: conversationName(conversation), detail: `${conversation.unread_count} unread message${conversation.unread_count === 1 ? '' : 's'} waiting in this conversation.`, view: 'messages', timestamp: conversation.last_message_at ? new Date(conversation.last_message_at) : new Date() }));
+  }
+  if (currentUser && currentUser.email_verified === false) records.push({ id: 'verify-email', type: 'Account security', icon: 'fa-envelope-circle-check', title: 'Verify your email', detail: 'Verify your email to keep your EduFlow account secure.', view: 'account', timestamp: new Date() });
+  const pendingTasks = state.tasks.filter((task) => !task.done).length;
+  if (pendingTasks && state.preferences.assignment_notifications) records.push({ id: 'study-tasks:pending', type: 'Study tasks', icon: 'fa-pen', title: `${pendingTasks} study task${pendingTasks === 1 ? '' : 's'} still open`, detail: 'Keep your small study goals moving forward.', view: 'overview', timestamp: new Date() });
+  return records.sort((a, b) => b.timestamp - a.timestamp);
+}
+function notificationGroupLabel(date) {
+  const now = new Date();
+  const sameDay = date.toDateString() === now.toDateString();
+  if (sameDay) return 'Today';
+  const yesterday = new Date(now); yesterday.setDate(now.getDate() - 1);
+  if (date.toDateString() === yesterday.toDateString()) return 'Yesterday';
+  return 'Earlier';
+}
+function markNotificationRead(id) {
+  notificationReadIds.add(String(id));
+  localStorage.setItem('eduflow_notification_read', JSON.stringify([...notificationReadIds]));
+}
+function renderFullNotifications() {
+  const wrap = qs('#notificationsList');
+  if (!wrap) return;
+  const records = notificationRecords();
+  const unread = records.filter((record) => !notificationReadIds.has(record.id)).length;
+  qs('#notificationsSummary').textContent = unread ? `${unread} unread update${unread === 1 ? '' : 's'}` : 'You’re all caught up.';
+  if (!records.length) { wrap.innerHTML = '<div class="settings-card p-8 text-center"><i class="fa-regular fa-bell-slash text-3xl text-inksoft dark:text-inksoft-dark opacity-50"></i><p class="mt-3 font-semibold">No notifications yet</p><p class="mt-1 text-xs text-inksoft dark:text-inksoft-dark">New assignment, message, and account updates will appear here.</p></div>'; return; }
+  const groups = ['Today', 'Yesterday', 'Earlier'].map((label) => ({ label, items: records.filter((record) => notificationGroupLabel(record.timestamp) === label) })).filter((group) => group.items.length);
+  wrap.innerHTML = groups.map((group) => `<section class="notification-group"><h3>${group.label}</h3><div class="grid gap-2">${group.items.map((record) => { const unreadClass = notificationReadIds.has(record.id) ? '' : 'unread'; return `<button type="button" class="notification-item ${unreadClass}" onclick="markNotificationRead('${escapeHtml(record.id)}'); showView('${record.view}')"><span class="notification-icon"><i class="fa-solid ${record.icon}"></i></span><span class="flex-1 min-w-0"><strong>${escapeHtml(record.title)}</strong><p>${escapeHtml(record.detail)}</p><time>${escapeHtml(record.type)} · ${escapeHtml(record.timestamp.toLocaleString(undefined, { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' }))}</time></span>${unreadClass ? '<i class="notification-unread-dot"></i>' : ''}</button>`; }).join('')}</div></section>`).join('');
+}
+async function loadPreferences() {
+  try {
+    const data = await apiFetch('/api/account/preferences');
+    state.preferences = Object.assign(state.preferences, data.preferences || {});
+    renderSettings();
+    applyThemePreference(state.preferences.theme);
+  } catch (err) { showToast(err.message); }
+}
+function renderSettings() {
+  qsa('[data-preference]').forEach((input) => { input.checked = Boolean(state.preferences[input.dataset.preference]); });
+  const theme = qs('#settingsTheme');
+  if (theme) theme.value = state.preferences.theme || 'system';
+}
+function applyThemePreference(theme) {
+  if (theme === 'system') localStorage.removeItem('eduflow_theme');
+  else localStorage.setItem('eduflow_theme', theme);
+  const prefersDark = !!(systemThemeMedia && systemThemeMedia.matches);
+  const isDark = theme === 'dark' || (theme === 'system' && prefersDark);
+  document.documentElement.classList.toggle('dark', isDark);
+  updateThemeToggleUI(isDark);
+  if (progressChartInstance) renderProgressChart();
+}
+async function savePreference(field, value) {
+  state.preferences[field] = value;
+  if (field === 'theme') applyThemePreference(value);
+  const status = qs('#preferencesSaveStatus');
+  if (status) status.textContent = 'Saving…';
+  try {
+    const data = await apiFetch('/api/account/preferences', { method: 'PATCH', body: JSON.stringify({ [field]: value }) });
+    state.preferences = Object.assign(state.preferences, data.preferences || {});
+    renderSettings();
+    if (status) { status.textContent = 'Preferences saved to your account.'; setTimeout(() => { if (status) status.textContent = ''; }, 2200); }
+  } catch (err) { if (status) status.textContent = err.message; }
+}
 
 const DAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 const WEEK_DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
@@ -1709,6 +1840,7 @@ async function bootApp() {
   qs('#verifyBanner').classList.toggle('hidden', !currentUser || currentUser.email_verified !== false);
   initAssistantModels();
   await reloadAll();
+  loadPreferences();
   loadConversations();
   initMessageSocket();
   renderChat();
@@ -1756,7 +1888,10 @@ function initTheme() {
 }
 function toggleTheme() {
   const isDark = document.documentElement.classList.toggle('dark');
-  localStorage.setItem('eduflow_theme', isDark ? 'dark' : 'light');
+  const theme = isDark ? 'dark' : 'light';
+  localStorage.setItem('eduflow_theme', theme);
+  state.preferences.theme = theme;
+  if (authToken) savePreference('theme', theme);
   updateThemeToggleUI(isDark);
   if (progressChartInstance) renderProgressChart();
 }
@@ -1766,7 +1901,7 @@ function updateThemeToggleUI(isDark) {
 }
 
 /* ---------- navigation ---------- */
-const VIEWS = ['overview', 'courses', 'course-detail', 'timetable', 'assignments', 'cgpa', 'progress', 'assistant', 'messages', 'profile', 'account'];
+const VIEWS = ['overview', 'courses', 'course-detail', 'timetable', 'assignments', 'cgpa', 'progress', 'assistant', 'messages', 'notifications', 'profile', 'settings', 'account'];
 function showView(name) {
   document.documentElement.dataset.eduflowNavState = name;
   const notificationPanel = qs('#mobileNotificationPanel');
@@ -1791,6 +1926,8 @@ function showView(name) {
   if (name === 'course-detail') renderCourseDetail();
   if (name === 'profile') renderProfile();
   if (name === 'messages') { loadMessageContacts(); loadConversations(); }
+  if (name === 'notifications') renderFullNotifications();
+  if (name === 'settings') { renderSettings(); loadPreferences(); }
   if (name === 'account') renderAccountSettings();
   qs('#floatingAssistantBtn').classList.toggle('hidden', name === 'assistant');
   window.scrollTo(0, 0);
@@ -2538,6 +2675,13 @@ function conversationName(conversation) {
   const other = (conversation.members || []).find((member) => String(member.id) !== String(currentUser && currentUser.id));
   return other ? other.name : 'Conversation';
 }
+function conversationOtherId(conversation) {
+  const other = (conversation.members || []).find((member) => String(member.id) !== String(currentUser && currentUser.id));
+  return other ? String(other.id) : null;
+}
+function presenceMarkup(userId) {
+  return presenceUsers.has(String(userId)) ? '<i></i>' : '<i class="offline"></i>';
+}
 function conversationInitials(name) {
   return String(name || '?').split(/\s+/).filter(Boolean).slice(0, 2).map((part) => part[0]).join('').toUpperCase() || '?';
 }
@@ -2549,14 +2693,14 @@ function renderMessagesList() {
   list.innerHTML = conversations.length ? conversations.map((conversation, index) => {
     const name = conversationName(conversation);
     const color = ['blue', 'violet', 'green'][index % 3];
-    return `<button type="button" class="message-row" onclick="openConversation('${conversation.id}')"><span class="message-avatar ${color}">${escapeHtml(conversationInitials(name))}<i class="${conversation.unread_count ? '' : 'hidden'}"></i></span><span class="message-copy"><strong>${escapeHtml(name)}</strong><small>${escapeHtml(conversation.last_message || 'Start the conversation')}</small></span><time>${escapeHtml(messageTime(conversation.last_message_at))}</time>${conversation.unread_count ? `<b>${conversation.unread_count > 9 ? '9+' : conversation.unread_count}</b>` : ''}</button>`;
+    return `<button type="button" class="message-row" onclick="openConversation('${conversation.id}')"><span class="message-avatar ${color}">${escapeHtml(conversationInitials(name))}${conversationOtherId(conversation) ? presenceMarkup(conversationOtherId(conversation)) : ''}</span><span class="message-copy"><strong>${escapeHtml(name)}</strong><small>${escapeHtml(conversation.last_message || 'Start the conversation')}</small></span><time>${escapeHtml(messageTime(conversation.last_message_at))}</time>${conversation.unread_count ? `<b>${conversation.unread_count > 9 ? '9+' : conversation.unread_count}</b>` : ''}</button>`;
   }).join('') : '<div class="messages-empty"><i class="fa-regular fa-comments text-2xl opacity-50"></i><p class="mt-2 font-semibold">No conversations yet</p><p class="mt-1">Start a conversation with a classmate or campus user.</p></div>';
 }
 function renderMessagesOnline() {
   const wrap = qs('#messagesOnline');
   if (!wrap) return;
   const contacts = messageState.contacts.slice(0, 6);
-  wrap.innerHTML = contacts.length ? contacts.map((contact, index) => `<button type="button" class="flex shrink-0 flex-col items-center gap-1.5" onclick="startConversation('${contact.id}')"><span class="message-avatar ${['blue', 'violet', 'green'][index % 3]}">${escapeHtml(conversationInitials(contact.name))}</span><span class="w-14 truncate text-center text-[10px] font-semibold text-inksoft dark:text-inksoft-dark">${escapeHtml(contact.name.split(/\s+/)[0])}</span></button>`).join('') : '<p class="text-xs text-inksoft dark:text-inksoft-dark">No other Eduflow users found yet.</p>';
+  wrap.innerHTML = contacts.length ? contacts.map((contact, index) => `<button type="button" class="flex shrink-0 flex-col items-center gap-1.5" onclick="startConversation('${contact.id}')"><span class="message-avatar ${['blue', 'violet', 'green'][index % 3]}">${escapeHtml(conversationInitials(contact.name))}${presenceMarkup(contact.id)}</span><span class="w-14 truncate text-center text-[10px] font-semibold text-inksoft dark:text-inksoft-dark">${escapeHtml(contact.name.split(/\s+/)[0])}</span></button>`).join('') : '<p class="text-xs text-inksoft dark:text-inksoft-dark">No other Eduflow users found yet.</p>';
 }
 function renderMessageContacts() {
   const wrap = qs('#messagesContacts');
@@ -2564,8 +2708,8 @@ function renderMessageContacts() {
   const search = messageState.contactSearch.toLowerCase();
   const contacts = messageState.contacts.filter((contact) => `${contact.name} ${contact.email}`.toLowerCase().includes(search));
   wrap.innerHTML = contacts.length ? contacts.map((contact, index) => messageState.groupMode
-    ? `<label class="message-contact-check"><input type="checkbox" value="${contact.id}" ${messageState.selectedContactIds.has(String(contact.id)) ? 'checked' : ''} onchange="toggleGroupMember('${contact.id}', this.checked)" /><span class="message-avatar ${['blue', 'violet', 'green'][index % 3]}">${escapeHtml(conversationInitials(contact.name))}</span><span><strong>${escapeHtml(contact.name)}</strong><small>${escapeHtml(contact.email)}${contact.department ? ` · ${escapeHtml(contact.department)}` : ''}</small></span></label>`
-    : `<button type="button" class="messages-contact-row" onclick="startConversation('${contact.id}')"><span class="message-avatar ${['blue', 'violet', 'green'][index % 3]}">${escapeHtml(conversationInitials(contact.name))}</span><span><strong>${escapeHtml(contact.name)}</strong><small>${escapeHtml(contact.email)}${contact.department ? ` · ${escapeHtml(contact.department)}` : ''}</small></span></button>`).join('') : '<div class="messages-empty">No matching users found.</div>';
+    ? `<label class="message-contact-check"><input type="checkbox" value="${contact.id}" ${messageState.selectedContactIds.has(String(contact.id)) ? 'checked' : ''} onchange="toggleGroupMember('${contact.id}', this.checked)" /><span class="message-avatar ${['blue', 'violet', 'green'][index % 3]}">${escapeHtml(conversationInitials(contact.name))}${presenceMarkup(contact.id)}</span><span><strong>${escapeHtml(contact.name)}</strong><small>${escapeHtml(contact.email)}${contact.department ? ` · ${escapeHtml(contact.department)}` : ''}</small></span></label>`
+    : `<button type="button" class="messages-contact-row" onclick="startConversation('${contact.id}')"><span class="message-avatar ${['blue', 'violet', 'green'][index % 3]}">${escapeHtml(conversationInitials(contact.name))}${presenceMarkup(contact.id)}</span><span><strong>${escapeHtml(contact.name)}</strong><small>${escapeHtml(contact.email)}${contact.department ? ` · ${escapeHtml(contact.department)}` : ''}</small></span></button>`).join('') : '<div class="messages-empty">No matching users found.</div>';
 }
 function renderMessageThread() {
   const conversation = messageState.conversations.find((item) => String(item.id) === String(messageState.activeId));
@@ -2654,6 +2798,18 @@ function initMessageSocket() {
   socket.addEventListener('message', async (event) => {
     let payload;
     try { payload = JSON.parse(event.data); } catch (e) { return; }
+    if (payload.type === 'presence.snapshot') {
+      presenceUsers.clear();
+      (payload.userIds || []).forEach((userId) => presenceUsers.add(String(userId)));
+      renderMessages();
+      return;
+    }
+    if (payload.type === 'presence.changed') {
+      if (payload.online) presenceUsers.add(String(payload.userId));
+      else presenceUsers.delete(String(payload.userId));
+      renderMessages();
+      return;
+    }
     if (payload.type === 'conversation.created') {
       await loadConversations();
       return;
@@ -2700,19 +2856,12 @@ function renderMobileNotifications() {
   const countEl = qs('#mobileNotificationCount');
   const panel = qs('#mobileNotificationPanel');
   if (!btn || !countEl || !panel) return;
-  const overdue = state.progress ? Number(state.progress.overdue || 0) : 0;
-  const pending = state.assignments.filter((a) => !a.done).length;
-  const unreadMessages = messageState.conversations.reduce((total, conversation) => total + Number(conversation.unread_count || 0), 0);
-  const notices = [];
-  if (overdue) notices.push({ icon: 'fa-clock', title: `${overdue} overdue assignment${overdue === 1 ? '' : 's'}`, detail: 'Review your assignment list and catch up.', view: 'assignments' });
-  if (pending) notices.push({ icon: 'fa-list-check', title: `${pending} pending assignment${pending === 1 ? '' : 's'}`, detail: 'Keep an eye on your next deadline.', view: 'assignments' });
-  if (unreadMessages) notices.push({ icon: 'fa-message', title: `${unreadMessages} unread message${unreadMessages === 1 ? '' : 's'}`, detail: 'Open your conversations to catch up.', view: 'messages' });
-  if (currentUser && currentUser.email_verified === false) notices.push({ icon: 'fa-envelope-circle-check', title: 'Verify your email', detail: 'Secure your EduFlow account.', view: 'account' });
-  countEl.textContent = notices.length > 9 ? '9+' : String(notices.length);
-  countEl.classList.toggle('hidden', notices.length === 0);
-  panel.innerHTML = notices.length
-    ? `<h3>Notifications</h3>${notices.map((n) => `<button type="button" class="mobile-notification-item" onclick="showView('${n.view}')"><i class="fa-solid ${n.icon}"></i><span><strong>${escapeHtml(n.title)}</strong><small>${escapeHtml(n.detail)}</small></span></button>`).join('')}`
-    : '<h3>Notifications</h3><p class="mobile-notification-empty">You’re all caught up. New updates will appear here.</p>';
+  const records = notificationRecords();
+  const unread = records.filter((record) => !notificationReadIds.has(record.id));
+  countEl.textContent = unread.length > 9 ? '9+' : String(unread.length);
+  countEl.classList.toggle('hidden', unread.length === 0);
+  panel.innerHTML = `<h3>Notifications</h3>${records.length ? records.slice(0, 4).map((record) => `<button type="button" class="mobile-notification-item" onclick="markNotificationRead('${escapeHtml(record.id)}'); showView('${record.view}')"><i class="fa-solid ${record.icon}"></i><span><strong>${escapeHtml(record.title)}</strong><small>${escapeHtml(record.detail)}</small></span></button>`).join('') : '<p class="mobile-notification-empty">You’re all caught up. New updates will appear here.</p>'}<button type="button" data-view="notifications" class="mobile-notification-view-all">View all notifications <i class="fa-solid fa-arrow-right"></i></button>`;
+  renderFullNotifications();
 }
 function initMobileNotifications() {
   const btn = qs('#mobileNotificationBtn');
@@ -2723,7 +2872,7 @@ function initMobileNotifications() {
     const open = panel.classList.toggle('hidden') === false;
     btn.setAttribute('aria-expanded', String(open));
   });
-  panel.addEventListener('click', (event) => event.stopPropagation());
+  panel.addEventListener('click', (event) => { event.stopPropagation(); const target = event.target.closest('[data-view]'); if (target) showView(target.dataset.view); });
   document.addEventListener('click', () => {
     panel.classList.add('hidden');
     btn.setAttribute('aria-expanded', 'false');
@@ -3096,6 +3245,9 @@ function init() {
   qs('#messagesSearch').addEventListener('input', (e) => { messageState.search = e.target.value; renderMessagesList(); });
   qs('#messagesContactSearch').addEventListener('input', (e) => { messageState.contactSearch = e.target.value; renderMessageContacts(); });
   qs('#messagesSendForm').addEventListener('submit', sendMessage);
+  qsa('[data-preference]').forEach((input) => input.addEventListener('change', () => savePreference(input.dataset.preference, input.checked)));
+  qs('#settingsTheme').addEventListener('change', (e) => savePreference('theme', e.target.value));
+  qs('#markAllNotificationsBtn').addEventListener('click', () => { notificationRecords().forEach((record) => notificationReadIds.add(record.id)); localStorage.setItem('eduflow_notification_read', JSON.stringify([...notificationReadIds])); renderFullNotifications(); renderMobileNotifications(); });
   qs('#accountEmailForm').addEventListener('submit', handleUpdateEmail);
   qs('#accountPasswordForm').addEventListener('submit', handleUpdatePassword);
   qs('#accountDeleteForm').addEventListener('submit', handleDeleteAccount);
