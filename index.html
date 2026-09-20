@@ -79,6 +79,79 @@
   .messages-kicker { margin: 0 0 4px; color: #aeb8d4; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; }
   .messages-hero h1 { margin: 0; font-size: 28px; font-weight: 800; }
   .messages-hero p:last-child { margin: 6px 0 0; color: #b8c2de; font-size: 13px; }
+  .maintenance-marquee { position: relative; overflow: hidden; margin-bottom: 20px; border: 1px solid rgba(245,158,11,.22); border-radius: 16px; color: #8a5200; background: linear-gradient(90deg,#fff8e7,#fffdf6); box-shadow: 0 5px 14px rgba(27,45,79,.05); }
+  .maintenance-marquee-track { display: flex; width: max-content; min-width: 100%; animation: eduflow-marquee 28s linear infinite; }
+  .maintenance-marquee-track span { display: inline-flex; align-items: center; gap: 8px; flex: 0 0 auto; padding: 11px 28px; font-size: 12px; font-weight: 700; white-space: nowrap; }
+  .maintenance-marquee-track i { color: #d97706; }
+  .dark .maintenance-marquee { border-color: rgba(245,158,11,.28); color: #f7c96a; background: linear-gradient(90deg,#2a2110,#1b1d24); }
+  .dark .maintenance-marquee-track i { color: #fbbf24; }
+  .profile-hero { display: flex; align-items: center; gap: 16px; padding: 24px; border-radius: 24px; color: #fff; background: linear-gradient(145deg,#111a55,#293dba); box-shadow: 0 12px 28px rgba(43,64,176,.2); }
+  .profile-avatar { display: grid; place-items: center; width: 64px; height: 64px; flex: 0 0 auto; border: 4px solid rgba(255,255,255,.55); border-radius: 22px; color: #2f5be9; background: #fff; font-size: 26px; }
+  .profile-kicker { margin: 0; color: #c9d3ff; font-size: 11px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+  .profile-title { margin: 2px 0 0; color: #fff; font-size: 25px; font-weight: 800; letter-spacing: -.03em; }
+  .profile-academic-line { margin: 3px 0 0; color: #c9d3ff; font-size: 12px; }
+  .profile-email { margin: 4px 0 0; color: #d9e0ff; font-size: 12px; overflow-wrap: anywhere; }
+  .profile-stat-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 12px; }
+  .profile-stat { display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 16px 8px; border: 1px solid #e9edf5; border-radius: 18px; color: #101a32; background: #fff; box-shadow: 0 5px 14px rgba(27,45,79,.06); text-align: center; }
+  .profile-stat i { color: #3562eb; font-size: 16px; }
+  .profile-stat strong { font-size: 18px; }
+  .profile-stat span { color: #7b879c; font-size: 10px; font-weight: 700; }
+  .profile-readonly-card { overflow: hidden; border: 1px solid #e9edf5; border-radius: 22px; background: #fff; box-shadow: 0 8px 20px rgba(27,45,79,.07); }
+  .profile-card-heading { display: flex; align-items: center; justify-content: space-between; padding: 17px 18px; border-bottom: 1px solid #edf0f5; }
+  .profile-card-heading h2 { margin: 0; color: #101a32; font-size: 16px; font-weight: 800; }
+  .profile-card-heading p { margin: 3px 0 0; color: #7b879c; font-size: 11px; }
+  .profile-card-heading > i { color: #3562eb; font-size: 18px; }
+  .profile-details-list { padding: 0 18px; }
+  .profile-details-list > div { display: flex; align-items: center; justify-content: space-between; gap: 18px; padding: 14px 0; border-bottom: 1px solid #edf0f5; }
+  .profile-details-list > div:last-child { border-bottom: 0; }
+  .profile-details-list span { color: #7b879c; font-size: 12px; }
+  .profile-details-list strong { max-width: 58%; color: #101a32; font-size: 12px; text-align: right; overflow-wrap: anywhere; }
+  .profile-update-btn { display: inline-flex; align-items: center; gap: 8px; margin: 0 18px 18px; padding: 10px 15px; border: 0; border-radius: 12px; color: #fff; background: linear-gradient(145deg,#3562eb,#4f46e5); font-size: 12px; font-weight: 800; cursor: pointer; }
+  .profile-update-btn:hover, .profile-update-btn:focus-visible { opacity: .9; outline: none; }
+  .dark .profile-readonly-card { border-color: #303542; background: #1d2028; }
+  .dark .profile-card-heading { border-bottom-color: #303542; }
+  .dark .profile-card-heading h2, .dark .profile-details-list strong { color: #f3f5fb; }
+  .dark .profile-details-list > div { border-bottom-color: #303542; }
+  .dark .profile-stat { border-color: #303542; color: #f3f5fb; background: #1d2028; }
+  .profile-enrichment-card { overflow: hidden; border: 1px solid #e9edf5; border-radius: 22px; background: #fff; box-shadow: 0 8px 20px rgba(27,45,79,.07); }
+  .profile-enrichment-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; padding: 16px 18px; border-bottom: 1px solid #edf0f5; }
+  .profile-enrichment-heading h2 { margin: 0; color: #101a32; font-size: 16px; font-weight: 800; }
+  .profile-enrichment-heading > i { color: #3562eb; font-size: 17px; }
+  .profile-section-kicker { margin: 0 0 4px; color: #3562eb; font-size: 10px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+  .profile-progress-summary, .profile-progress-meta { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 16px 18px 0; color: #7b879c; font-size: 12px; }
+  .profile-progress-summary strong { color: #101a32; font-size: 13px; }
+  .profile-progress-track { height: 10px; margin: 10px 18px 0; overflow: hidden; border-radius: 99px; background: #edf1f7; }
+  .profile-progress-track i { display: block; width: 0; height: 100%; border-radius: inherit; background: linear-gradient(90deg,#3562eb,#6b72f5); transition: width .3s ease; }
+  .profile-progress-meta { padding-top: 8px; font-size: 11px; }
+  .profile-progress-meta strong { color: #3562eb; }
+  .profile-course-progress { display: grid; gap: 12px; padding: 16px 18px 18px; }
+  .profile-course-progress-row { min-width: 0; }
+  .profile-course-progress-row > div { display: flex; justify-content: space-between; gap: 10px; color: #526078; font-size: 11px; font-weight: 700; }
+  .profile-course-progress-row > div strong { color: #3562eb; }
+  .profile-course-progress-row > i { display: block; height: 6px; margin-top: 5px; border-radius: 99px; background: #edf1f7; }
+  .profile-course-progress-row > i span { display: block; height: 100%; border-radius: inherit; background: #6b72f5; }
+  .profile-achievement-count { padding: 5px 8px; border-radius: 99px; color: #3562eb; background: #eef2ff; font-size: 11px; font-weight: 800; }
+  .profile-achievement-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 10px; padding: 16px 18px 18px; }
+  .profile-achievement { padding: 12px; border-radius: 16px; background: #f8fafc; }
+  .profile-achievement.unlocked { background: #eff6ff; }
+  .profile-achievement i { color: #a4afc0; font-size: 18px; }
+  .profile-achievement.unlocked i { color: #f59e0b; }
+  .profile-achievement strong { display: block; margin-top: 7px; color: #334155; font-size: 12px; }
+  .profile-achievement small { display: block; margin-top: 3px; color: #8c96aa; font-size: 10px; line-height: 1.35; }
+  .profile-quick-links > button { display: flex; align-items: center; gap: 12px; width: 100%; padding: 13px 18px; border: 0; border-bottom: 1px solid #edf0f5; color: inherit; background: transparent; text-align: left; }
+  .profile-quick-links > button:last-child { border-bottom: 0; }
+  .profile-quick-links > button:hover { background: #f8fafc; }
+  .profile-quick-links > button > span:nth-child(2) { flex: 1; min-width: 0; }
+  .profile-quick-links > button strong { display: block; color: #334155; font-size: 13px; }
+  .profile-quick-links > button small { display: block; margin-top: 3px; color: #8c96aa; font-size: 10px; }
+  .profile-quick-links > button > i:last-child { color: #b2bdce; font-size: 11px; }
+  .profile-quick-icon { display: grid; place-items: center; width: 34px; height: 34px; flex: 0 0 34px; border-radius: 11px; }
+  .profile-quick-icon.blue { color: #2563eb; background: #eff6ff; } .profile-quick-icon.violet { color: #7c3aed; background: #f5f3ff; } .profile-quick-icon.green { color: #059669; background: #ecfdf5; }
+  .dark .profile-enrichment-card { border-color: #303542; background: #1d2028; } .dark .profile-enrichment-heading, .dark .profile-quick-links > button { border-color: #303542; } .dark .profile-enrichment-heading h2, .dark .profile-progress-summary strong, .dark .profile-achievement strong, .dark .profile-quick-links > button strong { color: #f3f5fb; } .dark .profile-progress-track, .dark .profile-course-progress-row > i { background: #303542; } .dark .profile-achievement { background: #252a35; } .dark .profile-achievement.unlocked { background: #202a50; } .dark .profile-quick-links > button:hover { background: #252a35; }
+  .dark .profile-email { color: #c6cff4; }
+  @media (max-width: 639px) { .profile-hero { padding: 20px; border-radius: 22px; } .profile-stat-grid { gap: 8px; } .profile-achievement-grid { gap: 8px; padding-left: 14px; padding-right: 14px; } .profile-progress-summary, .profile-progress-meta { padding-left: 14px; padding-right: 14px; } .profile-progress-track { margin-left: 14px; margin-right: 14px; } .profile-course-progress { padding-left: 14px; padding-right: 14px; } }
+  @keyframes eduflow-marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  @media (prefers-reduced-motion: reduce) { .maintenance-marquee-track { animation: none; } }
   .messages-compose { display: grid; place-items: center; width: 44px; height: 44px; border: 0; border-radius: 14px; color: #fff; background: linear-gradient(145deg, #3f68f4, #2d45d7); }
   .messages-search { display: flex; align-items: center; gap: 10px; padding: 14px 16px; border-radius: 18px; color: #94a3b8; background: #fff; box-shadow: 0 5px 14px rgba(27,45,79,.07); }
   .messages-search input { width: 100%; border: 0; outline: 0; color: #101a32; background: transparent; }
@@ -87,16 +160,143 @@
   .message-avatar { position: relative; display: inline-grid; place-items: center; width: 48px; height: 48px; flex: 0 0 48px; border-radius: 16px; font-size: 13px; font-weight: 800; }
   .message-avatar.blue { color: #2563eb; background: #eff6ff; } .message-avatar.violet { color: #7c3aed; background: #f5f3ff; } .message-avatar.green { color: #059669; background: #ecfdf5; }
   .message-avatar i { position: absolute; right: 0; bottom: 0; width: 11px; height: 11px; border: 2px solid #fff; border-radius: 50%; background: #10b981; }
+  .message-avatar i.offline { background: #cbd5e1; }
   .messages-section-title { margin-top: 8px; }
   .messages-list { display: grid; gap: 8px; }
   .message-row { display: flex; align-items: center; gap: 12px; width: 100%; padding: 14px; border: 0; border-radius: 18px; text-align: left; background: #fff; box-shadow: 0 5px 14px rgba(27,45,79,.07); }
   .message-copy { display: flex; flex: 1; min-width: 0; flex-direction: column; gap: 4px; } .message-copy strong { color: #101a32; font-size: 14px; } .message-copy small, .message-row time { overflow: hidden; color: #8c96aa; font-size: 12px; text-overflow: ellipsis; white-space: nowrap; } .message-row b { display: grid; place-items: center; width: 20px; height: 20px; border-radius: 50%; color: #fff; background: linear-gradient(145deg, #3f68f4, #2d45d7); font-size: 10px; }
+  .messages-contacts { display: grid; gap: 6px; max-height: 260px; overflow-y: auto; }
+  .messages-contact-row { display: flex; align-items: center; gap: 12px; width: 100%; padding: 10px; border: 0; border-radius: 14px; color: inherit; background: transparent; text-align: left; }
+  .messages-contact-row:hover { background: #f4f6fb; }
+  .messages-contact-row strong { display: block; color: #101a32; font-size: 13px; }
+  .messages-contact-row small { display: block; margin-top: 2px; color: #8c96aa; font-size: 11px; }
+  .messages-empty { padding: 28px 16px; color: #8c96aa; font-size: 13px; text-align: center; }
+  .messages-thread-panel { display: flex; min-height: 560px; flex-direction: column; }
+  .messages-thread-header { display: flex; align-items: center; gap: 12px; padding: 16px; border-bottom: 1px solid #edf0f5; }
+  .messages-thread-header h2 { margin: 0; color: #101a32; font-size: 16px; font-weight: 800; }
+  .messages-thread-header p { margin: 3px 0 0; color: #8c96aa; font-size: 11px; }
+  .messages-thread-back { display: grid; place-items: center; width: 36px; height: 36px; border: 0; border-radius: 10px; color: #64748b; background: #f4f6fb; }
+  .messages-thread-list { display: flex; flex: 1; min-height: 380px; max-height: 540px; flex-direction: column; gap: 10px; padding: 18px; overflow-y: auto; background: #f8fafc; }
+  .message-bubble-row { display: flex; gap: 8px; max-width: 82%; }
+  .message-bubble-row.mine { align-self: flex-end; flex-direction: row-reverse; }
+  .message-bubble { padding: 10px 13px; border-radius: 16px 16px 16px 4px; color: #24304a; background: #fff; box-shadow: 0 3px 10px rgba(27,45,79,.06); }
+  .message-bubble-row.mine .message-bubble { border-radius: 16px 16px 4px 16px; color: #fff; background: linear-gradient(145deg,#3562eb,#4f46e5); }
+  .message-bubble p { margin: 0; font-size: 13px; line-height: 1.45; white-space: pre-wrap; overflow-wrap: anywhere; }
+  .message-bubble time { display: block; margin-top: 4px; color: #8c96aa; font-size: 10px; }
+  .message-bubble-row.mine time { color: rgba(255,255,255,.72); }
+  .message-send-form { display: flex; align-items: flex-end; gap: 8px; padding: 12px; border-top: 1px solid #edf0f5; background: #fff; }
+  .message-send-form { align-items: stretch; }
+  .message-send-form textarea { display: block; min-height: 40px; max-height: 110px; flex: 1 1 auto; resize: vertical; padding: 10px 12px; border: 1px solid #e3e8f2; border-radius: 12px; outline: 0; color: #101a32; background: #f8fafc; font: inherit; font-size: 13px; line-height: 20px; }
+  .message-send-form textarea:focus { border-color: #3562eb; box-shadow: 0 0 0 3px rgba(53,98,235,.12); }
+  .message-send-form button { display: grid; place-items: center; width: 40px; min-width: 40px; height: 40px; align-self: flex-end; border: 0; border-radius: 12px; color: #fff; background: linear-gradient(145deg,#3562eb,#4f46e5); }
+  .message-mode-btn { padding: 8px 12px; border: 1px solid #e3e8f2; border-radius: 10px; color: #64748b; background: #fff; font-size: 11px; font-weight: 800; }
+  .message-mode-btn.active { border-color: #3562eb; color: #fff; background: linear-gradient(145deg,#3562eb,#4f46e5); }
+  .messages-group-form { display: flex; gap: 8px; }
+  .messages-group-form input { min-width: 0; flex: 1; padding: 10px 12px; border: 1px solid #e3e8f2; border-radius: 12px; outline: 0; background: #f8fafc; font: inherit; font-size: 13px; }
+  .messages-group-form button { padding: 0 14px; border: 0; border-radius: 12px; color: #fff; background: #0f8f86; font-size: 12px; font-weight: 800; }
+  .message-contact-check { display: flex; align-items: center; gap: 10px; width: 100%; padding: 10px; border-radius: 14px; cursor: pointer; }
+  .message-contact-check:hover { background: #f4f6fb; }
+  .message-contact-check input { width: 16px; height: 16px; accent-color: #3562eb; }
+  .dark .messages-search, .dark .message-row, .dark .messages-contact-row:hover { background: #1d2028; }
+  .dark .messages-search input, .dark .messages-contact-row strong, .dark .messages-thread-header h2 { color: #f3f5fb; }
+  .dark .messages-thread-header, .dark .message-send-form { border-color: #303542; background: #1d2028; }
+  .dark .messages-thread-list { background: #151820; }
+  .dark .message-bubble { color: #f3f5fb; background: #252a35; }
+  .dark .message-send-form textarea { border-color: #3a414e; color: #f3f5fb; background: #151820; }
+  .dark .message-mode-btn, .dark .messages-group-form input { border-color: #3a414e; color: #cbd5e1; background: #252a35; }
+  .dark .message-contact-check:hover { background: #252a35; }
+  .dark .messages-thread-back { color: #cbd5e1; background: #2a303b; }
+  @media (max-width: 639px) { .messages-thread-panel { min-height: calc(100vh - 210px); } .messages-thread-list { min-height: 300px; } .message-bubble-row { max-width: 90%; } }
+  .course-search { display: flex; align-items: center; gap: 10px; padding: 12px 14px; border: 1px solid #e3e8f2; border-radius: 14px; color: #94a3b8; background: #f8fafc; }
+  .course-search input { width: 100%; border: 0; outline: 0; color: #101a32; background: transparent; font-size: 13px; }
+  .course-filter-tabs { display: flex; gap: 8px; margin-top: 12px; overflow-x: auto; padding-bottom: 2px; }
+  .course-filter-tab { flex: 0 0 auto; padding: 8px 12px; border: 1px solid #e3e8f2; border-radius: 999px; color: #7b879c; background: transparent; font-size: 11px; font-weight: 800; white-space: nowrap; }
+  .course-filter-tab.active { border-color: #3562eb; color: #fff; background: linear-gradient(145deg,#3562eb,#4f46e5); }
+  .course-list-card { cursor: pointer; transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease; }
+  .course-list-card:hover { transform: translateY(-2px); border-color: rgba(53,98,235,.35); box-shadow: 0 10px 22px rgba(27,45,79,.08); }
+  .course-list-arrow { color: #3562eb; }
+  .course-card-mark { display: grid; place-items: center; width: 34px; height: 34px; flex: 0 0 34px; border-radius: 11px; color: #3562eb; background: #eef2ff; }
+  .course-card-progress { margin: 10px 0 0 46px; }
+  .course-card-progress > span { color: #8c96aa; font-size: 10px; }
+  .course-card-progress > strong { float: right; color: #3562eb; font-size: 10px; }
+  .course-card-progress > div { clear: both; height: 5px; margin-top: 5px; overflow: hidden; border-radius: 99px; background: #e9edf5; }
+  .course-card-progress i { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg,#3562eb,#6b72f5); }
+  .course-detail-back { display: inline-flex; align-items: center; gap: 8px; border: 0; color: #3562eb; background: transparent; font-size: 13px; font-weight: 800; }
+  .course-detail-hero { display: flex; align-items: center; gap: 16px; padding: 24px; border-radius: 24px; color: #fff; background: linear-gradient(135deg,#11195a 0%,#3562eb 68%,#6575f5 100%); box-shadow: 0 16px 30px rgba(42,58,166,.2); }
+  .course-detail-icon { display: grid; place-items: center; width: 58px; height: 58px; flex: 0 0 58px; border-radius: 18px; color: #dbeafe; background: rgba(255,255,255,.16); font-size: 23px; }
+  .course-detail-kicker, .course-detail-section-kicker { margin: 0 0 4px; color: #9caaf5; font-size: 11px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+  .course-detail-hero h1 { margin: 0; font-family: 'Plus Jakarta Sans','Inter',sans-serif; font-size: clamp(22px,4vw,32px); font-weight: 800; letter-spacing: -.04em; }
+  .course-detail-hero #courseDetailMeta { margin: 6px 0 0; color: #dbe4ff; font-size: 13px; }
+  .course-detail-stats { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 12px; }
+  .course-detail-stat { padding: 16px; border: 1px solid rgba(53,98,235,.12); border-radius: 18px; background: linear-gradient(180deg,#fff,#f6f8ff); }
+  .course-detail-stat i { color: #3562eb; }
+  .course-detail-stat strong { display: block; margin-top: 8px; color: #101a32; font-size: 21px; }
+  .course-detail-stat span { display: block; margin-top: 2px; color: #7b879c; font-size: 11px; }
+  .course-detail-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 16px; }
+  .course-detail-section-kicker { color: #3562eb; }
+  .course-detail-item { display: flex; align-items: center; gap: 10px; padding: 11px 0; border-top: 1px solid #edf0f5; }
+  .course-detail-item:first-child { border-top: 0; padding-top: 0; }
+  .course-detail-item strong { display: block; color: #101a32; font-size: 13px; }
+  .course-detail-item small { display: block; margin-top: 3px; color: #8c96aa; font-size: 11px; }
+  .course-detail-item > i { width: 26px; color: #3562eb; text-align: center; }
+  .course-detail-empty { padding: 12px 0; color: #8c96aa; font-size: 12px; }
+  .dark .course-search, .dark .course-detail-stat { border-color: #303542; background: #1d2028; }
+  .dark .course-search input, .dark .course-detail-stat strong, .dark .course-detail-item strong { color: #f3f5fb; }
+  .dark .course-card-mark { background: #202a50; }
+  .dark .course-card-progress > div { background: #303542; }
+  .dark .course-filter-tab { border-color: #3a414e; color: #cbd5e1; }
+  .dark .course-detail-item { border-color: #303542; }
+  @media (max-width: 767px) { .course-detail-stats { grid-template-columns: repeat(2,minmax(0,1fr)); } .course-detail-grid { grid-template-columns: 1fr; gap: 12px; } .course-detail-hero { padding: 20px; border-radius: 20px; } }
+  .settings-page-hero { display: flex; align-items: center; gap: 16px; padding: 24px; border-radius: 24px; color: #fff; background: linear-gradient(135deg,#11195a,#3562eb 68%,#6575f5); box-shadow: 0 16px 30px rgba(42,58,166,.2); }
+  .settings-hero-icon { display: grid; place-items: center; width: 58px; height: 58px; flex: 0 0 58px; border-radius: 18px; color: #dbeafe; background: rgba(255,255,255,.16); font-size: 23px; }
+  .settings-kicker { margin: 0 0 4px; color: #9caaf5; font-size: 11px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+  .settings-page-hero h1 { margin: 0; font-family: 'Plus Jakarta Sans','Inter',sans-serif; font-size: 28px; font-weight: 800; letter-spacing: -.04em; }
+  .settings-page-hero p:last-child { margin: 6px 0 0; color: #dbe4ff; font-size: 13px; }
+  .settings-card { overflow: hidden; border: 1px solid rgba(53,98,235,.12); border-radius: 20px; background: #fff; box-shadow: 0 5px 14px rgba(27,45,79,.05); }
+  .settings-card-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 14px; padding: 18px; border-bottom: 1px solid #edf0f5; }
+  .settings-card-heading h2 { margin: 0; color: #101a32; font-size: 16px; font-weight: 800; }
+  .settings-card-heading p { margin: 4px 0 0; color: #8c96aa; font-size: 11px; }
+  .settings-card-heading > i { color: #3562eb; font-size: 18px; }
+  .settings-link-row, .settings-toggle-row, .settings-select-row { display: flex; align-items: center; gap: 12px; width: 100%; padding: 14px 18px; border: 0; border-bottom: 1px solid #edf0f5; color: inherit; background: transparent; text-align: left; }
+  .settings-link-row:last-child, .settings-toggle-row:last-of-type, .settings-select-row:last-child { border-bottom: 0; }
+  .settings-link-row:hover { background: #f8fafc; }
+  .settings-link-row > span:nth-child(2), .settings-toggle-row > span, .settings-select-row > span { flex: 1; min-width: 0; }
+  .settings-link-row strong, .settings-toggle-row strong, .settings-select-row strong { display: block; color: #101a32; font-size: 13px; }
+  .settings-link-row small, .settings-toggle-row small, .settings-select-row small { display: block; margin-top: 3px; color: #8c96aa; font-size: 11px; line-height: 1.35; }
+  .settings-link-row > i:last-child { color: #b2bdce; font-size: 12px; }
+  .settings-row-icon { display: grid; place-items: center; width: 34px; height: 34px; flex: 0 0 34px; border-radius: 11px; }
+  .settings-row-icon.green { color: #059669; background: #ecfdf5; } .settings-row-icon.blue { color: #2563eb; background: #eff6ff; }
+  .settings-toggle-row input { position: relative; width: 42px; height: 24px; flex: 0 0 42px; appearance: none; border-radius: 99px; outline: 0; background: #d8dfeb; cursor: pointer; transition: background .2s ease; }
+  .settings-toggle-row input::after { position: absolute; top: 3px; left: 3px; width: 18px; height: 18px; border-radius: 50%; background: #fff; box-shadow: 0 2px 5px rgba(15,23,42,.2); content: ''; transition: transform .2s ease; }
+  .settings-toggle-row input:checked { background: #3562eb; } .settings-toggle-row input:checked::after { transform: translateX(18px); }
+  .settings-select-row select { min-width: 132px; padding: 8px 10px; border: 1px solid #e3e8f2; border-radius: 10px; color: #334155; background: #f8fafc; font-size: 12px; }
+  .settings-save-status { min-height: 18px; margin: 0; padding: 0 18px 14px; color: #059669; font-size: 11px; }
+  .settings-about-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 14px 18px; border-bottom: 1px solid #edf0f5; }
+  .settings-about-row:last-child { border-bottom: 0; }
+  .settings-about-row span { color: #64748b; font-size: 12px; }
+  .settings-about-row strong { color: #334155; font-size: 12px; font-weight: 700; text-align: right; }
+  .settings-secondary-btn { padding: 8px 12px; border: 1px solid #dbe2ee; border-radius: 10px; color: #3562eb; background: transparent; font-size: 11px; font-weight: 800; }
+  .notifications-list { display: grid; gap: 20px; }
+  .notification-group h3 { margin: 0 0 8px; color: #8c96aa; font-size: 11px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+  .notification-item { display: flex; align-items: flex-start; gap: 12px; width: 100%; padding: 14px; border: 1px solid #edf0f5; border-radius: 16px; color: inherit; background: #fff; text-align: left; box-shadow: 0 4px 12px rgba(27,45,79,.04); }
+  .notification-item.unread { border-color: #c9d5ff; background: #f6f8ff; } .notification-item:hover { border-color: #aebeff; }
+  .notification-icon { display: grid; place-items: center; width: 38px; height: 38px; flex: 0 0 38px; border-radius: 12px; color: #3562eb; background: #eef2ff; }
+  .notification-item strong { display: block; color: #101a32; font-size: 13px; } .notification-item p { margin: 4px 0 0; color: #7b879c; font-size: 12px; line-height: 1.4; } .notification-item time { display: block; margin-top: 5px; color: #a0a9b8; font-size: 10px; }
+  .notification-unread-dot { width: 7px; height: 7px; margin-top: 5px; flex: 0 0 7px; border-radius: 50%; background: #3562eb; }
+  .dark .settings-card, .dark .notification-item { border-color: #303542; background: #1d2028; } .dark .settings-card-heading, .dark .settings-link-row, .dark .settings-toggle-row, .dark .settings-about-row { border-color: #303542; } .dark .settings-card-heading h2, .dark .settings-link-row strong, .dark .settings-toggle-row strong, .dark .settings-select-row strong, .dark .settings-about-row strong, .dark .notification-item strong { color: #f3f5fb; } .dark .settings-link-row:hover { background: #252a35; } .dark .settings-select-row select { border-color: #3a414e; color: #cbd5e1; background: #252a35; } .dark .notification-item.unread { border-color: #3f4f91; background: #202640; } .dark .notification-item p, .dark .settings-about-row span { color: #aeb8ca; }
+  @media (max-width: 639px) { .settings-page-hero { padding: 20px; border-radius: 20px; } .settings-page-hero h1 { font-size: 24px; } .settings-select-row { align-items: flex-start; flex-direction: column; } .settings-select-row select { width: 100%; } }
   @media (max-width: 767px) {
     :root { --mobile-navy: #11195a; --mobile-blue: #2f5be9; --mobile-text: #101a32; --mobile-muted: #8c96aa; }
     body { background: #f7f9fc !important; color: var(--mobile-text); padding-bottom: 84px; font-family: 'Inter', sans-serif; }
     #view-overview h1, #view-overview h2, #view-overview h3, #view-overview button { font-family: 'Plus Jakarta Sans', 'Inter', sans-serif; }
-    .mobile-topbar { display: none; }
+    .mobile-topbar { display: flex; align-items: center; justify-content: space-between; height: 90px; padding: 0 28px; background: #fff !important; border-bottom: 1px solid #edf0f6 !important; box-shadow: 0 4px 16px rgba(27,45,79,.04); }
+    .mobile-topbar .font-serif { color: #101a32; font-family: 'Plus Jakarta Sans', 'Inter', sans-serif !important; font-size: 25px; letter-spacing: -.04em; }
+    .mobile-topbar button { color: #101a32; }
+    .dark .mobile-topbar { background: #111318 !important; border-bottom-color: #282c35 !important; }
+    .dark .mobile-topbar .font-serif, .dark .mobile-topbar button { color: #f3f5fb; }
     #appShell { background: #f7f9fc; }
+    .maintenance-marquee { margin: 0 0 16px; border-right: 0; border-left: 0; border-radius: 0; }
+    .maintenance-marquee-track span { padding-right: 22px; padding-left: 22px; }
     #sidebar { width: min(86vw, 330px); }
     main.md\:ml-72 { margin-left: 0; max-width: none; padding: 0 0 24px; }
     #verifyBanner { margin: 12px 16px; }
@@ -113,7 +313,8 @@
     .mobile-hero-pills { display: flex; gap: 12px; margin-top: 28px; }
     .mobile-date-pill, .mobile-semester-pill { display: inline-flex; align-items: center; gap: 8px; padding: 13px 16px; border-radius: 24px; font-size: 14px; font-weight: 800; }
     .mobile-date-pill { background: rgba(255,255,255,.12); color: #fff; }
-    .mobile-semester-pill { background: rgba(15,177,172,.25); color: #49d2c4; }
+    .mobile-semester-pill { border: 0; background: rgba(15,177,172,.25); color: #49d2c4; cursor: pointer; transition: transform .2s ease, background .2s ease; }
+    .mobile-semester-pill:hover, .mobile-semester-pill:focus-visible { background: rgba(15,177,172,.4); transform: translateY(-1px); outline: none; }
     .mobile-ai-card { display: flex; align-items: center; gap: 14px; width: calc(100% - 40px); margin: 10px 20px 0; padding: 22px 18px; border: 0; border-radius: 24px; text-align: left; color: #fff; background: linear-gradient(135deg, #10164e, #202b80); box-shadow: 0 12px 24px rgba(17,25,90,.18); }
     .mobile-ai-icon { display: grid; place-items: center; width: 68px; height: 68px; flex: 0 0 68px; border-radius: 20px; background: linear-gradient(145deg, #3d67f5, #2b43d8); font-size: 30px; }
     .mobile-ai-copy { display: flex; flex: 1; flex-direction: column; gap: 4px; }
@@ -141,20 +342,38 @@
     #view-overview > div:nth-of-type(6) > div + div { margin-top: 24px; }
     #view-overview > div:nth-of-type(6) h2 { color: var(--mobile-text); font-size: 20px; }
     #view-overview > div:nth-of-type(6) .nav-link { color: var(--mobile-blue); font-size: 14px; }
+    #view-overview .mobile-dashboard-feed { display: block; margin: 0 20px; }
+    #view-overview .mobile-dashboard-feed > div { padding: 0; background: transparent; border: 0; }
+    #view-overview .mobile-dashboard-feed > div + div { margin-top: 24px; }
+    #view-overview .mobile-dashboard-feed h2 { color: var(--mobile-text); font-size: 20px; }
+    #view-overview .mobile-dashboard-feed .nav-link { color: var(--mobile-blue); font-size: 14px; }
     #ovTodayClasses { display: flex; gap: 14px; overflow-x: auto; padding: 2px 2px 10px; margin: 0 -2px; }
     #ovTodayClasses > div { min-width: 168px; min-height: 164px; padding: 16px; border: 1px solid #eef1f7; border-radius: 20px; background: #fff; box-shadow: 0 5px 14px rgba(27,45,79,.08); align-items: flex-start; flex-direction: column; }
     #ovTodayClasses > div > button { display: none; }
     #ovTodayClasses > div p:first-child { color: var(--mobile-blue); font-weight: 800; }
     #ovTodayClasses > div p:last-of-type { color: #5f6b80; line-height: 1.35; }
     #ovUpcomingAssignments > div { padding: 16px; border: 1px solid #eef1f7; border-radius: 20px; background: #fff; box-shadow: 0 5px 14px rgba(27,45,79,.08); }
+    #ovTodayClasses, #ovUpcomingAssignments { display: grid; grid-template-columns: minmax(0, 1fr); gap: 14px; overflow: visible; padding: 2px 0 10px; margin: 0; }
+    #ovTodayClasses > div, #ovUpcomingAssignments > div { width: 100%; min-width: 0; }
+    #ovTodayClasses > .text-center, #ovUpcomingAssignments > .text-center { min-height: 164px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; padding: 24px 16px; border: 1px solid #eef1f7; border-radius: 20px; background: #fff; box-shadow: 0 5px 14px rgba(27,45,79,.08); text-align: center; }
+    #ovTodayClasses > .text-center p, #ovUpcomingAssignments > .text-center p { display: block; width: 100%; margin-left: 0; margin-right: 0; }
     .view:not(#view-overview) { padding: 20px; }
     .mobile-bottom-nav { position: fixed; right: 0; bottom: 0; left: 0; z-index: 45; display: flex; justify-content: space-around; height: 78px; padding: 9px 8px max(9px, env(safe-area-inset-bottom)); border-top: 1px solid #eef0f6; background: rgba(255,255,255,.96); box-shadow: 0 -8px 25px rgba(27,45,79,.08); backdrop-filter: blur(18px); }
     .mobile-nav-item { display: flex; align-items: center; flex: 1; flex-direction: column; justify-content: center; gap: 5px; border: 0; background: transparent; color: #9aa5b8; font-size: 11px; font-weight: 700; }
     .mobile-nav-item i { font-size: 20px; }
     .mobile-nav-item.mobile-nav-active { color: var(--mobile-blue); }
-    .mobile-nav-ai i { display: grid; place-items: center; width: 58px; height: 58px; margin-top: -32px; border-radius: 20px; background: linear-gradient(145deg, #3f68f4, #2d45d7); color: #fff; box-shadow: 0 9px 18px rgba(48,86,232,.3); }
-    #floatingAssistantBtn { display: none; }
-  }
+  .mobile-nav-ai i { display: grid; place-items: center; width: 58px; height: 58px; margin-top: -32px; border-radius: 20px; background: linear-gradient(145deg, #3f68f4, #2d45d7); color: #fff; box-shadow: 0 9px 18px rgba(48,86,232,.3); }
+  #floatingAssistantBtn { display: none; }
+  .mobile-notification-panel { position: absolute; top: 86px; right: 20px; left: 20px; z-index: 8; padding: 14px; border: 1px solid rgba(148,163,184,.22); border-radius: 20px; color: #101a32; background: rgba(255,255,255,.98); box-shadow: 0 16px 36px rgba(17,25,90,.2); }
+  .mobile-notification-panel h3 { margin: 0 0 10px; font-size: 15px; font-weight: 800; }
+  .mobile-notification-item { display: flex; align-items: flex-start; gap: 10px; width: 100%; padding: 10px 0; border: 0; border-top: 1px solid #eef1f7; color: inherit; background: transparent; text-align: left; }
+  .mobile-notification-item:first-of-type { border-top: 0; }
+  .mobile-notification-item i { width: 20px; padding-top: 2px; color: #3562eb; text-align: center; }
+  .mobile-notification-item strong { display: block; font-size: 12px; }
+  .mobile-notification-item small { display: block; margin-top: 2px; color: #7b879c; font-size: 11px; line-height: 1.35; }
+  .mobile-notification-empty { margin: 0; color: #7b879c; font-size: 12px; line-height: 1.45; }
+  .mobile-notification-view-all { display: flex; align-items: center; justify-content: space-between; width: 100%; margin-top: 8px; padding: 10px 0 0; border: 0; border-top: 1px solid #eef1f7; color: #3562eb; background: transparent; font-size: 11px; font-weight: 800; text-align: left; }
+}
 </style>
 
 <style id="eduflow-reference-theme">
@@ -220,9 +439,59 @@ main > div:first-child { max-width:1240px; }
   .mobile-bottom-nav { height:78px !important; }
 }
 @media (min-width:768px) { main { margin-left:18rem; } }
+.first-run-screen { position: fixed; inset: 0; z-index: 500; display: flex; align-items: stretch; justify-content: center; overflow: hidden; background: #03061a; }
+.first-run-screen.hidden { display: none; }
+.first-run-splash { position: relative; display: flex; width: 100%; min-height: 100%; flex-direction: column; align-items: center; justify-content: center; overflow: hidden; background: linear-gradient(160deg,#03061a 0%,#0d1440 45%,#141d5a 100%); color: #fff; }
+.first-run-splash::before { content: ''; position: absolute; inset: 0; opacity: .04; background-image: linear-gradient(rgba(99,102,241,.8) 1px,transparent 1px),linear-gradient(90deg,rgba(99,102,241,.8) 1px,transparent 1px); background-size: 32px 32px; }
+.splash-orb { position: absolute; border-radius: 50%; filter: blur(42px); pointer-events: none; }
+.splash-orb.one { width: 320px; height: 320px; top: -80px; right: -80px; opacity: .2; background: radial-gradient(circle,#4f46e5 0%,transparent 70%); }
+.splash-orb.two { width: 280px; height: 280px; bottom: 40px; left: -60px; opacity: .15; background: radial-gradient(circle,#2563eb 0%,transparent 70%); }
+.splash-orb.three { width: 200px; height: 200px; right: 20px; bottom: 120px; opacity: .1; background: radial-gradient(circle,#10b981 0%,transparent 70%); }
+.splash-particle { position: absolute; border-radius: 50%; opacity: .65; animation: firstRunFloat 4s ease-in-out infinite; box-shadow: 0 0 12px currentColor; }
+.splash-brand { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; gap: 24px; animation: firstRunFade .5s ease-out both; }
+.splash-logo { position: relative; display: grid; width: 96px; height: 96px; place-items: center; border-radius: 30px; background: linear-gradient(135deg,#2563eb 0%,#4f46e5 60%,#6366f1 100%); box-shadow: 0 0 60px rgba(79,70,229,.5),0 0 120px rgba(37,99,235,.3),inset 0 1px 0 rgba(255,255,255,.2); animation: firstRunFloat 4s ease-in-out infinite; }
+.splash-logo::after { content: ''; position: absolute; inset: -12px; border: 1px solid rgba(99,102,241,.8); border-radius: 36px; box-shadow: 0 0 20px rgba(99,102,241,.4); }
+.splash-wordmark { margin: 0; color: #fff; font-family: 'Plus Jakarta Sans',Inter,sans-serif; font-size: 38px; font-weight: 800; letter-spacing: -.02em; }
+.splash-wordmark span { color: #60a5fa; }
+.splash-tagline { margin: 4px 0 0; color: rgba(148,163,184,.9); font-size: 15px; font-weight: 500; letter-spacing: .04em; text-align: center; }
+.splash-dots { display: flex; gap: 8px; margin-top: 8px; }
+.splash-dots i { width: 6px; height: 6px; border-radius: 50%; background: rgba(99,102,241,.5); animation: firstRunDot 1.2s ease-in-out infinite; }
+.splash-dots i:nth-child(2) { background: #60a5fa; animation-delay: .2s; }.splash-dots i:nth-child(3) { animation-delay: .4s; }
+.splash-footer { position: absolute; z-index: 1; right: 0; bottom: 40px; left: 0; color: rgba(100,116,139,.7); text-align: center; }
+.splash-footer strong { display: block; font-size: 12px; letter-spacing: .16em; text-transform: uppercase; }.splash-footer span { display: block; margin-top: 2px; font-size: 11px; }
+.first-run-onboarding { display: flex; width: min(100%,460px); min-height: 100%; flex-direction: column; overflow: hidden; background: #fff; color: #0f172a; }
+.onboarding-art { position: relative; display: flex; height: 320px; flex: 0 0 320px; align-items: center; justify-content: center; overflow: hidden; animation: screenEnter .3s ease-out; }
+.onboarding-art.ai { background: linear-gradient(135deg,#eff6ff 0%,#e0e7ff 100%); }.onboarding-art.schedule { background: linear-gradient(135deg,#fff7ed 0%,#fef3c7 100%); }.onboarding-art.campus { background: linear-gradient(135deg,#ecfdf5 0%,#d1fae5 100%); }
+.onboarding-skip { position: absolute; z-index: 2; top: 48px; right: 20px; padding: 6px 4px; border: 0; color: #2563eb; background: transparent; font-size: 13px; font-weight: 700; cursor: pointer; }
+.onboarding-art.schedule .onboarding-skip { color: #f59e0b; }.onboarding-art.campus .onboarding-skip { color: #059669; }
+.onboarding-illustration { width: min(78%,280px); animation: firstRunFloat 4s ease-in-out infinite; }.onboarding-art.campus .onboarding-illustration { width: min(84%,300px); }
+.onboarding-card { display: flex; align-items: center; gap: 10px; margin: 8px 0; padding: 11px 12px; border-radius: 16px; background: #fff; box-shadow: 0 4px 16px rgba(0,0,0,.06); }
+.onboarding-card-icon { display: grid; width: 34px; height: 34px; flex: 0 0 34px; place-items: center; border-radius: 11px; color: #fff; font-size: 15px; }.onboarding-card-copy { min-width: 0; }.onboarding-card-copy strong { display: block; overflow: hidden; color: #1e293b; font-size: 11px; line-height: 1.2; text-overflow: ellipsis; white-space: nowrap; }.onboarding-card-copy span { display: block; margin-top: 3px; overflow: hidden; color: #94a3b8; font-size: 9px; text-overflow: ellipsis; white-space: nowrap; }
+.onboarding-calendar { padding: 18px; border-radius: 22px; background: rgba(255,255,255,.86); box-shadow: 0 8px 24px rgba(245,158,11,.14); }.onboarding-calendar-head { display: flex; align-items: center; justify-content: space-between; color: #64748b; font-size: 10px; font-weight: 800; }.onboarding-calendar-grid { display: grid; grid-template-columns: repeat(5,1fr); gap: 8px; margin-top: 14px; }.onboarding-calendar-grid i { display: grid; height: 32px; place-items: center; border-radius: 9px; color: #64748b; background: #fff7ed; font-size: 10px; font-style: normal; }.onboarding-calendar-grid i.active { color: #fff; background: #f59e0b; }.onboarding-calendar-event { display: flex; align-items: center; gap: 8px; margin-top: 12px; padding: 9px; border-radius: 11px; color: #92400e; background: #fff7ed; font-size: 10px; font-weight: 700; }.onboarding-calendar-event b { display: grid; width: 20px; height: 20px; place-items: center; border-radius: 50%; color: #fff; background: #f59e0b; font-size: 9px; }
+.onboarding-content { display: flex; min-height: 0; flex: 1; flex-direction: column; padding: 32px 24px 24px; }.onboarding-copy { min-height: 0; flex: 1; animation: screenEnter .3s ease-out; }.onboarding-copy h2 { margin: 0; color: #0f172a; font-family: 'Plus Jakarta Sans',Inter,sans-serif; font-size: 26px; font-weight: 800; line-height: 1.15; letter-spacing: -.02em; white-space: pre-line; }.onboarding-copy p { margin: 16px 0 0; color: #64748b; font-size: 15px; line-height: 1.65; }.onboarding-controls { display: flex; align-items: center; justify-content: space-between; gap: 16px; }.onboarding-dots { display: flex; align-items: center; gap: 8px; }.onboarding-dots button { width: 8px; height: 8px; padding: 0; border: 0; border-radius: 99px; background: #e2e8f0; cursor: pointer; transition: width .25s ease,background .25s ease; }.onboarding-dots button.active { width: 24px; background: #2563eb; }.onboarding-dots button.active.schedule-dot { background: #f59e0b; }.onboarding-dots button.active.campus-dot { background: #059669; }.onboarding-next { display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: 100%; margin-top: 24px; padding: 15px 18px; border: 0; border-radius: 16px; color: #fff; font-size: 16px; font-weight: 700; cursor: pointer; box-shadow: 0 12px 28px rgba(37,99,235,.25); }.onboarding-next.ai-next { background: linear-gradient(135deg,#2563eb,#4f46e5); }.onboarding-next.schedule-next { background: linear-gradient(135deg,#f59e0b,#6366f1); }.onboarding-next.campus-next { background: linear-gradient(135deg,#059669,#10b981); }
+@keyframes firstRunFloat { 0%,100% { transform: translateY(0) rotate(0); } 33% { transform: translateY(-10px) rotate(1deg); } 66% { transform: translateY(-5px) rotate(-1deg); } }
+@keyframes firstRunFade { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes firstRunDot { 0%,80%,100% { transform: translateY(0); } 40% { transform: translateY(-6px); } }
+@media (max-width: 480px) { .onboarding-art { height: 300px; flex-basis: 300px; }.onboarding-content { padding: 26px 20px 20px; }.onboarding-copy h2 { font-size: 24px; } }
+@media (prefers-reduced-motion: reduce) { .splash-brand, .splash-logo, .splash-particle, .splash-dots i, .onboarding-art, .onboarding-copy, .onboarding-illustration { animation: none; } }
 </style>
 </head>
 <body class="bg-paper dark:bg-paper-dark text-ink dark:text-ink-dark min-h-screen transition-colors duration-300">
+
+<!-- ============ FIRST-USE SPLASH ============ -->
+<div id="firstRunSplash" class="first-run-screen">
+  <div class="first-run-splash"><div class="splash-orb one"></div><div class="splash-orb two"></div><div class="splash-orb three"></div>
+    <i class="splash-particle" style="left:15%;top:20%;width:4px;height:4px;color:#6366f1"></i><i class="splash-particle" style="left:80%;top:15%;width:3px;height:3px;color:#3b82f6;animation-delay:.5s"></i><i class="splash-particle" style="left:25%;top:75%;width:5px;height:5px;color:#10b981;animation-delay:1s"></i><i class="splash-particle" style="left:75%;top:70%;width:3px;height:3px;color:#6366f1;animation-delay:1.5s"></i><i class="splash-particle" style="left:50%;top:10%;width:2px;height:2px;color:#60a5fa;animation-delay:.8s"></i><i class="splash-particle" style="left:90%;top:50%;width:4px;height:4px;color:#34d399;animation-delay:.3s"></i><i class="splash-particle" style="left:10%;top:50%;width:3px;height:3px;color:#818cf8;animation-delay:1.2s"></i>
+    <div class="splash-brand"><div class="splash-logo" aria-hidden="true"><svg width="52" height="52" viewBox="0 0 52 52" fill="none"><path d="M10 14h20M10 26h16M10 38h20" stroke="white" stroke-width="3.5" stroke-linecap="round"/><path d="M32 14c5 0 10 4 10 9s-4 8-8 8M34 31s4 2 6 5" stroke="rgba(255,255,255,.7)" stroke-width="3" stroke-linecap="round"/><circle cx="40" cy="11" r="3" fill="#34d399"/></svg></div><div><h1 class="splash-wordmark">Edu<span>Flow</span></h1><p class="splash-tagline">Your Campus. Smarter.</p></div><div class="splash-dots" aria-label="Loading"><i></i><i></i><i></i></div></div>
+    <div class="splash-footer"><strong>University of Lagos</strong><span>Powered by AI</span></div>
+  </div>
+</div>
+
+<!-- ============ FIRST-USE ONBOARDING ============ -->
+<div id="firstRunOnboarding" class="first-run-screen hidden" aria-label="EduFlow onboarding"><div class="first-run-onboarding">
+  <div id="onboardingArt" class="onboarding-art ai"><button id="onboardingSkip" class="onboarding-skip" type="button">Skip</button><div id="onboardingIllustration" class="onboarding-illustration"></div></div>
+  <div class="onboarding-content"><div class="onboarding-copy"><h2 id="onboardingTitle"></h2><p id="onboardingDescription"></p></div><div class="onboarding-controls"><div id="onboardingDots" class="onboarding-dots" role="tablist" aria-label="Onboarding slides"></div></div><button id="onboardingNext" class="onboarding-next ai-next" type="button"><span>Continue</span><i class="fa-solid fa-arrow-right"></i></button></div>
+</div></div>
 
 <!-- ============ AUTH SCREEN ============ -->
 <div id="authScreen" class="fixed inset-0 z-[200] bg-paper dark:bg-paper-dark flex items-center justify-center p-4 overflow-y-auto">
@@ -407,7 +676,7 @@ main > div:first-child { max-width:1240px; }
             <p id="sidebarUserName" class="text-sm font-semibold truncate">Student</p>
             <p id="sidebarUserEmail" class="text-xs text-inksoft dark:text-inksoft-dark truncate"></p>
           </div>
-          <button data-view="account" aria-label="Account settings" class="shrink-0 w-7 h-7 flex items-center justify-center rounded-lg text-inksoft dark:text-inksoft-dark hover:text-ink dark:hover:text-ink-dark hover:bg-ink/5 dark:hover:bg-white/5 focus:outline-none focus:ring-2 focus:ring-teal">
+          <button data-view="settings" aria-label="Settings" class="shrink-0 w-7 h-7 flex items-center justify-center rounded-lg text-inksoft dark:text-inksoft-dark hover:text-ink dark:hover:text-ink-dark hover:bg-ink/5 dark:hover:bg-white/5 focus:outline-none focus:ring-2 focus:ring-teal">
             <i class="fa-solid fa-gear text-sm"></i>
           </button>
         </div>
@@ -451,6 +720,12 @@ main > div:first-child { max-width:1240px; }
       <button data-view="messages" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium">
         <i class="fa-regular fa-comments w-5 text-center"></i><span>Messages</span>
       </button>
+      <button data-view="notifications" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium">
+        <i class="fa-regular fa-bell w-5 text-center"></i><span>Notifications</span>
+      </button>
+      <button data-view="settings" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium">
+        <i class="fa-solid fa-gear w-5 text-center"></i><span>Settings</span>
+      </button>
     </nav>
 
     <div class="px-6 py-4 border-t border-ink/10 dark:border-ink-dark/10">
@@ -468,7 +743,7 @@ main > div:first-child { max-width:1240px; }
   </aside>
 
   <main class="md:ml-72 min-h-screen px-4 sm:px-6 lg:px-10 py-6 sm:py-8 max-w-6xl">
-
+    <div class="maintenance-marquee" role="status" aria-label="Maintenance notice"><div class="maintenance-marquee-track"><span><i class="fa-solid fa-wrench"></i> EduFlow is currently undergoing maintenance. You may experience temporary glitches in some areas of the app. Thanks for your patience — watch out for an update soon.</span><span aria-hidden="true"><i class="fa-solid fa-wrench"></i> EduFlow is currently undergoing maintenance. You may experience temporary glitches in some areas of the app. Thanks for your patience — watch out for an update soon.</span></div></div>
     <div id="verifyBanner" class="hidden mb-6 flex flex-wrap items-center justify-between gap-3 bg-amber/10 border border-amber/30 rounded-xl px-4 py-3 text-sm">
       <span><i class="fa-solid fa-envelope-circle-check mr-2 text-amber"></i>Verify your email to secure your account.</span>
       <button id="resendVerificationBtn" class="text-xs font-semibold text-teal dark:text-teal hover:underline">Resend verification email</button>
@@ -476,15 +751,16 @@ main > div:first-child { max-width:1240px; }
 
     <!-- OVERVIEW -->
     <section id="view-overview" class="view space-y-6">
-      <div class="mobile-dashboard-hero bg-surface dark:bg-surface-dark rounded-2xl border border-ink/10 dark:border-ink-dark/10 p-6 sm:p-8">
+      <div class="mobile-dashboard-hero relative bg-surface dark:bg-surface-dark rounded-2xl border border-ink/10 dark:border-ink-dark/10 p-6 sm:p-8">
         <div class="mobile-hero-toolbar">
-          <div class="mobile-avatar" aria-hidden="true">AO</div>
+          <div class="mobile-avatar" aria-label="User profile"><i class="fa-solid fa-user" aria-hidden="true"></i></div>
           <div class="mobile-hero-copy"><p class="mobile-hero-kicker">Good morning,</p><p id="mobileHeroName" class="mobile-hero-name">Student <span aria-hidden="true">👋</span></p></div>
-          <button class="mobile-notification" type="button" aria-label="Notifications"><i class="fa-solid fa-bell"></i><span>4</span></button>
+          <button id="mobileNotificationBtn" class="mobile-notification" type="button" aria-label="Open notifications" aria-expanded="false"><i class="fa-solid fa-bell"></i><span id="mobileNotificationCount" class="hidden">0</span></button>
         </div>
+        <div id="mobileNotificationPanel" class="mobile-notification-panel hidden" aria-live="polite"></div>
         <p id="ovGreeting" class="font-serif text-2xl sm:text-3xl font-semibold">Good day.</p>
         <p id="ovDate" class="text-inksoft dark:text-inksoft-dark mt-1"></p>
-        <div class="mobile-hero-pills"><span class="mobile-date-pill"><i class="fa-regular fa-calendar"></i><span id="mobileDateLabel">Today</span></span><span class="mobile-semester-pill">2nd Sem</span></div>
+        <div class="mobile-hero-pills"><span class="mobile-date-pill"><i class="fa-regular fa-calendar"></i><span id="mobileDateLabel">Today</span></span><button type="button" data-view="courses" data-open-semester class="mobile-semester-pill"><i class="fa-solid fa-plus"></i><span>Add semester</span></button></div>
         <p class="text-inksoft dark:text-inksoft-dark mt-4 max-w-md">Everything about your semester, in one place — courses, classes, deadlines and your CGPA.</p>
       </div>
       <button type="button" data-view="assistant" class="mobile-ai-card"><span class="mobile-ai-icon"><i class="fa-solid fa-brain"></i></span><span class="mobile-ai-copy"><strong>Ask EduAI</strong><small>Explain a topic, get study help…</small></span><span class="mobile-ai-badge">AI <i class="fa-solid fa-sparkles"></i></span></button>
@@ -536,7 +812,7 @@ main > div:first-child { max-width:1240px; }
         <div id="achievementsGrid" class="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-8 gap-3"></div>
       </div>
 
-      <div class="grid lg:grid-cols-2 gap-4 sm:gap-6">
+      <div class="mobile-dashboard-feed grid lg:grid-cols-2 gap-4 sm:gap-6">
         <div class="bg-surface dark:bg-surface-dark rounded-2xl border border-ink/10 dark:border-ink-dark/10 p-5 sm:p-6">
           <div class="flex items-center justify-between mb-3">
             <h2 class="font-serif font-semibold text-lg">Today's Classes</h2>
@@ -559,6 +835,11 @@ main > div:first-child { max-width:1240px; }
       <div>
         <h1 class="font-serif text-2xl font-semibold">Courses</h1>
         <p class="text-inksoft dark:text-inksoft-dark text-sm mt-1">Add the courses you're registered for. They'll show up across your timetable and CGPA calculator.</p>
+      </div>
+
+      <div class="course-browser-controls bg-surface dark:bg-surface-dark rounded-2xl border border-ink/10 dark:border-ink-dark/10 p-4 sm:p-5">
+        <label class="course-search" for="courseSearch"><i class="fa-solid fa-magnifying-glass"></i><input id="courseSearch" type="search" placeholder="Search courses, codes, or lecturers..." autocomplete="off" /></label>
+        <div id="courseFilterTabs" class="course-filter-tabs" role="tablist" aria-label="Course filters"><button type="button" data-course-filter="all" class="course-filter-tab active" role="tab" aria-selected="true">All courses</button><button type="button" data-course-filter="tasks" class="course-filter-tab" role="tab" aria-selected="false">With tasks</button><button type="button" data-course-filter="scheduled" class="course-filter-tab" role="tab" aria-selected="false">Scheduled</button><button type="button" data-course-filter="graded" class="course-filter-tab" role="tab" aria-selected="false">Graded</button></div>
       </div>
 
       <form id="courseForm" class="bg-surface dark:bg-surface-dark rounded-2xl border border-ink/10 dark:border-ink-dark/10 p-5 sm:p-6 grid sm:grid-cols-2 lg:grid-cols-5 gap-3 sm:gap-4 items-end">
@@ -585,7 +866,28 @@ main > div:first-child { max-width:1240px; }
         </div>
       </form>
 
+      <div class="bg-surface dark:bg-surface-dark rounded-2xl border border-ink/10 dark:border-ink-dark/10 p-5 sm:p-6">
+        <div class="flex items-start justify-between gap-3 mb-3"><div><h2 class="font-serif font-semibold text-lg">Semester setup</h2><p class="text-xs text-inksoft dark:text-inksoft-dark mt-1">Create the semester your courses belong to.</p></div><i class="fa-solid fa-layer-group text-teal dark:text-teal-dark"></i></div>
+        <form id="courseSemesterForm" class="flex flex-col sm:flex-row gap-2">
+          <input id="courseSemesterName" type="text" required placeholder="e.g. 200 Level — First Semester" class="flex-1 bg-paper dark:bg-paper-dark border border-ink/10 dark:border-ink-dark/10 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal" />
+          <button type="submit" class="px-4 h-[38px] rounded-lg bg-teal dark:bg-teal-dark text-white text-sm font-semibold hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-teal shrink-0"><i class="fa-solid fa-plus mr-1"></i>Add semester</button>
+        </form>
+        <div id="courseSemesterList" class="space-y-2 mt-4"></div>
+      </div>
+
       <div id="courseList" class="space-y-2"></div>
+    </section>
+
+    <!-- COURSE DETAIL -->
+    <section id="view-course-detail" class="view hidden space-y-6 max-w-4xl">
+      <button type="button" data-view="courses" class="course-detail-back"><i class="fa-solid fa-arrow-left"></i><span>Back to courses</span></button>
+      <div id="courseDetailHero" class="course-detail-hero"><div class="course-detail-icon"><i class="fa-solid fa-book-open"></i></div><div class="min-w-0"><p class="course-detail-kicker">Course overview</p><h1 id="courseDetailName">Course</h1><p id="courseDetailMeta">Course details</p></div></div>
+      <div id="courseDetailStats" class="course-detail-stats"></div>
+      <div class="course-detail-grid">
+        <div class="bg-surface dark:bg-surface-dark rounded-2xl border border-ink/10 dark:border-ink-dark/10 p-5 sm:p-6"><div class="flex items-center justify-between mb-4"><div><p class="course-detail-section-kicker">Assignments</p><h2 class="font-serif font-semibold text-lg">Course activity</h2></div><button type="button" data-view="assignments" class="text-xs text-teal font-semibold">View all <i class="fa-solid fa-chevron-right ml-1"></i></button></div><div id="courseDetailAssignments"></div></div>
+        <div class="bg-surface dark:bg-surface-dark rounded-2xl border border-ink/10 dark:border-ink-dark/10 p-5 sm:p-6"><div class="flex items-center justify-between mb-4"><div><p class="course-detail-section-kicker">Timetable</p><h2 class="font-serif font-semibold text-lg">Class schedule</h2></div><button type="button" data-view="timetable" class="text-xs text-teal font-semibold">Open timetable <i class="fa-solid fa-chevron-right ml-1"></i></button></div><div id="courseDetailSchedule"></div></div>
+      </div>
+      <div class="bg-surface dark:bg-surface-dark rounded-2xl border border-ink/10 dark:border-ink-dark/10 p-5 sm:p-6"><div class="flex items-center justify-between mb-4"><div><p class="course-detail-section-kicker">Academic record</p><h2 class="font-serif font-semibold text-lg">Grades and CGPA</h2></div><button type="button" data-view="cgpa" class="text-xs text-teal font-semibold">Open CGPA <i class="fa-solid fa-chevron-right ml-1"></i></button></div><div id="courseDetailGrades"></div></div>
     </section>
 
     <!-- TIMETABLE -->
@@ -842,7 +1144,7 @@ main > div:first-child { max-width:1240px; }
         </div>
       </div>
       <p id="assistantNotConfiguredNote" class="hidden text-xs text-amber bg-amber/10 border border-amber/30 rounded-xl px-4 py-3">
-        An AI model isn't set up on this server yet, so replies are using simple built-in logic for now.
+        An AI model isn't set up on this server yet. Dashboard data questions remain available; general subject questions require AI configuration.
       </p>
 
       <div class="bg-surface dark:bg-surface-dark rounded-2xl border border-ink/10 dark:border-ink-dark/10 flex flex-col h-[65vh] max-h-[640px]">
@@ -863,16 +1165,82 @@ main > div:first-child { max-width:1240px; }
       </div>
     </section>
 
-    <!-- ACCOUNT SETTINGS -->
-    <section id="view-messages" class="view hidden space-y-6 max-w-2xl">
-      <div class="messages-hero"><div><p class="messages-kicker">Stay connected</p><h1>Messages</h1><p>Conversations with your classmates and campus groups.</p></div><button type="button" class="messages-compose" aria-label="New message"><i class="fa-solid fa-plus"></i></button></div>
-      <label class="messages-search"><i class="fa-solid fa-magnifying-glass"></i><input type="search" placeholder="Search conversations…" aria-label="Search conversations" /></label>
-      <div class="messages-online"><p>Online now</p><div><span class="message-avatar blue">AO<i></i></span><span class="message-avatar violet">JD<i></i></span><span class="message-avatar green">MK<i></i></span></div></div>
-      <div class="messages-section-title">All conversations</div>
-      <div class="messages-list"><button type="button" class="message-row"><span class="message-avatar blue">AO</span><span class="message-copy"><strong>Course Group</strong><small>Welcome to the new semester group.</small></span><time>09:12</time><b>2</b></button><button type="button" class="message-row"><span class="message-avatar violet">JD</span><span class="message-copy"><strong>John Doe</strong><small>Are you joining the study session?</small></span><time>Yesterday</time></button><button type="button" class="message-row"><span class="message-avatar green">MK</span><span class="message-copy"><strong>Course Representative</strong><small>The timetable has been updated.</small></span><time>Mon</time></button></div>
+    <!-- MESSAGES -->
+    <section id="view-messages" class="view hidden space-y-6 max-w-4xl">
+      <div class="messages-hero"><div class="flex items-start justify-between gap-4"><div><p class="messages-kicker">Stay connected</p><h1>Messages</h1><p>Conversations with your classmates and campus groups.</p></div><button id="messagesComposeBtn" type="button" class="messages-compose" aria-label="Start a conversation"><i class="fa-solid fa-plus"></i></button></div></div>
+      <div id="messagesComposePanel" class="hidden bg-surface dark:bg-surface-dark rounded-2xl border border-ink/10 dark:border-ink-dark/10 p-4 sm:p-5">
+        <div class="flex items-center justify-between gap-3 mb-3"><div><h2 class="font-serif font-semibold text-lg">New conversation</h2><p id="messagesComposeHint" class="text-xs text-inksoft dark:text-inksoft-dark mt-1">Choose an Eduflow user to start a direct chat.</p></div><button id="messagesComposeCloseBtn" type="button" class="w-8 h-8 rounded-lg hover:bg-ink/5 dark:hover:bg-white/5" aria-label="Close new conversation"><i class="fa-solid fa-xmark"></i></button></div>
+        <div class="flex flex-wrap gap-2 mb-3"><button id="messagesDirectModeBtn" type="button" class="message-mode-btn active">Direct message</button><button id="messagesGroupModeBtn" type="button" class="message-mode-btn">Create group</button></div>
+        <form id="messagesGroupForm" class="hidden messages-group-form mb-3"><label class="sr-only" for="messagesGroupTitle">Group name</label><input id="messagesGroupTitle" type="text" maxlength="120" placeholder="Group name" /><button type="submit">Create group</button></form>
+        <label class="messages-search" for="messagesContactSearch"><i class="fa-solid fa-magnifying-glass"></i><input id="messagesContactSearch" type="search" placeholder="Search students by name or email" autocomplete="off" /></label>
+        <div id="messagesContacts" class="messages-contacts mt-3"></div>
+      </div>
+      <div id="messagesListPanel" class="space-y-5">
+        <label class="messages-search" for="messagesSearch"><i class="fa-solid fa-magnifying-glass"></i><input id="messagesSearch" type="search" placeholder="Search conversations..." autocomplete="off" /></label>
+        <div class="messages-online"><p>People on Eduflow</p><div id="messagesOnline"></div></div>
+        <div><p class="messages-section-title">All conversations</p><div id="messagesList" class="messages-list"></div></div>
+      </div>
+      <div id="messagesThreadPanel" class="hidden messages-thread-panel bg-surface dark:bg-surface-dark rounded-2xl border border-ink/10 dark:border-ink-dark/10 overflow-hidden">
+        <div class="messages-thread-header"><button id="messagesBackBtn" type="button" class="messages-thread-back" aria-label="Back to conversations"><i class="fa-solid fa-arrow-left"></i></button><div class="message-avatar blue" id="messagesThreadAvatar"><i class="hidden"></i><span>?</span></div><div class="min-w-0 flex-1"><h2 id="messagesThreadName">Conversation</h2><p id="messagesThreadStatus">Direct conversation</p></div></div>
+        <div id="messagesThreadList" class="messages-thread-list" aria-live="polite"></div>
+        <form id="messagesSendForm" class="messages-send-form"><label class="sr-only" for="messagesInput">Message</label><textarea id="messagesInput" rows="1" maxlength="4000" placeholder="Write a message..." required></textarea><button type="submit" aria-label="Send message"><i class="fa-solid fa-paper-plane"></i></button></form>
+      </div>
+    </section>
+    <!-- NOTIFICATIONS -->
+    <section id="view-notifications" class="view hidden space-y-6 max-w-3xl">
+      <div class="settings-page-hero"><div class="settings-hero-icon"><i class="fa-regular fa-bell"></i></div><div><p class="settings-kicker">Stay up to date</p><h1>Notifications</h1><p>Assignment reminders, messages, and account updates in one place.</p></div></div>
+      <div class="flex items-center justify-between gap-3"><div><h2 class="font-serif font-semibold text-lg">Your updates</h2><p id="notificationsSummary" class="text-xs text-inksoft dark:text-inksoft-dark mt-1"></p></div><button id="markAllNotificationsBtn" type="button" class="settings-secondary-btn">Mark all as read</button></div>
+      <div id="notificationsList" class="notifications-list"></div>
+    </section>
+
+    <!-- SETTINGS -->
+    <section id="view-settings" class="view hidden space-y-6 max-w-3xl">
+      <div class="settings-page-hero"><div class="settings-hero-icon"><i class="fa-solid fa-sliders"></i></div><div><p class="settings-kicker">Make EduFlow yours</p><h1>Settings</h1><p>Control your notifications, appearance, AI, and privacy preferences.</p></div></div>
+      <div class="settings-card"><div class="settings-card-heading"><div><h2>Profile and account</h2><p>Manage your personal information and account security.</p></div><i class="fa-solid fa-user-gear"></i></div><button type="button" data-view="profile" class="settings-link-row"><span class="settings-row-icon green"><i class="fa-regular fa-user"></i></span><span><strong>Profile information</strong><small>Academic details and profile summary</small></span><i class="fa-solid fa-chevron-right"></i></button><button type="button" data-view="account" class="settings-link-row"><span class="settings-row-icon blue"><i class="fa-solid fa-shield-halved"></i></span><span><strong>Account and security</strong><small>Email, password, export, and account controls</small></span><i class="fa-solid fa-chevron-right"></i></button></div>
+      <form id="preferencesForm" class="settings-card"><div class="settings-card-heading"><div><h2>Notifications</h2><p>Choose which updates you want to receive.</p></div><i class="fa-regular fa-bell"></i></div><label class="settings-toggle-row"><span><strong>Assignment deadlines</strong><small>Get reminders for pending and overdue assignments</small></span><input type="checkbox" data-preference="assignment_notifications" /></label><label class="settings-toggle-row"><span><strong>Campus announcements</strong><small>Receive official EduFlow updates when available</small></span><input type="checkbox" data-preference="announcement_notifications" /></label><label class="settings-toggle-row"><span><strong>Grade updates</strong><small>Show updates when grades or CGPA records change</small></span><input type="checkbox" data-preference="grade_notifications" /></label><label class="settings-toggle-row"><span><strong>New messages</strong><small>Show unread message notifications and chat updates</small></span><input type="checkbox" data-preference="message_notifications" /></label></form>
+      <div class="settings-card"><div class="settings-card-heading"><div><h2>Appearance and AI</h2><p>Adjust how EduFlow looks and supports your study routine.</p></div><i class="fa-solid fa-wand-magic-sparkles"></i></div><label class="settings-select-row"><span><strong>Theme</strong><small>Choose system preference or a fixed theme</small></span><select id="settingsTheme"><option value="system">System default</option><option value="light">Light</option><option value="dark">Dark</option></select></label><label class="settings-toggle-row"><span><strong>AI suggestions</strong><small>Allow EduAI to suggest study actions</small></span><input type="checkbox" data-preference="ai_suggestions" /></label><label class="settings-toggle-row"><span><strong>AI reminders</strong><small>Show helpful study reminders in the app</small></span><input type="checkbox" data-preference="ai_reminders" /></label><label class="settings-select-row"><span><strong>AI model</strong><small>Choose the model used by EduAI when available</small></span><select id="settingsAiModel"><option value="">Default model</option></select></label></div>
+      <div class="settings-card"><div class="settings-card-heading"><div><h2>Privacy</h2><p>Choose how other EduFlow users can discover you.</p></div><i class="fa-solid fa-lock"></i></div><label class="settings-toggle-row"><span><strong>Profile visibility</strong><small>Allow classmates to find you when starting a conversation</small></span><input type="checkbox" data-preference="profile_visibility" /></label><label class="settings-toggle-row"><span><strong>Data and analytics</strong><small>Allow anonymous product analytics when available</small></span><input type="checkbox" data-preference="analytics_sharing" /></label><p id="preferencesSaveStatus" class="settings-save-status" aria-live="polite"></p></div>
+      <div class="settings-card"><div class="settings-card-heading"><div><h2>About EduFlow</h2><p>Information about this EduFlow web app.</p></div><i class="fa-solid fa-circle-info"></i></div><div class="settings-about-row"><span>Application</span><strong>EduFlow — Smart Campus Assistant</strong></div><div class="settings-about-row"><span>Version</span><strong id="settingsAppVersion">1.0.0</strong></div><div class="settings-about-row"><span>Data</span><strong>Your account data is stored securely</strong></div><div class="settings-about-row"><span>Support</span><strong>Contact your EduFlow administrator</strong></div></div>
     </section>
 
     <!-- ACCOUNT SETTINGS -->
+    <section id="view-profile" class="view hidden space-y-6 max-w-2xl">
+      <div class="profile-hero">
+        <div class="profile-avatar"><i class="fa-solid fa-user"></i></div>
+        <div class="min-w-0"><p class="profile-kicker">Your EduFlow profile</p><h1 id="profileName" class="profile-title">Student</h1><p id="profileAcademicLine" class="profile-academic-line">Complete your academic details</p><p id="profileEmail" class="profile-email"></p></div>
+      </div>
+      <div class="profile-stat-grid">
+        <div class="profile-stat"><i class="fa-solid fa-book-open"></i><strong id="profileCourseCount">0</strong><span>Courses</span></div>
+        <div class="profile-stat"><i class="fa-solid fa-chart-line"></i><strong id="profileCgpa">—</strong><span>Current CGPA</span></div>
+        <div class="profile-stat"><i class="fa-solid fa-list-check"></i><strong id="profileAssignmentCount">0</strong><span>Pending tasks</span></div>
+      </div>
+      <div id="profileReadOnlyCard" class="profile-readonly-card hidden">
+        <div class="profile-card-heading"><div><h2>Student information</h2><p>Your saved academic profile</p></div><i class="fa-solid fa-id-card"></i></div>
+        <div class="profile-details-list">
+          <div><span>School / institution</span><strong id="profileSchoolValue">Not added yet</strong></div>
+          <div><span>Department</span><strong id="profileDepartmentValue">Not added yet</strong></div>
+          <div><span>Programme</span><strong id="profileProgrammeValue">Not added yet</strong></div>
+          <div><span>Level</span><strong id="profileLevelValue">Not added yet</strong></div>
+        </div>
+        <button id="profileUpdateBtn" type="button" class="profile-update-btn"><i class="fa-solid fa-pen"></i>Update profile</button>
+      </div>
+      <div class="profile-enrichment-card"><div class="profile-enrichment-heading"><div><p class="profile-section-kicker">Keep moving forward</p><h2>Academic progress</h2></div><i class="fa-solid fa-chart-line"></i></div><div class="profile-progress-summary"><span>Credits with grades</span><strong><span id="profileCreditsCompleted">0</span>/<span id="profileCreditsTotal">0</span> credits</strong></div><div class="profile-progress-track"><i id="profileDegreeProgress"></i></div><div class="profile-progress-meta"><span id="profileDegreeProgressLabel">Add grades to track credit progress</span><strong id="profileActivityProgress">0% activity</strong></div><div id="profileCourseProgress" class="profile-course-progress"></div></div>
+      <div class="profile-enrichment-card"><div class="profile-enrichment-heading"><div><p class="profile-section-kicker">Milestones</p><h2>Achievements</h2></div><span id="profileAchievementCount" class="profile-achievement-count">0/0</span></div><div id="profileAchievements" class="profile-achievement-grid"></div></div>
+      <div class="profile-enrichment-card profile-quick-links"><div class="profile-enrichment-heading"><div><p class="profile-section-kicker">Shortcuts</p><h2>Quick links</h2></div><i class="fa-solid fa-arrow-up-right-from-square"></i></div><button type="button" data-view="courses"><span class="profile-quick-icon blue"><i class="fa-solid fa-book-open"></i></span><span><strong>Enrolled courses</strong><small>Review your courses and activity</small></span><i class="fa-solid fa-chevron-right"></i></button><button type="button" data-view="timetable"><span class="profile-quick-icon violet"><i class="fa-solid fa-calendar-week"></i></span><span><strong>View timetable</strong><small>Check your class schedule</small></span><i class="fa-solid fa-chevron-right"></i></button><button type="button" data-view="settings"><span class="profile-quick-icon green"><i class="fa-solid fa-gear"></i></span><span><strong>Settings</strong><small>Manage preferences and account</small></span><i class="fa-solid fa-chevron-right"></i></button></div>
+      <form id="profileDetailsForm" class="hidden bg-surface dark:bg-surface-dark rounded-2xl border border-ink/10 dark:border-ink-dark/10 p-5 sm:p-6 space-y-4">
+        <div><h2 class="font-serif font-semibold text-lg">Profile information</h2><p class="text-xs text-inksoft dark:text-inksoft-dark mt-1">Add your academic details so your profile feels like home.</p></div>
+        <div class="grid sm:grid-cols-2 gap-4">
+          <div><label class="text-xs text-inksoft dark:text-inksoft-dark" for="profileNameInput">Full name</label><input id="profileNameInput" type="text" required class="mt-1 w-full bg-paper dark:bg-paper-dark border border-ink/10 dark:border-ink-dark/10 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal" /></div>
+          <div><label class="text-xs text-inksoft dark:text-inksoft-dark" for="profileSchoolInput">School / institution</label><input id="profileSchoolInput" type="text" placeholder="e.g. University of Lagos" class="mt-1 w-full bg-paper dark:bg-paper-dark border border-ink/10 dark:border-ink-dark/10 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal" /></div>
+          <div><label class="text-xs text-inksoft dark:text-inksoft-dark" for="profileDepartmentInput">Department</label><input id="profileDepartmentInput" type="text" placeholder="e.g. Computer Science" class="mt-1 w-full bg-paper dark:bg-paper-dark border border-ink/10 dark:border-ink-dark/10 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal" /></div>
+          <div><label class="text-xs text-inksoft dark:text-inksoft-dark" for="profileProgrammeInput">Programme</label><input id="profileProgrammeInput" type="text" placeholder="e.g. B.Sc. Computer Science" class="mt-1 w-full bg-paper dark:bg-paper-dark border border-ink/10 dark:border-ink-dark/10 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal" /></div>
+          <div><label class="text-xs text-inksoft dark:text-inksoft-dark" for="profileLevelInput">Level</label><input id="profileLevelInput" type="text" placeholder="e.g. 300 Level" class="mt-1 w-full bg-paper dark:bg-paper-dark border border-ink/10 dark:border-ink-dark/10 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal" /></div>
+        </div>
+        <p class="text-[11px] text-inksoft dark:text-inksoft-dark">Your name and academic details are saved to your EduFlow account and will load wherever you sign in.</p>
+        <div class="flex flex-wrap items-center gap-2"><button type="submit" class="inline-flex items-center gap-2 px-4 h-[42px] rounded-xl bg-teal dark:bg-teal-dark text-white text-sm font-semibold hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-teal"><i class="fa-solid fa-check"></i>Save profile</button><button id="profileCancelBtn" type="button" class="hidden px-4 h-[42px] rounded-xl border border-ink/15 dark:border-ink-dark/15 text-sm font-semibold hover:bg-ink/5 dark:hover:bg-white/5">Cancel</button></div>
+        <p id="profileDetailsMessage" class="hidden text-xs"></p>
+      </form>
+    </section>
     <section id="view-account" class="view hidden space-y-6 max-w-xl">
       <div>
         <h1 class="font-serif text-2xl font-semibold">Account settings</h1>
@@ -944,7 +1312,7 @@ main > div:first-child { max-width:1240px; }
 
   </main>
 
-  <nav class="mobile-bottom-nav" aria-label="Primary navigation"><button type="button" data-view="overview" data-mobile-nav class="mobile-nav-item mobile-nav-active"><i class="fa-solid fa-house"></i><span>Home</span></button><button type="button" data-view="courses" data-mobile-nav class="mobile-nav-item"><i class="fa-solid fa-book-open"></i><span>Courses</span></button><button type="button" data-view="assistant" data-mobile-nav class="mobile-nav-item mobile-nav-ai"><i class="fa-solid fa-brain"></i><span>AI</span></button><button type="button" data-view="messages" data-mobile-nav class="mobile-nav-item"><i class="fa-regular fa-message"></i><span>Messages</span></button><button type="button" data-view="account" data-mobile-nav class="mobile-nav-item"><i class="fa-regular fa-user"></i><span>Profile</span></button></nav>
+  <nav class="mobile-bottom-nav" aria-label="Primary navigation"><button type="button" data-view="overview" data-mobile-nav class="mobile-nav-item mobile-nav-active"><i class="fa-solid fa-house"></i><span>Home</span></button><button type="button" data-view="courses" data-mobile-nav class="mobile-nav-item"><i class="fa-solid fa-book-open"></i><span>Courses</span></button><button type="button" data-view="assistant" data-mobile-nav class="mobile-nav-item mobile-nav-ai"><i class="fa-solid fa-brain"></i><span>AI</span></button><button type="button" data-view="messages" data-mobile-nav class="mobile-nav-item"><i class="fa-regular fa-message"></i><span>Messages</span></button><button type="button" data-view="profile" data-mobile-nav class="mobile-nav-item"><i class="fa-regular fa-user"></i><span>Profile</span></button></nav>
   <button id="floatingAssistantBtn" data-view="assistant" aria-label="Open study assistant" class="fixed bottom-5 right-5 z-40 w-14 h-14 rounded-full bg-gradient-to-br from-teal to-amber dark:from-teal-dark dark:to-amber-dark text-white shadow-lg flex items-center justify-center hover:opacity-90 hover:scale-105 transition focus:outline-none focus:ring-2 focus:ring-teal">
     <svg viewBox="0 0 24 24" class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
       <circle cx="12" cy="4" r="1.3" fill="currentColor" stroke="none"/>
@@ -1011,7 +1379,9 @@ console.log('%cThis code belongs to its author. Please don\u2019t copy or redist
 
 /* ---------- auth + API ---------- */
 let authToken = localStorage.getItem('eduflow_token') || null;
-let currentUser = null;
+let currentUser = (() => {
+  try { return JSON.parse(localStorage.getItem('eduflow_user') || 'null'); } catch (e) { return null; }
+})();
 const DEFAULT_API_BASE = 'https://eduflow-s7wu.onrender.com';
 let API_BASE = localStorage.getItem('eduflow_api_base') || DEFAULT_API_BASE;
 
@@ -1049,13 +1419,94 @@ function logout() {
   authToken = null;
   currentUser = null;
   localStorage.removeItem('eduflow_token');
+  localStorage.removeItem('eduflow_user');
   showAuthScreen();
 }
 function getName() {
   return (currentUser && currentUser.name) || 'there';
 }
-
 /* ---------- account settings ---------- */
+let profileEditing = false;
+function renderProfile() {
+  if (!currentUser) return;
+  qs('#profileName').textContent = currentUser.name || 'Student';
+  qs('#profileAcademicLine').textContent = [currentUser.department, currentUser.level].filter(Boolean).join(' · ') || 'Complete your academic details';
+  qs('#profileEmail').textContent = currentUser.email || '';
+  qs('#profileNameInput').value = currentUser.name || '';
+  qs('#profileSchoolInput').value = currentUser.school || '';
+  qs('#profileDepartmentInput').value = currentUser.department || '';
+  qs('#profileProgrammeInput').value = currentUser.programme || '';
+  qs('#profileLevelInput').value = currentUser.level || '';
+  qs('#profileCourseCount').textContent = state.courses.length;
+  qs('#profileCgpa').textContent = state.cumulative && state.cumulative.units ? state.cumulative.gpa.toFixed(2) : '—';
+  qs('#profileAssignmentCount').textContent = state.assignments.filter((a) => !a.done).length;
+  const cumulative = state.cumulative || { units: 0 };
+  const completedCredits = Number(cumulative.units || 0);
+  const totalCredits = state.courses.reduce((sum, course) => sum + Number(course.units || 0), 0);
+  const creditProgress = totalCredits ? Math.min(100, Math.round((completedCredits / totalCredits) * 100)) : 0;
+  qs('#profileCreditsCompleted').textContent = completedCredits;
+  qs('#profileCreditsTotal').textContent = totalCredits;
+  qs('#profileDegreeProgress').style.width = `${creditProgress}%`;
+  qs('#profileDegreeProgressLabel').textContent = totalCredits ? `${creditProgress}% of registered course credits have grades` : 'Add courses and grades to track credit progress';
+  qs('#profileActivityProgress').textContent = `${Number((state.progress && state.progress.percent) || 0)}% activity`;
+  const courseProgress = state.courses.slice(0, 4).map((course) => {
+    const activity = courseActivity(course.id);
+    const done = activity.assignments.filter((assignment) => assignment.done).length;
+    const percent = activity.assignments.length ? Math.round((done / activity.assignments.length) * 100) : 0;
+    return `<div class="profile-course-progress-row"><div><span class="truncate">${escapeHtml(course.code || course.name)}</span><strong>${activity.assignments.length ? `${percent}%` : 'No tasks'}</strong></div><i><span style="width:${percent}%"></span></i></div>`;
+  }).join('');
+  qs('#profileCourseProgress').innerHTML = courseProgress || '<p class="text-xs text-inksoft dark:text-inksoft-dark">Your course activity will appear here after you add courses.</p>';
+  const achievements = (state.streak && state.streak.achievements) || [];
+  const unlockedAchievements = achievements.filter((achievement) => achievement.unlocked).length;
+  qs('#profileAchievementCount').textContent = `${unlockedAchievements}/${achievements.length}`;
+  qs('#profileAchievements').innerHTML = achievements.length ? achievements.map((achievement) => `<div class="profile-achievement ${achievement.unlocked ? 'unlocked' : ''}"><i class="fa-solid ${escapeHtml(achievement.icon || 'fa-award')}"></i><strong>${escapeHtml(achievement.title)}</strong><small>${escapeHtml(achievement.unlocked ? achievement.description : `Locked · ${achievement.description}`)}</small></div>`).join('') : '<p class="text-xs text-inksoft dark:text-inksoft-dark">Achievements will appear as you build your academic activity.</p>';
+  const hasSavedDetails = [currentUser.school, currentUser.department, currentUser.programme, currentUser.level].some((value) => String(value || '').trim());
+  qs('#profileSchoolValue').textContent = currentUser.school || 'Not added yet';
+  qs('#profileDepartmentValue').textContent = currentUser.department || 'Not added yet';
+  qs('#profileProgrammeValue').textContent = currentUser.programme || 'Not added yet';
+  qs('#profileLevelValue').textContent = currentUser.level || 'Not added yet';
+  if (!profileEditing) {
+    qs('#profileReadOnlyCard').classList.toggle('hidden', !hasSavedDetails);
+    qs('#profileDetailsForm').classList.toggle('hidden', hasSavedDetails);
+    qs('#profileCancelBtn').classList.add('hidden');
+  }
+}
+function openProfileEditor() {
+  profileEditing = true;
+  qs('#profileReadOnlyCard').classList.add('hidden');
+  qs('#profileDetailsForm').classList.remove('hidden');
+  qs('#profileCancelBtn').classList.remove('hidden');
+  qs('#profileNameInput').focus();
+}
+function cancelProfileEditor() {
+  profileEditing = false;
+  renderProfile();
+}
+async function handleProfileDetails(e) {
+  e.preventDefault();
+  const msg = qs('#profileDetailsMessage');
+  try {
+    const data = await apiFetch('/api/account/profile', {
+      method: 'PATCH',
+      body: JSON.stringify({
+        name: qs('#profileNameInput').value.trim(),
+        school: qs('#profileSchoolInput').value.trim(),
+        department: qs('#profileDepartmentInput').value.trim(),
+        programme: qs('#profileProgrammeInput').value.trim(),
+        level: qs('#profileLevelInput').value.trim(),
+      }),
+    });
+    currentUser = data.user;
+    qs('#sidebarUserName').textContent = currentUser.name;
+    profileEditing = false;
+    localStorage.setItem('eduflow_user', JSON.stringify(currentUser));
+    renderProfile();
+    renderOverview();
+    showFieldMessage(msg, 'Profile saved to your EduFlow account.', false);
+  } catch (err) {
+    showFieldMessage(msg, err.message, true);
+  }
+}
 function showFieldMessage(el, message, isError) {
   el.textContent = message;
   el.classList.remove('hidden', 'text-coral', 'text-teal');
@@ -1081,6 +1532,8 @@ async function handleUpdateName(e) {
     const data = await apiFetch('/api/account/profile', { method: 'PATCH', body: JSON.stringify({ name: qs('#accountNameInput').value.trim() }) });
     currentUser = data.user;
     qs('#sidebarUserName').textContent = currentUser.name;
+    localStorage.setItem('eduflow_user', JSON.stringify(currentUser));
+    renderProfile();
     showFieldMessage(msg, 'Name updated.', false);
   } catch (err) {
     showFieldMessage(msg, err.message, true);
@@ -1096,6 +1549,7 @@ async function handleUpdateEmail(e) {
     });
     currentUser = data.user;
     qs('#sidebarUserEmail').textContent = currentUser.email;
+    localStorage.setItem('eduflow_user', JSON.stringify(currentUser));
     qs('#accountEmailPassword').value = '';
     showFieldMessage(msg, 'Email updated.', false);
   } catch (err) {
@@ -1278,6 +1732,7 @@ async function handleGoogleCredentialResponse(response) {
     authToken = data.token;
     currentUser = data.user;
     localStorage.setItem('eduflow_token', authToken);
+    localStorage.setItem('eduflow_user', JSON.stringify(currentUser));
     await bootApp();
   } catch (err) {
     showAuthError(err.message);
@@ -1302,6 +1757,7 @@ async function handleLogin(e) {
     authToken = data.token;
     currentUser = data.user;
     localStorage.setItem('eduflow_token', authToken);
+    localStorage.setItem('eduflow_user', JSON.stringify(currentUser));
     await bootApp();
   } catch (err) {
     showAuthError(err.message);
@@ -1322,6 +1778,7 @@ async function handleSignup(e) {
     authToken = data.token;
     currentUser = data.user;
     localStorage.setItem('eduflow_token', authToken);
+    localStorage.setItem('eduflow_user', JSON.stringify(currentUser));
     await bootApp();
   } catch (err) {
     showAuthError(err.message);
@@ -1344,6 +1801,90 @@ const state = {
   streak: null,
 };
 let activeSemesterId = null;
+state.preferences = { assignment_notifications: true, announcement_notifications: true, grade_notifications: true, message_notifications: true, ai_suggestions: true, ai_reminders: true, ai_model: '', analytics_sharing: true, profile_visibility: true, theme: 'system' };
+let notificationReadIds = new Set(JSON.parse(localStorage.getItem('eduflow_notification_read') || '[]'));
+let courseFilter = 'all';
+let courseSearch = '';
+let activeCourseId = null;
+const presenceUsers = new Set();
+
+function notificationRecords() {
+  const records = [];
+  if (state.preferences.assignment_notifications) {
+    state.assignments.filter((assignment) => !assignment.done).forEach((assignment) => {
+      const overdue = assignment.due_date && new Date(`${assignment.due_date}T23:59:59`) < new Date();
+      records.push({ id: `assignment:${assignment.id}`, type: overdue ? 'Overdue assignment' : 'Assignment reminder', icon: overdue ? 'fa-clock' : 'fa-list-check', title: assignment.title, detail: overdue ? 'This assignment is overdue. Open Assignments to review it.' : `Due ${assignment.due_date || 'soon'}${assignment.course_name ? ` · ${assignment.course_name}` : ''}`, view: 'assignments', timestamp: assignment.due_date ? new Date(`${assignment.due_date}T12:00:00`) : new Date() });
+    });
+  }
+  if (state.preferences.message_notifications && typeof messageState !== 'undefined') {
+    messageState.conversations.filter((conversation) => Number(conversation.unread_count || 0) > 0).forEach((conversation) => records.push({ id: `message:${conversation.id}`, type: 'Unread message', icon: 'fa-message', title: conversationName(conversation), detail: `${conversation.unread_count} unread message${conversation.unread_count === 1 ? '' : 's'} waiting in this conversation.`, view: 'messages', timestamp: conversation.last_message_at ? new Date(conversation.last_message_at) : new Date() }));
+  }
+  if (currentUser && currentUser.email_verified === false) records.push({ id: 'verify-email', type: 'Account security', icon: 'fa-envelope-circle-check', title: 'Verify your email', detail: 'Verify your email to keep your EduFlow account secure.', view: 'account', timestamp: new Date() });
+  const pendingTasks = state.tasks.filter((task) => !task.done).length;
+  if (pendingTasks && state.preferences.assignment_notifications) records.push({ id: 'study-tasks:pending', type: 'Study tasks', icon: 'fa-pen', title: `${pendingTasks} study task${pendingTasks === 1 ? '' : 's'} still open`, detail: 'Keep your small study goals moving forward.', view: 'overview', timestamp: new Date() });
+  return records.sort((a, b) => b.timestamp - a.timestamp);
+}
+function notificationGroupLabel(date) {
+  const now = new Date();
+  const sameDay = date.toDateString() === now.toDateString();
+  if (sameDay) return 'Today';
+  const yesterday = new Date(now); yesterday.setDate(now.getDate() - 1);
+  if (date.toDateString() === yesterday.toDateString()) return 'Yesterday';
+  return 'Earlier';
+}
+function markNotificationRead(id) {
+  notificationReadIds.add(String(id));
+  localStorage.setItem('eduflow_notification_read', JSON.stringify([...notificationReadIds]));
+}
+function renderFullNotifications() {
+  const wrap = qs('#notificationsList');
+  if (!wrap) return;
+  const records = notificationRecords();
+  const unread = records.filter((record) => !notificationReadIds.has(record.id)).length;
+  qs('#notificationsSummary').textContent = unread ? `${unread} unread update${unread === 1 ? '' : 's'}` : 'You’re all caught up.';
+  if (!records.length) { wrap.innerHTML = '<div class="settings-card p-8 text-center"><i class="fa-regular fa-bell-slash text-3xl text-inksoft dark:text-inksoft-dark opacity-50"></i><p class="mt-3 font-semibold">No notifications yet</p><p class="mt-1 text-xs text-inksoft dark:text-inksoft-dark">New assignment, message, and account updates will appear here.</p></div>'; return; }
+  const groups = ['Today', 'Yesterday', 'Earlier'].map((label) => ({ label, items: records.filter((record) => notificationGroupLabel(record.timestamp) === label) })).filter((group) => group.items.length);
+  wrap.innerHTML = groups.map((group) => `<section class="notification-group"><h3>${group.label}</h3><div class="grid gap-2">${group.items.map((record) => { const unreadClass = notificationReadIds.has(record.id) ? '' : 'unread'; return `<button type="button" class="notification-item ${unreadClass}" onclick="markNotificationRead('${escapeHtml(record.id)}'); showView('${record.view}')"><span class="notification-icon"><i class="fa-solid ${record.icon}"></i></span><span class="flex-1 min-w-0"><strong>${escapeHtml(record.title)}</strong><p>${escapeHtml(record.detail)}</p><time>${escapeHtml(record.type)} · ${escapeHtml(record.timestamp.toLocaleString(undefined, { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' }))}</time></span>${unreadClass ? '<i class="notification-unread-dot"></i>' : ''}</button>`; }).join('')}</div></section>`).join('');
+}
+async function loadPreferences() {
+  try {
+    const data = await apiFetch('/api/account/preferences');
+    state.preferences = Object.assign(state.preferences, data.preferences || {});
+    renderSettings();
+    applyThemePreference(state.preferences.theme);
+  } catch (err) { showToast(err.message); }
+}
+function renderSettings() {
+  qsa('[data-preference]').forEach((input) => { input.checked = Boolean(state.preferences[input.dataset.preference]); });
+  const theme = qs('#settingsTheme');
+  if (theme) theme.value = state.preferences.theme || 'system';
+  const model = qs('#settingsAiModel');
+  if (model && model.options.length) {
+    const preferredModel = state.preferences.ai_model || localStorage.getItem('eduflow_assistant_model') || model.options[0].value;
+    if ([...model.options].some((option) => option.value === preferredModel)) model.value = preferredModel;
+  }
+}
+function applyThemePreference(theme) {
+  if (theme === 'system') localStorage.removeItem('eduflow_theme');
+  else localStorage.setItem('eduflow_theme', theme);
+  const prefersDark = !!(systemThemeMedia && systemThemeMedia.matches);
+  const isDark = theme === 'dark' || (theme === 'system' && prefersDark);
+  document.documentElement.classList.toggle('dark', isDark);
+  updateThemeToggleUI(isDark);
+  if (progressChartInstance) renderProgressChart();
+}
+async function savePreference(field, value) {
+  state.preferences[field] = value;
+  if (field === 'theme') applyThemePreference(value);
+  const status = qs('#preferencesSaveStatus');
+  if (status) status.textContent = 'Saving…';
+  try {
+    const data = await apiFetch('/api/account/preferences', { method: 'PATCH', body: JSON.stringify({ [field]: value }) });
+    state.preferences = Object.assign(state.preferences, data.preferences || {});
+    renderSettings();
+    if (status) { status.textContent = 'Preferences saved to your account.'; setTimeout(() => { if (status) status.textContent = ''; }, 2200); }
+  } catch (err) { if (status) status.textContent = err.message; }
+}
 
 const DAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 const WEEK_DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
@@ -1373,8 +1914,11 @@ async function reloadAll() {
   const anySessionExpired = results.some((r) => r.status === 'rejected' && r.reason && r.reason.message === 'SESSION_EXPIRED');
 
   if (anySessionExpired) {
-    logout();
-    showAuthError('Your session expired. Please log in again.');
+    // Keep the authenticated shell and local session intact. A single
+    // background endpoint must not destroy the user's session or hide data
+    // they have already saved. The next explicit API action will surface the
+    // server response if the token genuinely needs attention.
+    showDeterrentToast('Some data could not be refreshed, but your session is still active.');
     return;
   }
 
@@ -1404,6 +1948,7 @@ function renderAllViews() {
   renderCgpa();
   renderProgress();
   renderOverview();
+  renderProfile();
 }
 
 async function bootApp() {
@@ -1413,6 +1958,9 @@ async function bootApp() {
   qs('#verifyBanner').classList.toggle('hidden', !currentUser || currentUser.email_verified !== false);
   initAssistantModels();
   await reloadAll();
+  loadPreferences();
+  loadConversations();
+  initMessageSocket();
   renderChat();
   showView('overview');
 }
@@ -1421,23 +1969,47 @@ async function tryResumeSession() {
   try {
     const data = await apiFetch('/api/auth/me');
     currentUser = data.user;
+    localStorage.setItem('eduflow_user', JSON.stringify(currentUser));
     await bootApp();
   } catch (e) {
-    logout();
+    if (e.message === 'SESSION_EXPIRED') {
+      logout();
+      showAuthError('Your session expired. Please log in again.');
+    } else if (currentUser) {
+      await bootApp();
+      showDeterrentToast('The server is reconnecting. Your saved session is still available.');
+    } else {
+      showAuthScreen();
+    }
   }
 }
 
 /* ---------- theme ---------- */
+let systemThemeMedia = null;
 function initTheme() {
   const saved = localStorage.getItem('eduflow_theme');
-  const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+  systemThemeMedia = window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)') : null;
+  const prefersDark = !!(systemThemeMedia && systemThemeMedia.matches);
   const isDark = saved === null ? prefersDark : saved === 'dark';
   document.documentElement.classList.toggle('dark', isDark);
   updateThemeToggleUI(isDark);
+  if (systemThemeMedia) {
+    const followSystemTheme = (event) => {
+      if (localStorage.getItem('eduflow_theme') !== null) return;
+      document.documentElement.classList.toggle('dark', event.matches);
+      updateThemeToggleUI(event.matches);
+      if (progressChartInstance) renderProgressChart();
+    };
+    if (systemThemeMedia.addEventListener) systemThemeMedia.addEventListener('change', followSystemTheme);
+    else if (systemThemeMedia.addListener) systemThemeMedia.addListener(followSystemTheme);
+  }
 }
 function toggleTheme() {
   const isDark = document.documentElement.classList.toggle('dark');
-  localStorage.setItem('eduflow_theme', isDark ? 'dark' : 'light');
+  const theme = isDark ? 'dark' : 'light';
+  localStorage.setItem('eduflow_theme', theme);
+  state.preferences.theme = theme;
+  if (authToken) savePreference('theme', theme);
   updateThemeToggleUI(isDark);
   if (progressChartInstance) renderProgressChart();
 }
@@ -1447,9 +2019,13 @@ function updateThemeToggleUI(isDark) {
 }
 
 /* ---------- navigation ---------- */
-const VIEWS = ['overview', 'courses', 'timetable', 'assignments', 'cgpa', 'progress', 'assistant', 'messages', 'account'];
+const VIEWS = ['overview', 'courses', 'course-detail', 'timetable', 'assignments', 'cgpa', 'progress', 'assistant', 'messages', 'notifications', 'profile', 'settings', 'account'];
 function showView(name) {
   document.documentElement.dataset.eduflowNavState = name;
+  const notificationPanel = qs('#mobileNotificationPanel');
+  const notificationButton = qs('#mobileNotificationBtn');
+  if (notificationPanel) notificationPanel.classList.add('hidden');
+  if (notificationButton) notificationButton.setAttribute('aria-expanded', 'false');
   VIEWS.forEach((v) => {
     const el = qs('#view-' + v);
     if (el) el.classList.toggle('hidden', v !== name);
@@ -1465,6 +2041,11 @@ function showView(name) {
   qsa('[data-mobile-nav]').forEach((btn) => btn.classList.toggle('mobile-nav-active', btn.dataset.view === name));
   closeSidebar();
   if (name === 'progress') renderProgressChart();
+  if (name === 'course-detail') renderCourseDetail();
+  if (name === 'profile') renderProfile();
+  if (name === 'messages') { loadMessageContacts(); loadConversations(); }
+  if (name === 'notifications') renderFullNotifications();
+  if (name === 'settings') { renderSettings(); loadPreferences(); }
   if (name === 'account') renderAccountSettings();
   qs('#floatingAssistantBtn').classList.toggle('hidden', name === 'assistant');
   window.scrollTo(0, 0);
@@ -1524,23 +2105,62 @@ async function deleteCourse(id) {
 function courseById(id) {
   return state.courses.find((c) => String(c.id) === String(id));
 }
+function courseActivity(courseId) {
+  const key = String(courseId);
+  return {
+    assignments: state.assignments.filter((item) => String(item.course_id) === key),
+    schedule: state.timetable.filter((item) => String(item.course_id) === key),
+    grades: state.cgpaEntries.filter((item) => String(item.course_id) === key),
+  };
+}
+function courseMatchesFilter(course) {
+  const activity = courseActivity(course.id);
+  if (courseFilter === 'tasks') return activity.assignments.length > 0;
+  if (courseFilter === 'scheduled') return activity.schedule.length > 0;
+  if (courseFilter === 'graded') return activity.grades.length > 0;
+  return true;
+}
 function renderCourses() {
   const wrap = qs('#courseList');
   if (!state.courses.length) {
     wrap.innerHTML = emptyState('fa-book-open', 'No courses yet', 'Add your first course above to start building your timetable and CGPA.');
     return;
   }
-  wrap.innerHTML = state.courses.map((c) => `
-    <div class="bg-surface dark:bg-surface-dark rounded-xl border border-ink/10 dark:border-ink-dark/10 p-4 flex items-center justify-between gap-3">
-      <div class="min-w-0">
-        <p class="font-semibold truncate">${escapeHtml(c.name)} ${c.code ? `<span class="text-inksoft dark:text-inksoft-dark font-normal">· ${escapeHtml(c.code)}</span>` : ''}</p>
-        <p class="text-xs text-inksoft dark:text-inksoft-dark mt-0.5">${c.units} unit${c.units == 1 ? '' : 's'}${c.instructor ? ' · ' + escapeHtml(c.instructor) : ''}</p>
-      </div>
-      <button aria-label="Delete course" onclick="deleteCourse('${c.id}')" class="w-8 h-8 shrink-0 rounded-lg text-coral hover:bg-coral/10 focus:outline-none focus:ring-2 focus:ring-coral">
-        <i class="fa-solid fa-trash text-sm"></i>
-      </button>
-    </div>
-  `).join('');
+  const query = courseSearch.toLowerCase();
+  const courses = state.courses.filter((course) => {
+    const text = `${course.name} ${course.code || ''} ${course.instructor || ''}`.toLowerCase();
+    return text.includes(query) && courseMatchesFilter(course);
+  });
+  if (!courses.length) {
+    wrap.innerHTML = emptyState('fa-filter', 'No matching courses', 'Try another search or choose a different filter.');
+    return;
+  }
+  wrap.innerHTML = courses.map((c) => {
+    const activity = courseActivity(c.id);
+    const completed = activity.assignments.filter((item) => item.done).length;
+    const progress = activity.assignments.length ? Math.round((completed / activity.assignments.length) * 100) : 0;
+    const progressText = activity.assignments.length ? `${progress}%` : 'No tasks';
+    return `<article class="course-list-card bg-surface dark:bg-surface-dark rounded-xl border border-ink/10 dark:border-ink-dark/10 p-4 flex items-center justify-between gap-3" onclick="openCourseDetail('${c.id}')"><div class="min-w-0 flex-1"><div class="flex items-center gap-2 min-w-0"><span class="course-card-mark"><i class="fa-solid fa-book-open"></i></span><div class="min-w-0"><p class="font-semibold truncate">${escapeHtml(c.name)} ${c.code ? `<span class="text-inksoft dark:text-inksoft-dark font-normal">· ${escapeHtml(c.code)}</span>` : ''}</p><p class="text-xs text-inksoft dark:text-inksoft-dark mt-0.5">${c.units} unit${c.units == 1 ? '' : 's'}${c.instructor ? ' · ' + escapeHtml(c.instructor) : ''}</p></div></div><div class="course-card-progress"><span>Activity progress</span><strong>${progressText}</strong><div><i style="width:${progress}%"></i></div></div></div><div class="flex items-center gap-2 shrink-0"><button aria-label="Delete course" onclick="event.stopPropagation(); deleteCourse('${c.id}')" class="w-8 h-8 rounded-lg text-coral hover:bg-coral/10 focus:outline-none focus:ring-2 focus:ring-coral"><i class="fa-solid fa-trash text-sm"></i></button><i class="course-list-arrow fa-solid fa-chevron-right"></i></div></article>`;
+  }).join('');
+}
+function openCourseDetail(id) {
+  activeCourseId = id;
+  showView('course-detail');
+}
+function renderCourseDetail() {
+  const course = courseById(activeCourseId);
+  if (!course) { showView('courses'); return; }
+  const activity = courseActivity(course.id);
+  const completed = activity.assignments.filter((item) => item.done).length;
+  const pending = activity.assignments.length - completed;
+  const grades = activity.grades;
+  qs('#courseDetailName').textContent = course.name;
+  qs('#courseDetailMeta').textContent = [course.code, `${course.units} unit${course.units == 1 ? '' : 's'}`, course.instructor || 'Lecturer not added'].filter(Boolean).join(' · ');
+  qs('#courseDetailStats').innerHTML = `<div class="course-detail-stat"><i class="fa-solid fa-list-check"></i><strong>${pending}</strong><span>Pending tasks</span></div><div class="course-detail-stat"><i class="fa-solid fa-circle-check"></i><strong>${completed}</strong><span>Completed tasks</span></div><div class="course-detail-stat"><i class="fa-solid fa-calendar-days"></i><strong>${activity.schedule.length}</strong><span>Class entries</span></div><div class="course-detail-stat"><i class="fa-solid fa-star"></i><strong>${grades.length ? escapeHtml(grades[grades.length - 1].grade) : '—'}</strong><span>Latest grade</span></div>`;
+  const assignments = activity.assignments.slice().sort((a, b) => String(a.due_date || '').localeCompare(String(b.due_date || '')));
+  qs('#courseDetailAssignments').innerHTML = assignments.length ? assignments.map((item) => `<div class="course-detail-item"><i class="fa-solid ${item.done ? 'fa-circle-check text-teal' : 'fa-clock'}"></i><div><strong>${escapeHtml(item.title)}</strong><small>${item.done ? 'Completed' : `Due ${escapeHtml(item.due_date || 'date not set')}`}</small></div></div>`).join('') : '<p class="course-detail-empty">No assignments are linked to this course yet.</p>';
+  qs('#courseDetailSchedule').innerHTML = activity.schedule.length ? activity.schedule.map((item) => `<div class="course-detail-item"><i class="fa-solid fa-calendar-day"></i><div><strong>${escapeHtml(item.day)} · ${escapeHtml(item.start_time)}–${escapeHtml(item.end_time)}</strong><small>${escapeHtml(item.location || 'Location not added')}</small></div></div>`).join('') : '<p class="course-detail-empty">No timetable entries are linked to this course yet.</p>';
+  qs('#courseDetailGrades').innerHTML = grades.length ? grades.map((item) => { const semester = state.semesters.find((s) => String(s.id) === String(item.semester_id)); return `<div class="course-detail-item"><i class="fa-solid fa-award"></i><div><strong>${escapeHtml(item.grade)}</strong><small>${escapeHtml(semester ? semester.name : 'Semester')}</small></div></div>`; }).join('') : '<p class="course-detail-empty">No grade has been recorded for this course yet.</p>';
 }
 function populateCourseSelects() {
   const options = state.courses.map((c) => `<option value="${c.id}">${escapeHtml(c.name)}${c.code ? ' (' + escapeHtml(c.code) + ')' : ''}</option>`).join('');
@@ -1567,7 +2187,7 @@ async function addClass(e) {
   const location = qs('#ttLocation').value.trim();
   if (!courseId || !day || !start || !end) return;
   try {
-    await apiFetch('/api/timetable', { method: 'POST', body: JSON.stringify({ courseId, day, start, end, location }) });
+    await apiFetch('/api/timetable', { method: 'POST', body: JSON.stringify({ courseId, day, startTime: start, endTime: end, location }) });
     e.target.reset();
     await reloadAll();
   } catch (err) { showToast(err.message); }
@@ -1622,7 +2242,7 @@ async function addAssignment(e) {
   const priority = qs('#asgPriority').value;
   if (!title || !due) return;
   try {
-    await apiFetch('/api/assignments', { method: 'POST', body: JSON.stringify({ title, courseId, due, priority }) });
+    await apiFetch('/api/assignments', { method: 'POST', body: JSON.stringify({ title, courseId, dueDate: due, priority }) });
     e.target.reset();
     await reloadAll();
   } catch (err) { showToast(err.message); }
@@ -1706,13 +2326,18 @@ function initAssignmentFilters() {
    displays state.semesters / state.cumulative as returned. */
 async function addSemester(e) {
   e.preventDefault();
-  const name = qs('#semesterName').value.trim();
+  const input = e.target.id === 'courseSemesterForm' ? qs('#courseSemesterName') : qs('#semesterName');
+  const name = input.value.trim();
   if (!name) return;
   try {
     const data = await apiFetch('/api/semesters', { method: 'POST', body: JSON.stringify({ name }) });
     e.target.reset();
     activeSemesterId = data.semester.id;
-    await reloadAll();
+    const savedSemester = Object.assign({ gpa: 0, units: 0 }, data.semester);
+    state.semesters = state.semesters.filter((semester) => String(semester.id) !== String(savedSemester.id));
+    state.semesters.push(savedSemester);
+    renderAllViews();
+    showToast('Semester saved.');
   } catch (err) { showToast(err.message); }
 }
 async function deleteSemester(id) {
@@ -1764,6 +2389,12 @@ function renderCgpa() {
       </span>
     `;
   }).join('') || '<p class="text-sm text-inksoft dark:text-inksoft-dark">No semesters yet — add one above.</p>';
+  const courseSemesterList = qs('#courseSemesterList');
+  if (courseSemesterList) {
+    courseSemesterList.innerHTML = state.semesters.length
+      ? state.semesters.map((s) => `<div class="flex items-center justify-between gap-3 rounded-xl border border-ink/10 dark:border-ink-dark/10 bg-paper dark:bg-paper-dark px-3 py-2.5"><span class="min-w-0 truncate text-sm font-semibold">${escapeHtml(s.name)}</span><button type="button" onclick="deleteSemester('${s.id}')" class="w-7 h-7 shrink-0 rounded-lg text-coral hover:bg-coral/10" aria-label="Delete semester"><i class="fa-solid fa-trash text-xs"></i></button></div>`).join('')
+      : '<p class="text-xs text-inksoft dark:text-inksoft-dark">No semesters yet. Add your first one above.</p>';
+  }
 
   const cum = state.cumulative;
   qs('#cgpaValue').textContent = cum.gpa.toFixed(2);
@@ -2152,6 +2783,219 @@ function renderStreak() {
 
   renderLevel();
 }
+const messageState = { conversations: [], contacts: [], activeId: null, activeMessages: [], search: '', contactSearch: '', loaded: false, groupMode: false, selectedContactIds: new Set() };
+function messageTime(value) {
+  if (!value) return '';
+  return new Date(value).toLocaleString(undefined, { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' });
+}
+function conversationName(conversation) {
+  if (conversation.title) return conversation.title;
+  const other = (conversation.members || []).find((member) => String(member.id) !== String(currentUser && currentUser.id));
+  return other ? other.name : 'Conversation';
+}
+function conversationOtherId(conversation) {
+  const other = (conversation.members || []).find((member) => String(member.id) !== String(currentUser && currentUser.id));
+  return other ? String(other.id) : null;
+}
+function presenceMarkup(userId) {
+  return presenceUsers.has(String(userId)) ? '<i></i>' : '<i class="offline"></i>';
+}
+function conversationInitials(name) {
+  return String(name || '?').split(/\s+/).filter(Boolean).slice(0, 2).map((part) => part[0]).join('').toUpperCase() || '?';
+}
+function renderMessagesList() {
+  const list = qs('#messagesList');
+  if (!list) return;
+  const search = messageState.search.toLowerCase();
+  const conversations = messageState.conversations.filter((conversation) => `${conversationName(conversation)} ${conversation.last_message || ''}`.toLowerCase().includes(search));
+  list.innerHTML = conversations.length ? conversations.map((conversation, index) => {
+    const name = conversationName(conversation);
+    const color = ['blue', 'violet', 'green'][index % 3];
+    return `<button type="button" class="message-row" onclick="openConversation('${conversation.id}')"><span class="message-avatar ${color}">${escapeHtml(conversationInitials(name))}${conversationOtherId(conversation) ? presenceMarkup(conversationOtherId(conversation)) : ''}</span><span class="message-copy"><strong>${escapeHtml(name)}</strong><small>${escapeHtml(conversation.last_message || 'Start the conversation')}</small></span><time>${escapeHtml(messageTime(conversation.last_message_at))}</time>${conversation.unread_count ? `<b>${conversation.unread_count > 9 ? '9+' : conversation.unread_count}</b>` : ''}</button>`;
+  }).join('') : '<div class="messages-empty"><i class="fa-regular fa-comments text-2xl opacity-50"></i><p class="mt-2 font-semibold">No conversations yet</p><p class="mt-1">Start a conversation with a classmate or campus user.</p></div>';
+}
+function renderMessagesOnline() {
+  const wrap = qs('#messagesOnline');
+  if (!wrap) return;
+  const contacts = messageState.contacts.slice(0, 6);
+  wrap.innerHTML = contacts.length ? contacts.map((contact, index) => `<button type="button" class="flex shrink-0 flex-col items-center gap-1.5" onclick="startConversation('${contact.id}')"><span class="message-avatar ${['blue', 'violet', 'green'][index % 3]}">${escapeHtml(conversationInitials(contact.name))}${presenceMarkup(contact.id)}</span><span class="w-14 truncate text-center text-[10px] font-semibold text-inksoft dark:text-inksoft-dark">${escapeHtml(contact.name.split(/\s+/)[0])}</span></button>`).join('') : '<p class="text-xs text-inksoft dark:text-inksoft-dark">No other Eduflow users found yet.</p>';
+}
+function renderMessageContacts() {
+  const wrap = qs('#messagesContacts');
+  if (!wrap) return;
+  const search = messageState.contactSearch.toLowerCase();
+  const contacts = messageState.contacts.filter((contact) => `${contact.name} ${contact.email}`.toLowerCase().includes(search));
+  wrap.innerHTML = contacts.length ? contacts.map((contact, index) => messageState.groupMode
+    ? `<label class="message-contact-check"><input type="checkbox" value="${contact.id}" ${messageState.selectedContactIds.has(String(contact.id)) ? 'checked' : ''} onchange="toggleGroupMember('${contact.id}', this.checked)" /><span class="message-avatar ${['blue', 'violet', 'green'][index % 3]}">${escapeHtml(conversationInitials(contact.name))}${presenceMarkup(contact.id)}</span><span><strong>${escapeHtml(contact.name)}</strong><small>${escapeHtml(contact.email)}${contact.department ? ` · ${escapeHtml(contact.department)}` : ''}</small></span></label>`
+    : `<button type="button" class="messages-contact-row" onclick="startConversation('${contact.id}')"><span class="message-avatar ${['blue', 'violet', 'green'][index % 3]}">${escapeHtml(conversationInitials(contact.name))}${presenceMarkup(contact.id)}</span><span><strong>${escapeHtml(contact.name)}</strong><small>${escapeHtml(contact.email)}${contact.department ? ` · ${escapeHtml(contact.department)}` : ''}</small></span></button>`).join('') : '<div class="messages-empty">No matching users found.</div>';
+}
+function renderMessageThread() {
+  const conversation = messageState.conversations.find((item) => String(item.id) === String(messageState.activeId));
+  const thread = qs('#messagesThreadPanel');
+  if (!thread || !conversation) return;
+  const name = conversationName(conversation);
+  qs('#messagesThreadName').textContent = name;
+  qs('#messagesThreadStatus').textContent = `${conversation.kind === 'group' ? 'Group' : 'Direct'} conversation`;
+  qs('#messagesThreadAvatar span').textContent = conversationInitials(name);
+  qs('#messagesThreadList').innerHTML = messageState.activeMessages.length ? messageState.activeMessages.map((message) => {
+    const mine = String(message.sender_id) === String(currentUser && currentUser.id);
+    return `<div class="message-bubble-row ${mine ? 'mine' : ''}"><div class="message-bubble"><p>${escapeHtml(message.body)}</p><time>${escapeHtml(mine ? 'You · ' : `${message.sender_name} · `)}${escapeHtml(messageTime(message.created_at))}</time></div></div>`;
+  }).join('') : '<div class="messages-empty">No messages yet. Say hello.</div>';
+  const list = qs('#messagesThreadList');
+  list.scrollTop = list.scrollHeight;
+}
+function renderMessages() {
+  renderMessagesList();
+  renderMessagesOnline();
+  renderMessageContacts();
+  if (messageState.activeId) renderMessageThread();
+  renderMobileNotifications();
+}
+async function loadMessageContacts() {
+  try {
+    const data = await apiFetch('/api/messages/contacts');
+    messageState.contacts = data.contacts || [];
+    renderMessages();
+  } catch (err) { showToast(err.message); }
+}
+async function loadConversations() {
+  try {
+    const data = await apiFetch('/api/messages/conversations');
+    messageState.conversations = data.conversations || [];
+    messageState.loaded = true;
+    if (messageState.activeId && !messageState.conversations.some((item) => String(item.id) === String(messageState.activeId))) messageState.activeId = null;
+    renderMessages();
+  } catch (err) { showToast(err.message); }
+}
+async function openConversation(id) {
+  messageState.activeId = id;
+  qs('#messagesListPanel').classList.add('hidden');
+  qs('#messagesComposePanel').classList.add('hidden');
+  qs('#messagesThreadPanel').classList.remove('hidden');
+  try {
+    const data = await apiFetch(`/api/messages/conversations/${id}/messages`);
+    messageState.activeMessages = data.messages || [];
+    const conversation = messageState.conversations.find((item) => String(item.id) === String(id));
+    if (conversation) conversation.unread_count = 0;
+    renderMessages();
+  } catch (err) { showToast(err.message); }
+}
+function toggleGroupMember(id, selected) {
+  if (selected) messageState.selectedContactIds.add(String(id));
+  else messageState.selectedContactIds.delete(String(id));
+}
+function setMessageComposeMode(groupMode) {
+  messageState.groupMode = groupMode;
+  messageState.selectedContactIds = new Set();
+  qs('#messagesGroupForm').classList.toggle('hidden', !groupMode);
+  qs('#messagesComposeHint').textContent = groupMode ? 'Choose at least two users for your group.' : 'Choose an Eduflow user to start a direct chat.';
+  qs('#messagesDirectModeBtn').classList.toggle('active', !groupMode);
+  qs('#messagesGroupModeBtn').classList.toggle('active', groupMode);
+  renderMessageContacts();
+}
+async function createGroupConversation(e) {
+  e.preventDefault();
+  const title = qs('#messagesGroupTitle').value.trim();
+  const userIds = [...messageState.selectedContactIds].map(Number);
+  if (!title || userIds.length < 2) return showToast('Add a group name and at least two members.');
+  try {
+    const data = await apiFetch('/api/messages/groups', { method: 'POST', body: JSON.stringify({ title, userIds }) });
+    qs('#messagesGroupForm').reset();
+    setMessageComposeMode(false);
+    qs('#messagesComposePanel').classList.add('hidden');
+    await loadConversations();
+    await openConversation(data.conversationId);
+  } catch (err) { showToast(err.message); }
+}
+function initMessageSocket() {
+  if (!authToken || !window.WebSocket) return;
+  const apiUrl = new URL(API_BASE);
+  const protocol = apiUrl.protocol === 'https:' ? 'wss:' : 'ws:';
+  const socketUrl = `${protocol}//${apiUrl.host}/ws/messages?token=${encodeURIComponent(authToken)}`;
+  const socket = new WebSocket(socketUrl);
+  socket.addEventListener('message', async (event) => {
+    let payload;
+    try { payload = JSON.parse(event.data); } catch (e) { return; }
+    if (payload.type === 'presence.snapshot') {
+      presenceUsers.clear();
+      (payload.userIds || []).forEach((userId) => presenceUsers.add(String(userId)));
+      renderMessages();
+      return;
+    }
+    if (payload.type === 'presence.changed') {
+      if (payload.online) presenceUsers.add(String(payload.userId));
+      else presenceUsers.delete(String(payload.userId));
+      renderMessages();
+      return;
+    }
+    if (payload.type === 'conversation.created') {
+      await loadConversations();
+      return;
+    }
+    if (payload.type !== 'message.created') return;
+    const conversationId = String(payload.conversationId);
+    if (String(messageState.activeId) === conversationId) {
+      if (!messageState.activeMessages.some((message) => String(message.id) === String(payload.message.id))) messageState.activeMessages.push(payload.message);
+      renderMessageThread();
+      try { await apiFetch(`/api/messages/conversations/${conversationId}/messages`); } catch (e) { /* thread already rendered */ }
+    }
+    await loadConversations();
+  });
+  socket.addEventListener('close', () => { if (authToken) setTimeout(initMessageSocket, 4000); });
+  window.eduflowMessageSocket = socket;
+}
+async function startConversation(userId) {
+  try {
+    const data = await apiFetch('/api/messages/conversations', { method: 'POST', body: JSON.stringify({ userId: Number(userId) }) });
+    qs('#messagesComposePanel').classList.add('hidden');
+    await loadConversations();
+    await openConversation(data.conversationId);
+  } catch (err) { showToast(err.message); }
+}
+async function sendMessage(e) {
+  e.preventDefault();
+  if (!messageState.activeId) return;
+  const input = qs('#messagesInput');
+  const body = input.value.trim();
+  if (!body) return;
+  const btn = e.target.querySelector('button[type="submit"]');
+  btn.disabled = true;
+  try {
+    const data = await apiFetch(`/api/messages/conversations/${messageState.activeId}/messages`, { method: 'POST', body: JSON.stringify({ body }) });
+    messageState.activeMessages.push(data.message);
+    input.value = '';
+    await loadConversations();
+    renderMessageThread();
+  } catch (err) { showToast(err.message); }
+  finally { btn.disabled = false; input.focus(); }
+}
+function renderMobileNotifications() {
+  const btn = qs('#mobileNotificationBtn');
+  const countEl = qs('#mobileNotificationCount');
+  const panel = qs('#mobileNotificationPanel');
+  if (!btn || !countEl || !panel) return;
+  const records = notificationRecords();
+  const unread = records.filter((record) => !notificationReadIds.has(record.id));
+  countEl.textContent = unread.length > 9 ? '9+' : String(unread.length);
+  countEl.classList.toggle('hidden', unread.length === 0);
+  panel.innerHTML = `<h3>Notifications</h3>${records.length ? records.slice(0, 4).map((record) => `<button type="button" class="mobile-notification-item" onclick="markNotificationRead('${escapeHtml(record.id)}'); showView('${record.view}')"><i class="fa-solid ${record.icon}"></i><span><strong>${escapeHtml(record.title)}</strong><small>${escapeHtml(record.detail)}</small></span></button>`).join('') : '<p class="mobile-notification-empty">You’re all caught up. New updates will appear here.</p>'}<button type="button" data-view="notifications" class="mobile-notification-view-all">View all notifications <i class="fa-solid fa-arrow-right"></i></button>`;
+  renderFullNotifications();
+}
+function initMobileNotifications() {
+  const btn = qs('#mobileNotificationBtn');
+  const panel = qs('#mobileNotificationPanel');
+  if (!btn || !panel) return;
+  btn.addEventListener('click', (event) => {
+    event.stopPropagation();
+    const open = panel.classList.toggle('hidden') === false;
+    btn.setAttribute('aria-expanded', String(open));
+  });
+  panel.addEventListener('click', (event) => { event.stopPropagation(); const target = event.target.closest('[data-view]'); if (target) showView(target.dataset.view); });
+  document.addEventListener('click', () => {
+    panel.classList.add('hidden');
+    btn.setAttribute('aria-expanded', 'false');
+  });
+}
 function renderOverview() {
   qs('#ovGreeting').textContent = `${greeting()}, ${getName()}.`;
   const mobileName = qs('#mobileHeroName');
@@ -2162,6 +3006,7 @@ function renderOverview() {
   if (mobileDate) mobileDate.textContent = formattedDate;
   renderQuoteOfTheDay();
   renderStreak();
+  renderMobileNotifications();
 
 
   qs('#statCourses').textContent = state.courses.length;
@@ -2173,9 +3018,9 @@ function renderOverview() {
   const mobileCredits = qs('#mobileCreditCount');
   if (mobileCredits) mobileCredits.textContent = state.cumulative.units ? `${state.cumulative.units}` : '0';
   const mobileBar = qs('#mobileProgressBar');
-  if (mobileBar) mobileBar.style.width = `${Math.min(100, Math.max(8, state.courses.length ? Math.round((state.cumulative.units / Math.max(state.courses.reduce((sum, c) => sum + Number(c.units || 0), 0), 1)) * 100) : 8))}%`;
+  if (mobileBar) mobileBar.style.width = `${state.progress ? state.progress.percent : 0}%`;
   const mobileCourses = qs('#mobileProgressCourses');
-  if (mobileCourses) mobileCourses.innerHTML = state.courses.slice(0, 3).map((course, index) => `<span title="${escapeHtml(course.name || course.code || 'Course')}">${[72, 58, 85][index] || 64}%</span>`).join('');
+  if (mobileCourses) mobileCourses.innerHTML = state.courses.slice(0, 3).map((course) => `<span title="${escapeHtml(course.name || course.code || 'Course')}">${state.progress && state.progress.totalItems ? state.progress.percent : 0}%</span>`).join('');
 
   const todayName = DAYS[new Date().getDay()];
   const todays = state.timetable.filter((t) => t.day === todayName).sort((a, b) => a.start_time.localeCompare(b.start_time));
@@ -2201,17 +3046,6 @@ function renderOverview() {
 }
 
 /* ================= ASSISTANT (client-side only, not persisted) ================= */
-const MOTIVATION = [
-  "Progress beats perfection — one page of notes today is worth more than a perfect plan tomorrow.",
-  "Break the next task into a 20-minute chunk. Starting is the hardest part.",
-  "You've gotten through every hard week so far. This one is no different.",
-  "Short, focused study sessions beat long, distracted ones. Try 25 minutes on, 5 off.",
-];
-const FALLBACKS = [
-  "I'm a simple assistant, so I work best with questions about your CGPA, timetable, assignments or study progress. Try one of the suggestions below.",
-  "I didn't quite catch that. Ask me about your deadlines, your next class, or your CGPA.",
-  'I can help with things already on your dashboard — try asking "what\'s due soon" or "what\'s my CGPA".',
-];
 function pushChat(role, text) {
   state.chat.push({ role, text });
 }
@@ -2270,10 +3104,7 @@ function botReply(rawInput) {
   if (/\b(help|what can you do)\b/.test(input)) {
     return "I can tell you your CGPA, what's due soon, your next class, your study progress, or share a quick study tip. Just ask.";
   }
-  if (/\b(motivat|tired|stress|stuck|burn|study tip|tip|advice)\b/.test(input)) {
-    return MOTIVATION[Math.floor(Math.random() * MOTIVATION.length)];
-  }
-  return FALLBACKS[Math.floor(Math.random() * FALLBACKS.length)];
+  return "EduAI is not configured for general questions on this server yet. I can still answer questions about your CGPA, deadlines, timetable, and tracked progress.";
 }
 function sendChat(text) {
   const message = text.trim();
@@ -2289,7 +3120,7 @@ function sendChat(text) {
     .filter((m) => !m.thinking && m !== thinkingMsg)
     .slice(-10)
     .map((m) => ({ role: m.role === 'user' ? 'user' : 'assistant', text: m.text }));
-  const selectedModel = localStorage.getItem('eduflow_assistant_model') || '';
+  const selectedModel = state.preferences.ai_model || localStorage.getItem('eduflow_assistant_model') || '';
 
   apiFetch('/api/assistant/chat', { method: 'POST', body: JSON.stringify({ message, model: selectedModel, history: historyForApi }) })
     .then((data) => {
@@ -2309,21 +3140,31 @@ function sendChat(text) {
     });
 }
 
+function syncSettingsAiModelOptions(models, defaultModel) {
+  const settingsSelect = qs('#settingsAiModel');
+  if (!settingsSelect) return;
+  settingsSelect.innerHTML = models.map((model) => `<option value="${escapeHtml(model.id)}">${escapeHtml(model.label)}</option>`).join('');
+  const preferred = state.preferences.ai_model || localStorage.getItem('eduflow_assistant_model') || defaultModel;
+  settingsSelect.value = models.some((model) => model.id === preferred) ? preferred : defaultModel;
+}
 async function initAssistantModels() {
   const select = qs('#assistantModelSelect');
   try {
     const data = await apiFetch('/api/assistant/models');
     qs('#assistantNotConfiguredNote').classList.toggle('hidden', data.aiConfigured);
     select.innerHTML = data.models.map((m) => `<option value="${m.id}">${escapeHtml(m.label)}</option>`).join('');
-    const saved = localStorage.getItem('eduflow_assistant_model');
+    const saved = state.preferences.ai_model || localStorage.getItem('eduflow_assistant_model');
     select.value = data.models.some((m) => m.id === saved) ? saved : data.default;
     localStorage.setItem('eduflow_assistant_model', select.value);
+    syncSettingsAiModelOptions(data.models, data.default);
   } catch (e) {
     select.innerHTML = '<option value="">Default</option>';
+    qs('#settingsAiModel').innerHTML = '<option value="">Default model</option>';
     qs('#assistantNotConfiguredNote').classList.remove('hidden');
   }
   select.addEventListener('change', () => {
     localStorage.setItem('eduflow_assistant_model', select.value);
+    savePreference('ai_model', select.value);
   });
 }
 
@@ -2463,12 +3304,48 @@ function registerServiceWorker() {
     navigator.serviceWorker.register('sw.js').catch(() => { /* offline caching just won't be available — app still works online */ });
   });
 }
-
+const firstRunSlides = [
+  { theme: 'ai', accent: '#2563eb', title: 'Your Intelligent\nCampus Companion', description: 'EduFlow brings your academic life together — courses, assignments, timetable, and an AI assistant that helps you study smarter.', illustration: '<div class="onboarding-card"><span class="onboarding-card-icon" style="background:#2563eb"><i class="fa-solid fa-brain"></i></span><span class="onboarding-card-copy"><strong>Ask EduAI anything</strong><span>Powered by your academic context</span></span></div><div class="onboarding-card"><span class="onboarding-card-icon" style="background:#7c3aed"><i class="fa-solid fa-wand-magic-sparkles"></i></span><span class="onboarding-card-copy"><strong>Personalised study help</strong><span>Plans, explanations and quick answers</span></span></div><div class="onboarding-card"><span class="onboarding-card-icon" style="background:#059669"><i class="fa-solid fa-chart-line"></i></span><span class="onboarding-card-copy"><strong>Track your progress</strong><span>See your semester at a glance</span></span></div>' },
+  { theme: 'schedule', accent: '#f59e0b', title: 'Never Miss a\nDeadline Again', description: 'Keep your timetable, assignments, and important academic dates organised in one clear view — so you always know what is next.', illustration: '<div class="onboarding-calendar"><div class="onboarding-calendar-head"><span>THIS WEEK</span><i class="fa-solid fa-calendar-days"></i></div><div class="onboarding-calendar-grid"><i>Mon</i><i>Tue</i><i class="active">Wed</i><i>Thu</i><i>Fri</i><i>9:00</i><i></i><i class="active">CSC</i><i></i><i></i></div><div class="onboarding-calendar-event"><b><i class="fa-solid fa-clock"></i></b><span>Database Lab · 10:00 AM</span></div></div>' },
+  { theme: 'campus', accent: '#059669', title: 'Campus Information\n& Communication', description: 'Stay connected with official announcements, message classmates and lecturers, and access all campus services — all in one intelligent app.', illustration: '<div class="onboarding-card"><span class="onboarding-card-icon" style="background:#2563eb">📢</span><span class="onboarding-card-copy"><strong>Exam Schedule Released</strong><span>Examinations Office · 2h ago</span></span></div><div class="onboarding-card"><span class="onboarding-card-icon" style="background:#7c3aed">💬</span><span class="onboarding-card-copy"><strong>Chidi: Did you finish the assignment?</strong><span>CSC 300 Level Group</span></span></div><div class="onboarding-card"><span class="onboarding-card-icon" style="background:#059669">🎓</span><span class="onboarding-card-copy"><strong>New grade: CSC 301 — A</strong><span>Score: 87/100 · Just now</span></span></div>' }
+];
+let firstRunIndex = 0;
+function hideFirstRun() {
+  qs('#firstRunSplash').classList.add('hidden');
+  qs('#firstRunOnboarding').classList.add('hidden');
+}
+function renderFirstRunSlide() {
+  const slide = firstRunSlides[firstRunIndex];
+  const art = qs('#onboardingArt');
+  art.className = 'onboarding-art ' + slide.theme;
+  qs('#onboardingIllustration').innerHTML = slide.illustration;
+  qs('#onboardingTitle').textContent = slide.title;
+  qs('#onboardingDescription').textContent = slide.description;
+  qs('#onboardingNext').className = 'onboarding-next ' + slide.theme + '-next';
+  qs('#onboardingNext span').textContent = firstRunIndex === firstRunSlides.length - 1 ? 'Get Started' : 'Continue';
+  qs('#onboardingDots').innerHTML = firstRunSlides.map((item, i) => `<button type="button" aria-label="Go to slide ${i + 1}" class="${i === firstRunIndex ? 'active ' + item.theme + '-dot' : ''}"></button>`).join('');
+  qsa('#onboardingDots button').forEach((button, i) => button.addEventListener('click', () => { firstRunIndex = i; renderFirstRunSlide(); }));
+}
+function finishFirstRun() {
+  localStorage.setItem('eduflow_onboarding_seen', '1');
+  hideFirstRun();
+  showAuthScreen();
+}
+function startFirstRun() {
+  if (authToken) { hideFirstRun(); return; }
+  if (localStorage.getItem('eduflow_onboarding_seen')) { hideFirstRun(); showAuthScreen(); return; }
+  qs('#firstRunSplash').classList.remove('hidden');
+  qs('#firstRunOnboarding').classList.add('hidden');
+  setTimeout(() => { qs('#firstRunSplash').classList.add('hidden'); qs('#firstRunOnboarding').classList.remove('hidden'); renderFirstRunSlide(); }, 2600);
+  qs('#onboardingSkip').onclick = finishFirstRun;
+  qs('#onboardingNext').onclick = () => { if (firstRunIndex < firstRunSlides.length - 1) { firstRunIndex += 1; renderFirstRunSlide(); } else finishFirstRun(); };
+}
 function init() {
   initTheme();
   registerServiceWorker();
   initInstallPrompt();
   initGlobalSearch();
+  initMobileNotifications();
   initFloatingAssistant();
 
   qsa('[data-toggle-password]').forEach((btn) => {
@@ -2486,6 +3363,7 @@ function init() {
   // skip the normal login flow entirely.
   const resetToken = new URLSearchParams(window.location.search).get('resetToken');
   if (resetToken) {
+    hideFirstRun();
     qs('#resetPasswordScreen').classList.remove('hidden');
     qs('#resetPasswordForm').addEventListener('submit', handleResetPassword);
     return;
@@ -2494,12 +3372,15 @@ function init() {
   // Same idea for an email-verification link: index.html?verifyToken=xxxx
   const verifyToken = new URLSearchParams(window.location.search).get('verifyToken');
   if (verifyToken) {
+    hideFirstRun();
     qs('#verifyEmailScreen').classList.remove('hidden');
     runEmailVerification(verifyToken);
     return;
   }
 
   initNav();
+  startFirstRun();
+  qsa('[data-open-semester]').forEach((btn) => btn.addEventListener('click', () => setTimeout(() => qs('#courseSemesterName')?.focus(), 0)));
   initAssignmentFilters();
 
   qs('#authTabLogin').addEventListener('click', () => setAuthTab('login'));
@@ -2518,6 +3399,22 @@ function init() {
   });
   qs('#logoutBtn').addEventListener('click', logout);
   qs('#accountNameForm').addEventListener('submit', handleUpdateName);
+  qs('#profileDetailsForm').addEventListener('submit', handleProfileDetails);
+  qs('#profileUpdateBtn').addEventListener('click', openProfileEditor);
+  qs('#profileCancelBtn').addEventListener('click', cancelProfileEditor);
+  qs('#messagesComposeBtn').addEventListener('click', () => { qs('#messagesComposePanel').classList.remove('hidden'); loadMessageContacts(); });
+  qs('#messagesComposeCloseBtn').addEventListener('click', () => qs('#messagesComposePanel').classList.add('hidden'));
+  qs('#messagesDirectModeBtn').addEventListener('click', () => setMessageComposeMode(false));
+  qs('#messagesGroupModeBtn').addEventListener('click', () => setMessageComposeMode(true));
+  qs('#messagesGroupForm').addEventListener('submit', createGroupConversation);
+  qs('#messagesBackBtn').addEventListener('click', () => { messageState.activeId = null; messageState.activeMessages = []; qs('#messagesThreadPanel').classList.add('hidden'); qs('#messagesListPanel').classList.remove('hidden'); loadConversations(); });
+  qs('#messagesSearch').addEventListener('input', (e) => { messageState.search = e.target.value; renderMessagesList(); });
+  qs('#messagesContactSearch').addEventListener('input', (e) => { messageState.contactSearch = e.target.value; renderMessageContacts(); });
+  qs('#messagesSendForm').addEventListener('submit', sendMessage);
+  qsa('[data-preference]').forEach((input) => input.addEventListener('change', () => savePreference(input.dataset.preference, input.checked)));
+  qs('#settingsTheme').addEventListener('change', (e) => savePreference('theme', e.target.value));
+  qs('#settingsAiModel').addEventListener('change', (e) => { localStorage.setItem('eduflow_assistant_model', e.target.value); savePreference('ai_model', e.target.value); });
+  qs('#markAllNotificationsBtn').addEventListener('click', () => { notificationRecords().forEach((record) => notificationReadIds.add(record.id)); localStorage.setItem('eduflow_notification_read', JSON.stringify([...notificationReadIds])); renderFullNotifications(); renderMobileNotifications(); });
   qs('#accountEmailForm').addEventListener('submit', handleUpdateEmail);
   qs('#accountPasswordForm').addEventListener('submit', handleUpdatePassword);
   qs('#accountDeleteForm').addEventListener('submit', handleDeleteAccount);
@@ -2525,6 +3422,12 @@ function init() {
   qs('#resendVerificationBtn').addEventListener('click', handleResendVerification);
 
   qs('#courseForm').addEventListener('submit', addCourse);
+  qs('#courseSearch').addEventListener('input', (e) => { courseSearch = e.target.value.trim(); renderCourses(); });
+  qsa('[data-course-filter]').forEach((tab) => tab.addEventListener('click', () => {
+    courseFilter = tab.dataset.courseFilter;
+    qsa('[data-course-filter]').forEach((item) => { const active = item === tab; item.classList.toggle('active', active); item.setAttribute('aria-selected', String(active)); });
+    renderCourses();
+  }));
   qs('#timetableForm').addEventListener('submit', addClass);
   qs('#assignmentForm').addEventListener('submit', addAssignment);
   qs('#semesterForm').addEventListener('submit', addSemester);
