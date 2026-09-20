@@ -1146,7 +1146,20 @@ main > div:first-child { max-width:1240px; }
         An AI model isn't set up on this server yet. Dashboard data questions remain available; general subject questions require AI configuration.
       </p>
 
-      <div class="bg-surface dark:bg-surface-dark rounded-2xl border border-ink/10 dark:border-ink-dark/10 flex flex-col h-[65vh] max-h-[640px]">
+      <div id="assistantTabs" class="flex gap-1 rounded-xl bg-paper dark:bg-paper-dark p-1">
+        <button id="assistantChatTab" type="button" data-assistant-mode="chat" class="flex-1 rounded-lg bg-surface dark:bg-surface-dark px-3 py-2 text-sm font-semibold shadow-soft">💬 Chat</button>
+        <button id="assistantInsightsTab" type="button" data-assistant-mode="insights" class="flex-1 rounded-lg px-3 py-2 text-sm font-semibold text-inksoft dark:text-inksoft-dark">✦ Insights</button>
+      </div>
+      <div id="assistantInsightsPanel" class="hidden space-y-4">
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3">
+          <div class="bg-surface dark:bg-surface-dark rounded-2xl border border-ink/10 dark:border-ink-dark/10 p-4"><div class="w-10 h-10 rounded-xl flex items-center justify-center bg-indigo-50 dark:bg-indigo-950/30 text-indigo-600"><i class="fa-solid fa-chart-line"></i></div><p id="assistantInsightProgress" class="font-serif text-2xl font-semibold mt-3">0%</p><p class="text-xs text-inksoft dark:text-inksoft-dark mt-1">Activity complete</p></div>
+          <div class="bg-surface dark:bg-surface-dark rounded-2xl border border-ink/10 dark:border-ink-dark/10 p-4"><div class="w-10 h-10 rounded-xl flex items-center justify-center bg-amber-50 dark:bg-amber-950/30 text-amber-600"><i class="fa-solid fa-fire"></i></div><p id="assistantInsightStreak" class="font-serif text-2xl font-semibold mt-3">0 days</p><p class="text-xs text-inksoft dark:text-inksoft-dark mt-1">Study streak</p></div>
+          <div class="bg-surface dark:bg-surface-dark rounded-2xl border border-ink/10 dark:border-ink-dark/10 p-4"><div class="w-10 h-10 rounded-xl flex items-center justify-center bg-emerald-50 dark:bg-emerald-950/30 text-emerald-600"><i class="fa-solid fa-list-check"></i></div><p id="assistantInsightPending" class="font-serif text-2xl font-semibold mt-3">0</p><p class="text-xs text-inksoft dark:text-inksoft-dark mt-1">Pending tasks</p></div>
+          <div class="bg-surface dark:bg-surface-dark rounded-2xl border border-ink/10 dark:border-ink-dark/10 p-4"><div class="w-10 h-10 rounded-xl flex items-center justify-center bg-cyan-50 dark:bg-cyan-950/30 text-cyan-600"><i class="fa-solid fa-book-open"></i></div><p id="assistantInsightCourses" class="font-serif text-2xl font-semibold mt-3">0</p><p class="text-xs text-inksoft dark:text-inksoft-dark mt-1">Active courses</p></div>
+        </div>
+        <div class="bg-surface dark:bg-surface-dark rounded-2xl border border-ink/10 dark:border-ink-dark/10 p-5 sm:p-6"><h2 class="font-serif font-semibold text-lg">Suggested study topics</h2><p class="text-sm text-inksoft dark:text-inksoft-dark mt-1">Priorities generated from your current academic activity.</p><div id="assistantSuggestedTopics" class="space-y-3 mt-5"></div></div>
+      </div>
+      <div id="assistantChatPanel" class="bg-surface dark:bg-surface-dark rounded-2xl border border-ink/10 dark:border-ink-dark/10 flex flex-col h-[65vh] max-h-[640px]">
         <div id="chatMessages" class="flex-1 overflow-y-auto p-4 sm:p-6 space-y-3"></div>
         <form id="chatForm" class="border-t border-ink/10 dark:border-ink-dark/10 p-3 sm:p-4 flex gap-2">
           <input id="chatInput" type="text" autocomplete="off" placeholder="Ask anything — your CGPA, a concept you're stuck on, an assignment…"
@@ -1156,7 +1169,7 @@ main > div:first-child { max-width:1240px; }
           </button>
         </form>
       </div>
-      <div class="flex flex-wrap gap-2">
+      <div id="assistantSuggestions" class="flex flex-wrap gap-2">
         <button class="chat-suggestion text-xs px-3 py-1.5 rounded-full border border-ink/15 dark:border-ink-dark/15 hover:bg-ink/5 dark:hover:bg-white/5">What's my CGPA?</button>
         <button class="chat-suggestion text-xs px-3 py-1.5 rounded-full border border-ink/15 dark:border-ink-dark/15 hover:bg-ink/5 dark:hover:bg-white/5">What's due soon?</button>
         <button class="chat-suggestion text-xs px-3 py-1.5 rounded-full border border-ink/15 dark:border-ink-dark/15 hover:bg-ink/5 dark:hover:bg-white/5">Explain a concept I'm stuck on</button>
@@ -3138,6 +3151,37 @@ function sendChat(text) {
       renderChat();
     });
 }
+let assistantMode = 'chat';
+function renderAssistantInsights() {
+  const pending = state.assignments.filter((item) => !item.done).sort((a, b) => String(a.due_date || '').localeCompare(String(b.due_date || '')));
+  const streak = Number((state.streak && state.streak.currentStreak) || 0);
+  qs('#assistantInsightProgress').textContent = `${Number((state.progress && state.progress.percent) || 0)}%`;
+  qs('#assistantInsightStreak').textContent = `${streak} day${streak === 1 ? '' : 's'}`;
+  qs('#assistantInsightPending').textContent = pending.length;
+  qs('#assistantInsightCourses').textContent = state.courses.length;
+  const topics = [];
+  if (pending.length) topics.push({ title: pending[0].title, meta: `Due ${pending[0].due_date || 'soon'} · highest priority`, pct: Math.min(92, 45 + pending.length * 8), color: '#2563eb' });
+  if (state.courses.length) topics.push({ title: `Review ${state.courses[0].name}`, meta: `${state.courses[0].code || 'Active course'} · build a focused revision plan`, pct: 58, color: '#7c3aed' });
+  topics.push({ title: streak ? 'Keep your study streak going' : 'Start a focused study session', meta: 'EduFlow recommendation · 25 minutes', pct: streak ? Math.min(95, 50 + streak * 5) : 25, color: '#059669' });
+  qs('#assistantSuggestedTopics').innerHTML = topics.map((topic) => `<button type="button" class="assistant-topic w-full text-left" data-topic="${escapeHtml(topic.title)}"><div class="flex items-center justify-between gap-3"><span class="min-w-0"><strong class="block text-sm truncate">${escapeHtml(topic.title)}</strong><small class="block mt-1 text-xs text-inksoft dark:text-inksoft-dark">${escapeHtml(topic.meta)}</small></span><b style="color:${topic.color}" class="text-xs">${topic.pct}%</b></div><span class="block h-1.5 mt-2 rounded-full bg-ink/10 dark:bg-ink-dark/10 overflow-hidden"><i class="block h-full rounded-full" style="width:${topic.pct}%;background:${topic.color}"></i></span></button>`).join('');
+  qsa('.assistant-topic').forEach((button) => button.addEventListener('click', () => { setAssistantMode('chat'); sendChat(`Help me with ${button.dataset.topic}`); }));
+}
+function setAssistantMode(mode) {
+  assistantMode = mode;
+  const insights = mode === 'insights';
+  qs('#assistantInsightsPanel').classList.toggle('hidden', !insights);
+  qs('#assistantChatPanel').classList.toggle('hidden', insights);
+  qs('#assistantSuggestions').classList.toggle('hidden', insights);
+  qs('#assistantChatTab').classList.toggle('bg-surface', !insights);
+  qs('#assistantChatTab').classList.toggle('dark:bg-surface-dark', !insights);
+  qs('#assistantChatTab').classList.toggle('shadow-soft', !insights);
+  qs('#assistantInsightsTab').classList.toggle('bg-surface', insights);
+  qs('#assistantInsightsTab').classList.toggle('dark:bg-surface-dark', insights);
+  qs('#assistantInsightsTab').classList.toggle('shadow-soft', insights);
+  qs('#assistantChatTab').classList.toggle('text-inksoft', insights);
+  qs('#assistantInsightsTab').classList.toggle('text-inksoft', !insights);
+  if (insights) renderAssistantInsights();
+}
 
 function syncSettingsAiModelOptions(models, defaultModel) {
   const settingsSelect = qs('#settingsAiModel');
@@ -3443,6 +3487,9 @@ function init() {
     sendChat(input.value);
     input.value = '';
   });
+  qs('#assistantChatTab').addEventListener('click', () => setAssistantMode('chat'));
+  qs('#assistantInsightsTab').addEventListener('click', () => setAssistantMode('insights'));
+  setAssistantMode('chat');
   qsa('.chat-suggestion').forEach((btn) => {
     btn.addEventListener('click', () => sendChat(btn.textContent));
   });
