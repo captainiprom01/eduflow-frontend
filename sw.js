@@ -6,7 +6,7 @@
 // alone entirely.
 
 const CACHE_NAME = 'eduflow-shell-v2';
-const SHELL_FILES = ['./', './index.html', './icon.png', './icon-192.png', './icon-512.png', './manifest.json'];
+const SHELL_FILES = ['./', './index.html', './favicon.png', './icon-transparent.png', './icon-192.png', './icon-512.png', './icon-512-maskable.png', './manifest.json'];
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
