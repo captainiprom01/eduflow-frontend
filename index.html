@@ -439,9 +439,59 @@ main > div:first-child { max-width:1240px; }
   .mobile-bottom-nav { height:78px !important; }
 }
 @media (min-width:768px) { main { margin-left:18rem; } }
+.first-run-screen { position: fixed; inset: 0; z-index: 500; display: flex; align-items: stretch; justify-content: center; overflow: hidden; background: #03061a; }
+.first-run-screen.hidden { display: none; }
+.first-run-splash { position: relative; display: flex; width: 100%; min-height: 100%; flex-direction: column; align-items: center; justify-content: center; overflow: hidden; background: linear-gradient(160deg,#03061a 0%,#0d1440 45%,#141d5a 100%); color: #fff; }
+.first-run-splash::before { content: ''; position: absolute; inset: 0; opacity: .04; background-image: linear-gradient(rgba(99,102,241,.8) 1px,transparent 1px),linear-gradient(90deg,rgba(99,102,241,.8) 1px,transparent 1px); background-size: 32px 32px; }
+.splash-orb { position: absolute; border-radius: 50%; filter: blur(42px); pointer-events: none; }
+.splash-orb.one { width: 320px; height: 320px; top: -80px; right: -80px; opacity: .2; background: radial-gradient(circle,#4f46e5 0%,transparent 70%); }
+.splash-orb.two { width: 280px; height: 280px; bottom: 40px; left: -60px; opacity: .15; background: radial-gradient(circle,#2563eb 0%,transparent 70%); }
+.splash-orb.three { width: 200px; height: 200px; right: 20px; bottom: 120px; opacity: .1; background: radial-gradient(circle,#10b981 0%,transparent 70%); }
+.splash-particle { position: absolute; border-radius: 50%; opacity: .65; animation: firstRunFloat 4s ease-in-out infinite; box-shadow: 0 0 12px currentColor; }
+.splash-brand { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; gap: 24px; animation: firstRunFade .5s ease-out both; }
+.splash-logo { position: relative; display: grid; width: 96px; height: 96px; place-items: center; border-radius: 30px; background: linear-gradient(135deg,#2563eb 0%,#4f46e5 60%,#6366f1 100%); box-shadow: 0 0 60px rgba(79,70,229,.5),0 0 120px rgba(37,99,235,.3),inset 0 1px 0 rgba(255,255,255,.2); animation: firstRunFloat 4s ease-in-out infinite; }
+.splash-logo::after { content: ''; position: absolute; inset: -12px; border: 1px solid rgba(99,102,241,.8); border-radius: 36px; box-shadow: 0 0 20px rgba(99,102,241,.4); }
+.splash-wordmark { margin: 0; color: #fff; font-family: 'Plus Jakarta Sans',Inter,sans-serif; font-size: 38px; font-weight: 800; letter-spacing: -.02em; }
+.splash-wordmark span { color: #60a5fa; }
+.splash-tagline { margin: 4px 0 0; color: rgba(148,163,184,.9); font-size: 15px; font-weight: 500; letter-spacing: .04em; text-align: center; }
+.splash-dots { display: flex; gap: 8px; margin-top: 8px; }
+.splash-dots i { width: 6px; height: 6px; border-radius: 50%; background: rgba(99,102,241,.5); animation: firstRunDot 1.2s ease-in-out infinite; }
+.splash-dots i:nth-child(2) { background: #60a5fa; animation-delay: .2s; }.splash-dots i:nth-child(3) { animation-delay: .4s; }
+.splash-footer { position: absolute; z-index: 1; right: 0; bottom: 40px; left: 0; color: rgba(100,116,139,.7); text-align: center; }
+.splash-footer strong { display: block; font-size: 12px; letter-spacing: .16em; text-transform: uppercase; }.splash-footer span { display: block; margin-top: 2px; font-size: 11px; }
+.first-run-onboarding { display: flex; width: min(100%,460px); min-height: 100%; flex-direction: column; overflow: hidden; background: #fff; color: #0f172a; }
+.onboarding-art { position: relative; display: flex; height: 320px; flex: 0 0 320px; align-items: center; justify-content: center; overflow: hidden; animation: screenEnter .3s ease-out; }
+.onboarding-art.ai { background: linear-gradient(135deg,#eff6ff 0%,#e0e7ff 100%); }.onboarding-art.schedule { background: linear-gradient(135deg,#fff7ed 0%,#fef3c7 100%); }.onboarding-art.campus { background: linear-gradient(135deg,#ecfdf5 0%,#d1fae5 100%); }
+.onboarding-skip { position: absolute; z-index: 2; top: 48px; right: 20px; padding: 6px 4px; border: 0; color: #2563eb; background: transparent; font-size: 13px; font-weight: 700; cursor: pointer; }
+.onboarding-art.schedule .onboarding-skip { color: #f59e0b; }.onboarding-art.campus .onboarding-skip { color: #059669; }
+.onboarding-illustration { width: min(78%,280px); animation: firstRunFloat 4s ease-in-out infinite; }.onboarding-art.campus .onboarding-illustration { width: min(84%,300px); }
+.onboarding-card { display: flex; align-items: center; gap: 10px; margin: 8px 0; padding: 11px 12px; border-radius: 16px; background: #fff; box-shadow: 0 4px 16px rgba(0,0,0,.06); }
+.onboarding-card-icon { display: grid; width: 34px; height: 34px; flex: 0 0 34px; place-items: center; border-radius: 11px; color: #fff; font-size: 15px; }.onboarding-card-copy { min-width: 0; }.onboarding-card-copy strong { display: block; overflow: hidden; color: #1e293b; font-size: 11px; line-height: 1.2; text-overflow: ellipsis; white-space: nowrap; }.onboarding-card-copy span { display: block; margin-top: 3px; overflow: hidden; color: #94a3b8; font-size: 9px; text-overflow: ellipsis; white-space: nowrap; }
+.onboarding-calendar { padding: 18px; border-radius: 22px; background: rgba(255,255,255,.86); box-shadow: 0 8px 24px rgba(245,158,11,.14); }.onboarding-calendar-head { display: flex; align-items: center; justify-content: space-between; color: #64748b; font-size: 10px; font-weight: 800; }.onboarding-calendar-grid { display: grid; grid-template-columns: repeat(5,1fr); gap: 8px; margin-top: 14px; }.onboarding-calendar-grid i { display: grid; height: 32px; place-items: center; border-radius: 9px; color: #64748b; background: #fff7ed; font-size: 10px; font-style: normal; }.onboarding-calendar-grid i.active { color: #fff; background: #f59e0b; }.onboarding-calendar-event { display: flex; align-items: center; gap: 8px; margin-top: 12px; padding: 9px; border-radius: 11px; color: #92400e; background: #fff7ed; font-size: 10px; font-weight: 700; }.onboarding-calendar-event b { display: grid; width: 20px; height: 20px; place-items: center; border-radius: 50%; color: #fff; background: #f59e0b; font-size: 9px; }
+.onboarding-content { display: flex; min-height: 0; flex: 1; flex-direction: column; padding: 32px 24px 24px; }.onboarding-copy { min-height: 0; flex: 1; animation: screenEnter .3s ease-out; }.onboarding-copy h2 { margin: 0; color: #0f172a; font-family: 'Plus Jakarta Sans',Inter,sans-serif; font-size: 26px; font-weight: 800; line-height: 1.15; letter-spacing: -.02em; white-space: pre-line; }.onboarding-copy p { margin: 16px 0 0; color: #64748b; font-size: 15px; line-height: 1.65; }.onboarding-controls { display: flex; align-items: center; justify-content: space-between; gap: 16px; }.onboarding-dots { display: flex; align-items: center; gap: 8px; }.onboarding-dots button { width: 8px; height: 8px; padding: 0; border: 0; border-radius: 99px; background: #e2e8f0; cursor: pointer; transition: width .25s ease,background .25s ease; }.onboarding-dots button.active { width: 24px; background: #2563eb; }.onboarding-dots button.active.schedule-dot { background: #f59e0b; }.onboarding-dots button.active.campus-dot { background: #059669; }.onboarding-next { display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: 100%; margin-top: 24px; padding: 15px 18px; border: 0; border-radius: 16px; color: #fff; font-size: 16px; font-weight: 700; cursor: pointer; box-shadow: 0 12px 28px rgba(37,99,235,.25); }.onboarding-next.ai-next { background: linear-gradient(135deg,#2563eb,#4f46e5); }.onboarding-next.schedule-next { background: linear-gradient(135deg,#f59e0b,#6366f1); }.onboarding-next.campus-next { background: linear-gradient(135deg,#059669,#10b981); }
+@keyframes firstRunFloat { 0%,100% { transform: translateY(0) rotate(0); } 33% { transform: translateY(-10px) rotate(1deg); } 66% { transform: translateY(-5px) rotate(-1deg); } }
+@keyframes firstRunFade { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes firstRunDot { 0%,80%,100% { transform: translateY(0); } 40% { transform: translateY(-6px); } }
+@media (max-width: 480px) { .onboarding-art { height: 300px; flex-basis: 300px; }.onboarding-content { padding: 26px 20px 20px; }.onboarding-copy h2 { font-size: 24px; } }
+@media (prefers-reduced-motion: reduce) { .splash-brand, .splash-logo, .splash-particle, .splash-dots i, .onboarding-art, .onboarding-copy, .onboarding-illustration { animation: none; } }
 </style>
 </head>
 <body class="bg-paper dark:bg-paper-dark text-ink dark:text-ink-dark min-h-screen transition-colors duration-300">
+
+<!-- ============ FIRST-USE SPLASH ============ -->
+<div id="firstRunSplash" class="first-run-screen">
+  <div class="first-run-splash"><div class="splash-orb one"></div><div class="splash-orb two"></div><div class="splash-orb three"></div>
+    <i class="splash-particle" style="left:15%;top:20%;width:4px;height:4px;color:#6366f1"></i><i class="splash-particle" style="left:80%;top:15%;width:3px;height:3px;color:#3b82f6;animation-delay:.5s"></i><i class="splash-particle" style="left:25%;top:75%;width:5px;height:5px;color:#10b981;animation-delay:1s"></i><i class="splash-particle" style="left:75%;top:70%;width:3px;height:3px;color:#6366f1;animation-delay:1.5s"></i><i class="splash-particle" style="left:50%;top:10%;width:2px;height:2px;color:#60a5fa;animation-delay:.8s"></i><i class="splash-particle" style="left:90%;top:50%;width:4px;height:4px;color:#34d399;animation-delay:.3s"></i><i class="splash-particle" style="left:10%;top:50%;width:3px;height:3px;color:#818cf8;animation-delay:1.2s"></i>
+    <div class="splash-brand"><div class="splash-logo" aria-hidden="true"><svg width="52" height="52" viewBox="0 0 52 52" fill="none"><path d="M10 14h20M10 26h16M10 38h20" stroke="white" stroke-width="3.5" stroke-linecap="round"/><path d="M32 14c5 0 10 4 10 9s-4 8-8 8M34 31s4 2 6 5" stroke="rgba(255,255,255,.7)" stroke-width="3" stroke-linecap="round"/><circle cx="40" cy="11" r="3" fill="#34d399"/></svg></div><div><h1 class="splash-wordmark">Edu<span>Flow</span></h1><p class="splash-tagline">Your Campus. Smarter.</p></div><div class="splash-dots" aria-label="Loading"><i></i><i></i><i></i></div></div>
+    <div class="splash-footer"><strong>University of Lagos</strong><span>Powered by AI</span></div>
+  </div>
+</div>
+
+<!-- ============ FIRST-USE ONBOARDING ============ -->
+<div id="firstRunOnboarding" class="first-run-screen hidden" aria-label="EduFlow onboarding"><div class="first-run-onboarding">
+  <div id="onboardingArt" class="onboarding-art ai"><button id="onboardingSkip" class="onboarding-skip" type="button">Skip</button><div id="onboardingIllustration" class="onboarding-illustration"></div></div>
+  <div class="onboarding-content"><div class="onboarding-copy"><h2 id="onboardingTitle"></h2><p id="onboardingDescription"></p></div><div class="onboarding-controls"><div id="onboardingDots" class="onboarding-dots" role="tablist" aria-label="Onboarding slides"></div></div><button id="onboardingNext" class="onboarding-next ai-next" type="button"><span>Continue</span><i class="fa-solid fa-arrow-right"></i></button></div>
+</div></div>
 
 <!-- ============ AUTH SCREEN ============ -->
 <div id="authScreen" class="fixed inset-0 z-[200] bg-paper dark:bg-paper-dark flex items-center justify-center p-4 overflow-y-auto">
@@ -2137,7 +2187,7 @@ async function addClass(e) {
   const location = qs('#ttLocation').value.trim();
   if (!courseId || !day || !start || !end) return;
   try {
-    await apiFetch('/api/timetable', { method: 'POST', body: JSON.stringify({ courseId, day, start, end, location }) });
+    await apiFetch('/api/timetable', { method: 'POST', body: JSON.stringify({ courseId, day, startTime: start, endTime: end, location }) });
     e.target.reset();
     await reloadAll();
   } catch (err) { showToast(err.message); }
@@ -2192,7 +2242,7 @@ async function addAssignment(e) {
   const priority = qs('#asgPriority').value;
   if (!title || !due) return;
   try {
-    await apiFetch('/api/assignments', { method: 'POST', body: JSON.stringify({ title, courseId, due, priority }) });
+    await apiFetch('/api/assignments', { method: 'POST', body: JSON.stringify({ title, courseId, dueDate: due, priority }) });
     e.target.reset();
     await reloadAll();
   } catch (err) { showToast(err.message); }
@@ -3254,7 +3304,42 @@ function registerServiceWorker() {
     navigator.serviceWorker.register('sw.js').catch(() => { /* offline caching just won't be available — app still works online */ });
   });
 }
-
+const firstRunSlides = [
+  { theme: 'ai', accent: '#2563eb', title: 'Your Intelligent\nCampus Companion', description: 'EduFlow brings your academic life together — courses, assignments, timetable, and an AI assistant that helps you study smarter.', illustration: '<div class="onboarding-card"><span class="onboarding-card-icon" style="background:#2563eb"><i class="fa-solid fa-brain"></i></span><span class="onboarding-card-copy"><strong>Ask EduAI anything</strong><span>Powered by your academic context</span></span></div><div class="onboarding-card"><span class="onboarding-card-icon" style="background:#7c3aed"><i class="fa-solid fa-wand-magic-sparkles"></i></span><span class="onboarding-card-copy"><strong>Personalised study help</strong><span>Plans, explanations and quick answers</span></span></div><div class="onboarding-card"><span class="onboarding-card-icon" style="background:#059669"><i class="fa-solid fa-chart-line"></i></span><span class="onboarding-card-copy"><strong>Track your progress</strong><span>See your semester at a glance</span></span></div>' },
+  { theme: 'schedule', accent: '#f59e0b', title: 'Never Miss a\nDeadline Again', description: 'Keep your timetable, assignments, and important academic dates organised in one clear view — so you always know what is next.', illustration: '<div class="onboarding-calendar"><div class="onboarding-calendar-head"><span>THIS WEEK</span><i class="fa-solid fa-calendar-days"></i></div><div class="onboarding-calendar-grid"><i>Mon</i><i>Tue</i><i class="active">Wed</i><i>Thu</i><i>Fri</i><i>9:00</i><i></i><i class="active">CSC</i><i></i><i></i></div><div class="onboarding-calendar-event"><b><i class="fa-solid fa-clock"></i></b><span>Database Lab · 10:00 AM</span></div></div>' },
+  { theme: 'campus', accent: '#059669', title: 'Campus Information\n& Communication', description: 'Stay connected with official announcements, message classmates and lecturers, and access all campus services — all in one intelligent app.', illustration: '<div class="onboarding-card"><span class="onboarding-card-icon" style="background:#2563eb">📢</span><span class="onboarding-card-copy"><strong>Exam Schedule Released</strong><span>Examinations Office · 2h ago</span></span></div><div class="onboarding-card"><span class="onboarding-card-icon" style="background:#7c3aed">💬</span><span class="onboarding-card-copy"><strong>Chidi: Did you finish the assignment?</strong><span>CSC 300 Level Group</span></span></div><div class="onboarding-card"><span class="onboarding-card-icon" style="background:#059669">🎓</span><span class="onboarding-card-copy"><strong>New grade: CSC 301 — A</strong><span>Score: 87/100 · Just now</span></span></div>' }
+];
+let firstRunIndex = 0;
+function hideFirstRun() {
+  qs('#firstRunSplash').classList.add('hidden');
+  qs('#firstRunOnboarding').classList.add('hidden');
+}
+function renderFirstRunSlide() {
+  const slide = firstRunSlides[firstRunIndex];
+  const art = qs('#onboardingArt');
+  art.className = 'onboarding-art ' + slide.theme;
+  qs('#onboardingIllustration').innerHTML = slide.illustration;
+  qs('#onboardingTitle').textContent = slide.title;
+  qs('#onboardingDescription').textContent = slide.description;
+  qs('#onboardingNext').className = 'onboarding-next ' + slide.theme + '-next';
+  qs('#onboardingNext span').textContent = firstRunIndex === firstRunSlides.length - 1 ? 'Get Started' : 'Continue';
+  qs('#onboardingDots').innerHTML = firstRunSlides.map((item, i) => `<button type="button" aria-label="Go to slide ${i + 1}" class="${i === firstRunIndex ? 'active ' + item.theme + '-dot' : ''}"></button>`).join('');
+  qsa('#onboardingDots button').forEach((button, i) => button.addEventListener('click', () => { firstRunIndex = i; renderFirstRunSlide(); }));
+}
+function finishFirstRun() {
+  localStorage.setItem('eduflow_onboarding_seen', '1');
+  hideFirstRun();
+  showAuthScreen();
+}
+function startFirstRun() {
+  if (authToken) { hideFirstRun(); return; }
+  if (localStorage.getItem('eduflow_onboarding_seen')) { hideFirstRun(); showAuthScreen(); return; }
+  qs('#firstRunSplash').classList.remove('hidden');
+  qs('#firstRunOnboarding').classList.add('hidden');
+  setTimeout(() => { qs('#firstRunSplash').classList.add('hidden'); qs('#firstRunOnboarding').classList.remove('hidden'); renderFirstRunSlide(); }, 2600);
+  qs('#onboardingSkip').onclick = finishFirstRun;
+  qs('#onboardingNext').onclick = () => { if (firstRunIndex < firstRunSlides.length - 1) { firstRunIndex += 1; renderFirstRunSlide(); } else finishFirstRun(); };
+}
 function init() {
   initTheme();
   registerServiceWorker();
@@ -3278,6 +3363,7 @@ function init() {
   // skip the normal login flow entirely.
   const resetToken = new URLSearchParams(window.location.search).get('resetToken');
   if (resetToken) {
+    hideFirstRun();
     qs('#resetPasswordScreen').classList.remove('hidden');
     qs('#resetPasswordForm').addEventListener('submit', handleResetPassword);
     return;
@@ -3286,12 +3372,14 @@ function init() {
   // Same idea for an email-verification link: index.html?verifyToken=xxxx
   const verifyToken = new URLSearchParams(window.location.search).get('verifyToken');
   if (verifyToken) {
+    hideFirstRun();
     qs('#verifyEmailScreen').classList.remove('hidden');
     runEmailVerification(verifyToken);
     return;
   }
 
   initNav();
+  startFirstRun();
   qsa('[data-open-semester]').forEach((btn) => btn.addEventListener('click', () => setTimeout(() => qs('#courseSemesterName')?.focus(), 0)));
   initAssignmentFilters();
 
