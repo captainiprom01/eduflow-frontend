@@ -472,8 +472,16 @@ main > div:first-child { max-width:1240px; }
 @keyframes firstRunFade { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes firstRunDot { 0%,80%,100% { transform: translateY(0); } 40% { transform: translateY(-6px); } }
 @media (max-width: 480px) { .onboarding-art { height: 300px; flex-basis: 300px; }.onboarding-content { padding: 26px 20px 20px; }.onboarding-copy h2 { font-size: 24px; } }
-@media (prefers-reduced-motion: reduce) { .splash-brand, .splash-original-logo, .splash-particle, .splash-dots i, .onboarding-art, .onboarding-copy, .onboarding-illustration { animation: none; } }
-</style>
+  @media (prefers-reduced-motion: reduce) { .splash-brand, .splash-original-logo, .splash-particle, .splash-dots i, .onboarding-art, .onboarding-copy, .onboarding-illustration { animation: none; } }
+  .announcement-page-hero { display:flex; align-items:center; gap:16px; padding:22px; border-radius:24px; color:#fff; background:linear-gradient(145deg,#070c28,#1e2d7b); box-shadow:0 12px 28px rgba(7,12,40,.16); }
+  .announcement-hero-icon { display:grid; width:54px; height:54px; flex:0 0 54px; place-items:center; border-radius:18px; color:#bfdbfe; background:rgba(96,165,250,.18); font-size:22px; }
+  .announcement-kicker,.dashboard-section-kicker { margin:0 0 4px; color:#60a5fa; font-size:10px; font-weight:800; letter-spacing:.14em; text-transform:uppercase; }
+  .announcement-page-hero h1 { margin:0; font:800 25px/1.15 'Plus Jakarta Sans',sans-serif; letter-spacing:-.04em; }.announcement-page-hero p:last-child { margin:6px 0 0; color:#c8d1ff; font-size:13px; line-height:1.45; }
+  .announcement-toolbar { display:flex; align-items:flex-end; justify-content:space-between; gap:14px; flex-wrap:wrap; }.announcement-filters { display:flex; gap:6px; overflow-x:auto; padding:3px; border-radius:13px; background:#f1f5f9; }.announcement-filters button { padding:7px 11px; border:0; border-radius:9px; color:#64748b; background:transparent; font-size:11px; font-weight:700; white-space:nowrap; cursor:pointer; }.announcement-filters button.active { color:#2563eb; background:#fff; box-shadow:0 2px 8px rgba(15,23,42,.08); }
+  .announcements-list { display:grid; gap:12px; }.announcement-card { display:flex; align-items:flex-start; gap:13px; padding:17px; border:1px solid var(--eduflow-border); border-radius:20px; background:#fff; box-shadow:0 5px 16px rgba(27,45,79,.05); text-align:left; }.announcement-card:hover { transform:translateY(-1px); box-shadow:0 9px 22px rgba(27,45,79,.09); }.announcement-dot { width:9px; height:9px; flex:0 0 9px; margin-top:7px; border-radius:50%; }.announcement-card-main { min-width:0; flex:1; }.announcement-meta { display:flex; align-items:center; gap:8px; margin-bottom:7px; }.announcement-category { padding:4px 8px; border-radius:7px; font-size:10px; font-weight:800; }.announcement-card h3 { margin:0; color:#1e293b; font-size:14px; line-height:1.35; }.announcement-card p { margin:5px 0 0; color:#64748b; font-size:12px; line-height:1.5; }.announcement-card time { display:block; margin-top:9px; color:#94a3b8; font-size:11px; }.announcement-unread { width:7px; height:7px; margin-top:5px; border-radius:50%; background:#f43f5e; }.announcement-arrow { color:#cbd5e1; font-size:12px; }
+  .dashboard-quick-actions,.dashboard-announcements-card { padding:18px; border:1px solid var(--eduflow-border); border-radius:22px; background:#fff; box-shadow:0 6px 18px rgba(27,45,79,.045); }.dashboard-section-heading { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:14px; }.dashboard-section-heading h2 { margin:0; color:#1e293b; font:800 17px/1.2 'Plus Jakarta Sans',sans-serif; }.dashboard-section-heading > i { color:#f59e0b; }.dashboard-view-all { border:0; color:#2563eb; background:transparent; font-size:12px; font-weight:800; cursor:pointer; }.dashboard-action-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:10px; }.dashboard-action-grid button { min-width:0; padding:12px 8px; border:1px solid #edf0f6; border-radius:16px; background:#fbfcff; text-align:center; cursor:pointer; }.dashboard-action-grid button:hover { background:#f4f7ff; }.dashboard-action-icon { display:grid; width:44px; height:44px; margin:0 auto 8px; place-items:center; border-radius:14px; font-size:18px; }.dashboard-action-icon.blue { color:#2563eb; background:#eff6ff; }.dashboard-action-icon.amber { color:#d97706; background:#fffbeb; }.dashboard-action-icon.violet { color:#7c3aed; background:#f5f3ff; }.dashboard-action-icon.green { color:#059669; background:#ecfdf5; }.dashboard-action-grid strong { display:block; overflow:hidden; color:#334155; font-size:11px; text-overflow:ellipsis; white-space:nowrap; }.dashboard-action-grid small { display:block; margin-top:3px; overflow:hidden; color:#94a3b8; font-size:10px; text-overflow:ellipsis; white-space:nowrap; }.overview-announcements { display:grid; gap:9px; }.overview-announcement { display:flex; align-items:center; gap:10px; padding:11px 12px; border-radius:14px; background:#f8faff; cursor:pointer; }.overview-announcement:hover { background:#f1f5ff; }.overview-announcement .announcement-dot { margin-top:0; }.overview-announcement-main { min-width:0; flex:1; }.overview-announcement strong { display:block; overflow:hidden; color:#334155; font-size:12px; text-overflow:ellipsis; white-space:nowrap; }.overview-announcement small { display:block; margin-top:3px; color:#94a3b8; font-size:10px; }.dark .announcement-card,.dark .dashboard-quick-actions,.dark .dashboard-announcements-card { background:#171b27; border-color:#303542; }.dark .announcement-card h3,.dark .dashboard-section-heading h2,.dark .overview-announcement strong { color:#f3f5fb; }.dark .overview-announcement { background:#202532; }.dark .announcement-filters { background:#202532; }.dark .announcement-filters button.active { background:#303542; }
+  @media (max-width:767px) { .announcement-page-hero { align-items:flex-start; padding:18px; border-radius:22px; }.announcement-page-hero h1 { font-size:23px; }.announcement-toolbar { align-items:stretch; flex-direction:column; }.announcement-filters { width:100%; }.announcement-card { padding:15px; border-radius:18px; }.dashboard-quick-actions,.dashboard-announcements-card { display:block !important; padding:16px; border-radius:20px; }.dashboard-action-grid { grid-template-columns:repeat(2,minmax(0,1fr)); gap:9px; }.dashboard-action-grid button { padding:12px 7px; }.dashboard-action-icon { width:42px; height:42px; }.dashboard-action-grid small { font-size:9px; }.dashboard-section-heading h2 { font-size:16px; } }
+  </style>
 </head>
 <body class="bg-paper dark:bg-paper-dark text-ink dark:text-ink-dark min-h-screen transition-colors duration-300">
 
@@ -722,6 +730,9 @@ main > div:first-child { max-width:1240px; }
       <button data-view="notifications" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium">
         <i class="fa-regular fa-bell w-5 text-center"></i><span>Notifications</span>
       </button>
+      <button data-view="announcements" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium">
+        <i class="fa-solid fa-bullhorn w-5 text-center"></i><span>Announcements</span>
+      </button>
       <button data-view="settings" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium">
         <i class="fa-solid fa-gear w-5 text-center"></i><span>Settings</span>
       </button>
@@ -803,6 +814,19 @@ main > div:first-child { max-width:1240px; }
         </button>
       </div>
 
+      <div class="dashboard-quick-actions">
+        <div class="dashboard-section-heading"><div><p class="dashboard-section-kicker">Shortcuts</p><h2>Quick actions</h2></div><i class="fa-solid fa-bolt"></i></div>
+        <div class="dashboard-action-grid">
+          <button type="button" data-view="courses"><span class="dashboard-action-icon blue"><i class="fa-solid fa-book-open"></i></span><strong>Add course</strong><small>Organise your semester</small></button>
+          <button type="button" data-view="assignments"><span class="dashboard-action-icon amber"><i class="fa-solid fa-list-check"></i></span><strong>Track assignments</strong><small>See what is due next</small></button>
+          <button type="button" data-view="timetable"><span class="dashboard-action-icon violet"><i class="fa-solid fa-calendar-week"></i></span><strong>View timetable</strong><small>Plan your classes</small></button>
+          <button type="button" data-view="assistant"><span class="dashboard-action-icon green"><i class="fa-solid fa-brain"></i></span><strong>Ask EduAI</strong><small>Get study support</small></button>
+        </div>
+      </div>
+      <div class="dashboard-announcements-card">
+        <div class="dashboard-section-heading"><div><p class="dashboard-section-kicker">Stay informed</p><h2>Announcements</h2></div><button type="button" data-view="announcements" class="dashboard-view-all">View all <i class="fa-solid fa-chevron-right"></i></button></div>
+        <div id="overviewAnnouncements" class="overview-announcements"></div>
+      </div>
       <div class="bg-surface dark:bg-surface-dark rounded-2xl border border-ink/10 dark:border-ink-dark/10 p-5 sm:p-6">
         <div class="flex items-center justify-between mb-4">
           <h2 class="font-serif font-semibold text-lg">Achievements</h2>
@@ -1205,6 +1229,12 @@ main > div:first-child { max-width:1240px; }
       <div id="notificationsList" class="notifications-list"></div>
     </section>
 
+    <!-- ANNOUNCEMENTS -->
+    <section id="view-announcements" class="view hidden space-y-6 max-w-3xl">
+      <div class="announcement-page-hero"><div class="announcement-hero-icon"><i class="fa-solid fa-bullhorn"></i></div><div><p class="announcement-kicker">Campus information</p><h1>Announcements</h1><p>Important updates, academic notices, and events from your campus.</p></div></div>
+      <div class="announcement-toolbar"><div><h2 class="font-serif font-semibold text-lg">Latest updates</h2><p id="announcementsSummary" class="text-xs text-inksoft dark:text-inksoft-dark mt-1"></p></div><div id="announcementFilters" class="announcement-filters" role="tablist" aria-label="Announcement categories"><button type="button" data-announcement-filter="All" class="active">All</button><button type="button" data-announcement-filter="Academic">Academic</button><button type="button" data-announcement-filter="Events">Events</button><button type="button" data-announcement-filter="Campus">Campus</button></div></div>
+      <div id="announcementsList" class="announcements-list"></div>
+    </section>
     <!-- SETTINGS -->
     <section id="view-settings" class="view hidden space-y-6 max-w-3xl">
       <div class="settings-page-hero"><div class="settings-hero-icon"><i class="fa-solid fa-sliders"></i></div><div><p class="settings-kicker">Make EduFlow yours</p><h1>Settings</h1><p>Control your notifications, appearance, AI, and privacy preferences.</p></div></div>
@@ -1819,7 +1849,51 @@ let courseFilter = 'all';
 let courseSearch = '';
 let activeCourseId = null;
 const presenceUsers = new Set();
-
+const campusAnnouncements = [
+  { id: 'announcement-exams', category: 'Academic', title: 'Examination timetable updates', body: 'Check the latest examination schedule and confirm your courses before the registration deadline.', author: 'Examinations Office', timestamp: '2 hours ago', icon: 'fa-calendar-days', color: '#2563eb', bg: '#eff6ff', unread: true },
+  { id: 'announcement-library', category: 'Campus', title: 'Extended library opening hours', body: 'The main library will remain open later during the revision period to support students preparing for assessments.', author: 'University Library', timestamp: 'Yesterday', icon: 'fa-building-columns', color: '#059669', bg: '#ecfdf5', unread: false },
+  { id: 'announcement-workshop', category: 'Events', title: 'EduFlow study skills workshop', body: 'Join this week’s practical session on planning a study week, managing deadlines, and using EduAI effectively.', author: 'Student Success Team', timestamp: '2 days ago', icon: 'fa-lightbulb', color: '#7c3aed', bg: '#f5f3ff', unread: true },
+  { id: 'announcement-health', category: 'Campus', title: 'Student support services available', body: 'Academic advising, counselling, and accessibility support remain available through the student services centre.', author: 'Student Affairs', timestamp: '4 days ago', icon: 'fa-heart', color: '#db2777', bg: '#fdf2f8', unread: false },
+];
+let announcementFilter = 'All';
+let announcementReadIds = new Set(JSON.parse(localStorage.getItem('eduflow_announcement_read') || '[]'));
+function announcementCategoryStyle(category) {
+  const item = campusAnnouncements.find((announcement) => announcement.category === category);
+  return item ? { color: item.color, bg: item.bg } : { color: '#2563eb', bg: '#eff6ff' };
+}
+function markAnnouncementRead(id) {
+  announcementReadIds.add(String(id));
+  localStorage.setItem('eduflow_announcement_read', JSON.stringify([...announcementReadIds]));
+}
+function renderAnnouncements() {
+  const wrap = qs('#announcementsList');
+  if (!wrap) return;
+  const records = announcementFilter === 'All' ? campusAnnouncements : campusAnnouncements.filter((announcement) => announcement.category === announcementFilter);
+  const unread = records.filter((announcement) => !announcementReadIds.has(announcement.id) && announcement.unread).length;
+  qs('#announcementsSummary').textContent = unread ? `${unread} unread announcement${unread === 1 ? '' : 's'}` : 'You’re up to date with campus news.';
+  wrap.innerHTML = records.map((announcement) => {
+    const style = announcementCategoryStyle(announcement.category);
+    const isUnread = announcement.unread && !announcementReadIds.has(announcement.id);
+    return `<button type="button" class="announcement-card" data-announcement-id="${announcement.id}"><span class="announcement-dot" style="background:${style.color}"></span><span class="announcement-card-main"><span class="announcement-meta"><span class="announcement-category" style="color:${style.color};background:${style.bg}">${announcement.category}</span>${isUnread ? '<span class="announcement-unread" aria-label="Unread"></span>' : ''}</span><h3>${escapeHtml(announcement.title)}</h3><p>${escapeHtml(announcement.body)}</p><time>${escapeHtml(announcement.author)} · ${escapeHtml(announcement.timestamp)}</time></span><i class="announcement-arrow fa-solid fa-chevron-right"></i></button>`;
+  }).join('') || emptyState('fa-bullhorn', 'No announcements in this category', 'Try another filter to see more campus updates.');
+  qsa('[data-announcement-id]').forEach((button) => button.addEventListener('click', () => {
+    const announcement = campusAnnouncements.find((item) => item.id === button.dataset.announcementId);
+    if (!announcement) return;
+    markAnnouncementRead(announcement.id);
+    showToast(`${announcement.title} marked as read.`);
+    renderAnnouncements();
+    renderOverviewAnnouncements();
+  }));
+}
+function renderOverviewAnnouncements() {
+  const wrap = qs('#overviewAnnouncements');
+  if (!wrap) return;
+  wrap.innerHTML = campusAnnouncements.slice(0, 3).map((announcement) => {
+    const style = announcementCategoryStyle(announcement.category);
+    return `<button type="button" class="overview-announcement" data-view="announcements"><span class="announcement-dot" style="background:${style.color}"></span><span class="overview-announcement-main"><strong>${escapeHtml(announcement.title)}</strong><small>${escapeHtml(announcement.author)} · ${escapeHtml(announcement.timestamp)}</small></span><i class="announcement-arrow fa-solid fa-chevron-right"></i></button>`;
+  }).join('');
+  wrap.querySelectorAll('[data-view]').forEach((button) => button.addEventListener('click', () => showView(button.dataset.view)));
+}
 function notificationRecords() {
   const records = [];
   if (state.preferences.assignment_notifications) {
@@ -2031,7 +2105,7 @@ function updateThemeToggleUI(isDark) {
 }
 
 /* ---------- navigation ---------- */
-const VIEWS = ['overview', 'courses', 'course-detail', 'timetable', 'assignments', 'cgpa', 'progress', 'assistant', 'messages', 'notifications', 'profile', 'settings', 'account'];
+const VIEWS = ['overview', 'courses', 'course-detail', 'timetable', 'assignments', 'cgpa', 'progress', 'assistant', 'messages', 'notifications', 'announcements', 'profile', 'settings', 'account'];
 function showView(name) {
   document.documentElement.dataset.eduflowNavState = name;
   const notificationPanel = qs('#mobileNotificationPanel');
@@ -2057,6 +2131,7 @@ function showView(name) {
   if (name === 'profile') renderProfile();
   if (name === 'messages') { loadMessageContacts(); loadConversations(); }
   if (name === 'notifications') renderFullNotifications();
+  if (name === 'announcements') renderAnnouncements();
   if (name === 'settings') { renderSettings(); loadPreferences(); }
   if (name === 'account') renderAccountSettings();
   qs('#floatingAssistantBtn').classList.toggle('hidden', name === 'assistant');
@@ -3019,6 +3094,7 @@ function renderOverview() {
   renderQuoteOfTheDay();
   renderStreak();
   renderMobileNotifications();
+  renderOverviewAnnouncements();
 
 
   qs('#statCourses').textContent = state.courses.length;
@@ -3470,6 +3546,11 @@ function init() {
     courseFilter = tab.dataset.courseFilter;
     qsa('[data-course-filter]').forEach((item) => { const active = item === tab; item.classList.toggle('active', active); item.setAttribute('aria-selected', String(active)); });
     renderCourses();
+  }));
+  qsa('[data-announcement-filter]').forEach((tab) => tab.addEventListener('click', () => {
+    announcementFilter = tab.dataset.announcementFilter;
+    qsa('[data-announcement-filter]').forEach((item) => item.classList.toggle('active', item === tab));
+    renderAnnouncements();
   }));
   qs('#timetableForm').addEventListener('submit', addClass);
   qs('#assignmentForm').addEventListener('submit', addAssignment);
