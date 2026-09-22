@@ -456,8 +456,6 @@ main > div:first-child { max-width:1240px; }
 .splash-dots { display: flex; gap: 8px; margin-top: 8px; }
 .splash-dots i { width: 6px; height: 6px; border-radius: 50%; background: rgba(99,102,241,.5); animation: firstRunDot 1.2s ease-in-out infinite; }
 .splash-dots i:nth-child(2) { background: #60a5fa; animation-delay: .2s; }.splash-dots i:nth-child(3) { animation-delay: .4s; }
-.splash-footer { position: absolute; z-index: 1; right: 0; bottom: 40px; left: 0; color: rgba(100,116,139,.7); text-align: center; }
-.splash-footer strong { display: block; font-size: 12px; letter-spacing: .16em; text-transform: uppercase; }.splash-footer span { display: block; margin-top: 2px; font-size: 11px; }
 .first-run-onboarding { display: flex; width: min(100%,460px); min-height: 100%; flex-direction: column; overflow: hidden; background: #fff; color: #0f172a; }
 .onboarding-art { position: relative; display: flex; height: 320px; flex: 0 0 320px; align-items: center; justify-content: center; overflow: hidden; animation: screenEnter .3s ease-out; }
 .onboarding-art.ai { background: linear-gradient(135deg,#eff6ff 0%,#e0e7ff 100%); }.onboarding-art.schedule { background: linear-gradient(135deg,#fff7ed 0%,#fef3c7 100%); }.onboarding-art.campus { background: linear-gradient(135deg,#ecfdf5 0%,#d1fae5 100%); }
@@ -490,7 +488,6 @@ main > div:first-child { max-width:1240px; }
   <div class="first-run-splash"><div class="splash-orb one"></div><div class="splash-orb two"></div><div class="splash-orb three"></div>
     <i class="splash-particle" style="left:15%;top:20%;width:4px;height:4px;color:#6366f1"></i><i class="splash-particle" style="left:80%;top:15%;width:3px;height:3px;color:#3b82f6;animation-delay:.5s"></i><i class="splash-particle" style="left:25%;top:75%;width:5px;height:5px;color:#10b981;animation-delay:1s"></i><i class="splash-particle" style="left:75%;top:70%;width:3px;height:3px;color:#6366f1;animation-delay:1.5s"></i><i class="splash-particle" style="left:50%;top:10%;width:2px;height:2px;color:#60a5fa;animation-delay:.8s"></i><i class="splash-particle" style="left:90%;top:50%;width:4px;height:4px;color:#34d399;animation-delay:.3s"></i><i class="splash-particle" style="left:10%;top:50%;width:3px;height:3px;color:#818cf8;animation-delay:1.2s"></i>
     <div class="splash-brand"><img class="splash-original-logo" src="icon.png" alt="EduFlow — Smart Campus Assistant"><div class="splash-dots" aria-label="Loading"><i></i><i></i><i></i></div></div>
-    <div class="splash-footer"><strong>University of Lagos</strong><span>Powered by AI</span></div>
   </div>
 </div>
 
@@ -595,11 +592,6 @@ main > div:first-child { max-width:1240px; }
     <p id="authError" class="hidden text-xs text-coral mt-3"></p>
     <p id="authSuccess" class="hidden text-xs text-teal mt-3"></p>
 
-    <details class="mt-5 text-xs text-inksoft dark:text-inksoft-dark">
-      <summary class="cursor-pointer select-none font-semibold">Advanced: custom server</summary>
-      <input id="apiBaseInput" type="text" class="mt-2 w-full bg-paper dark:bg-paper-dark border border-ink/10 dark:border-ink-dark/10 rounded-lg px-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-teal" placeholder="https://your-backend.onrender.com" />
-      <p class="mt-1">Only change this if you're running your own backend (e.g. for local development). Saved on this device only.</p>
-    </details>
   </div>
 </div>
 
@@ -1425,7 +1417,7 @@ let currentUser = (() => {
   try { return JSON.parse(localStorage.getItem('eduflow_user') || 'null'); } catch (e) { return null; }
 })();
 const DEFAULT_API_BASE = 'https://eduflow-s7wu.onrender.com';
-let API_BASE = localStorage.getItem('eduflow_api_base') || DEFAULT_API_BASE;
+let API_BASE = DEFAULT_API_BASE;
 
 async function apiFetch(path, options) {
   options = options || {};
@@ -3511,11 +3503,6 @@ function init() {
   qs('#showForgotFormBtn').addEventListener('click', showForgotForm);
   qs('#backToLoginBtn').addEventListener('click', backToLogin);
   pollForGoogleSignIn(15);
-  qs('#apiBaseInput').value = API_BASE;
-  qs('#apiBaseInput').addEventListener('change', (e) => {
-    API_BASE = e.target.value.trim().replace(/\/$/, '') || DEFAULT_API_BASE;
-    localStorage.setItem('eduflow_api_base', API_BASE);
-  });
   qs('#logoutBtn').addEventListener('click', logout);
   qs('#accountNameForm').addEventListener('submit', handleUpdateName);
   qs('#profileDetailsForm').addEventListener('submit', handleProfileDetails);
