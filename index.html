@@ -1841,21 +1841,34 @@ let courseFilter = 'all';
 let courseSearch = '';
 let activeCourseId = null;
 const presenceUsers = new Set();
-const campusAnnouncements = [
-  { id: 'announcement-exams', category: 'Academic', title: 'Examination timetable updates', body: 'Check the latest examination schedule and confirm your courses before the registration deadline.', author: 'Examinations Office', timestamp: '2 hours ago', icon: 'fa-calendar-days', color: '#2563eb', bg: '#eff6ff', unread: true },
-  { id: 'announcement-library', category: 'Campus', title: 'Extended library opening hours', body: 'The main library will remain open later during the revision period to support students preparing for assessments.', author: 'University Library', timestamp: 'Yesterday', icon: 'fa-building-columns', color: '#059669', bg: '#ecfdf5', unread: false },
-  { id: 'announcement-workshop', category: 'Events', title: 'EduFlow study skills workshop', body: 'Join this week’s practical session on planning a study week, managing deadlines, and using EduAI effectively.', author: 'Student Success Team', timestamp: '2 days ago', icon: 'fa-lightbulb', color: '#7c3aed', bg: '#f5f3ff', unread: true },
-  { id: 'announcement-health', category: 'Campus', title: 'Student support services available', body: 'Academic advising, counselling, and accessibility support remain available through the student services centre.', author: 'Student Affairs', timestamp: '4 days ago', icon: 'fa-heart', color: '#db2777', bg: '#fdf2f8', unread: false },
-];
+let campusAnnouncements = [];
 let announcementFilter = 'All';
-let announcementReadIds = new Set(JSON.parse(localStorage.getItem('eduflow_announcement_read') || '[]'));
+let announcementReadIds = new Set();
+async function loadAnnouncements() {
+  try {
+    const data = await apiFetch('/api/announcements');
+    campusAnnouncements = (data.announcements || []).map((announcement) => ({
+      ...announcement,
+      id: String(announcement.id),
+      timestamp: announcement.published_at ? new Date(announcement.published_at).toLocaleDateString(undefined, { month: 'short', day: 'numeric' }) : '',
+      unread: !announcement.read,
+    }));
+    announcementReadIds = new Set(campusAnnouncements.filter((item) => item.read).map((item) => item.id));
+    renderAnnouncements();
+    renderOverviewAnnouncements();
+  } catch (error) {
+    showDeterrentToast('Announcements could not be refreshed right now.');
+  }
+}
 function announcementCategoryStyle(category) {
   const item = campusAnnouncements.find((announcement) => announcement.category === category);
   return item ? { color: item.color, bg: item.bg } : { color: '#2563eb', bg: '#eff6ff' };
 }
-function markAnnouncementRead(id) {
+async function markAnnouncementRead(id) {
   announcementReadIds.add(String(id));
-  localStorage.setItem('eduflow_announcement_read', JSON.stringify([...announcementReadIds]));
+  const announcement = campusAnnouncements.find((item) => String(item.id) === String(id));
+  if (announcement) announcement.read = true;
+  try { await apiFetch(`/api/announcements/${encodeURIComponent(id)}/read`, { method: 'POST' }); } catch (error) { /* optimistic read state remains local until refresh */ }
 }
 function renderAnnouncements() {
   const wrap = qs('#announcementsList');
@@ -1975,6 +1988,14 @@ function localDateStr() {
   const local = new Date(d.getTime() - d.getTimezoneOffset() * 60000);
   return local.toISOString().slice(0, 10);
 }
+async function recordStudyActivity(source) {
+  try {
+    await apiFetch('/api/streak/activity', { method: 'POST', body: JSON.stringify({ source, localDate: localDateStr() }) });
+  } catch (error) {
+    // Activity tracking is additive; a temporary streak endpoint failure must
+    // never make completing a task or assignment fail.
+  }
+}
 
 let dailyRefreshTimer = null;
 function scheduleDailyRefresh() {
@@ -2050,6 +2071,7 @@ async function bootApp() {
   qs('#verifyBanner').classList.toggle('hidden', !currentUser || currentUser.email_verified !== false);
   initAssistantModels();
   await reloadAll();
+  await loadAnnouncements();
   scheduleDailyRefresh();
   loadPreferences();
   loadConversations();
@@ -2138,7 +2160,7 @@ function showView(name) {
   if (name === 'profile') renderProfile();
   if (name === 'messages') { loadMessageContacts(); loadConversations(); }
   if (name === 'notifications') renderFullNotifications();
-  if (name === 'announcements') renderAnnouncements();
+  if (name === 'announcements') { renderAnnouncements(); loadAnnouncements(); }
   if (name === 'settings') { renderSettings(); loadPreferences(); }
   if (name === 'account') renderAccountSettings();
   qs('#floatingAssistantBtn').classList.toggle('hidden', name === 'assistant');
@@ -2344,7 +2366,7 @@ async function addAssignment(e) {
 async function toggleAssignment(id, currentlyDone) {
   try {
     await apiFetch('/api/assignments/' + id, { method: 'PATCH', body: JSON.stringify({ done: !currentlyDone }) });
-    if (!currentlyDone) celebrate();
+    if (!currentlyDone) { celebrate(); await recordStudyActivity('assignment_completed'); }
     await reloadAll();
   } catch (err) { showToast(err.message); }
 }
@@ -2712,7 +2734,7 @@ async function addTask(e) {
 async function toggleTask(id, currentlyDone) {
   try {
     await apiFetch('/api/tasks/' + id, { method: 'PATCH', body: JSON.stringify({ done: !currentlyDone }) });
-    if (!currentlyDone) celebrate();
+    if (!currentlyDone) { celebrate(); await recordStudyActivity('study_task_completed'); }
     await reloadAll();
   } catch (err) { showToast(err.message); }
 }

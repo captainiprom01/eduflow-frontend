@@ -1,0 +1,17 @@
+const fs = require('fs');
+const assert = require('assert');
+const html = fs.readFileSync('index.html', 'utf8');
+const sw = fs.readFileSync('sw.js', 'utf8');
+
+assert(html.includes('id="firstRunSplash"'));
+assert(html.includes('id="firstRunOnboarding"'));
+assert(html.includes('src="icon.png"'));
+assert(!html.includes('apiBaseInput'));
+assert(!html.includes('splash-footer'));
+assert(html.includes("/api/announcements"));
+assert(html.includes("/api/announcements/${encodeURIComponent(id)}/read"));
+assert(html.includes("/api/streak/activity"));
+assert(html.includes('function scheduleDailyRefresh()'));
+assert(sw.includes("const CACHE_NAME = 'eduflow-shell-v3'"));
+assert(sw.includes("'./icon.png'"));
+console.log('EduFlow frontend contract smoke test: PASS');
