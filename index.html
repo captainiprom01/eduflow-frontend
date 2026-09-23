@@ -2006,6 +2006,7 @@ function scheduleDailyRefresh() {
     if (authToken && currentUser) {
       renderQuoteOfTheDay();
       await reloadAll();
+      await loadAnnouncements();
     }
     scheduleDailyRefresh();
   }, Math.max(1000, nextMidnight.getTime() - Date.now()));
