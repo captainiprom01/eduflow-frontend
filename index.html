@@ -811,6 +811,11 @@ main > div:first-child { max-width:1240px; }
         </div>
       </section>
 
+      <section id="dailyPlanCard" class="bg-surface dark:bg-surface-dark rounded-2xl border border-ink/10 dark:border-ink-dark/10 p-5 sm:p-6" aria-labelledby="dailyPlanTitle">
+        <div class="flex items-start justify-between gap-3"><div><p class="text-xs font-bold uppercase tracking-wider text-teal dark:text-teal-dark">Your next best actions</p><h2 id="dailyPlanTitle" class="font-serif text-xl font-semibold mt-1">Today’s study plan</h2><p id="dailyPlanSummary" class="text-xs text-inksoft dark:text-inksoft-dark mt-1">Building a plan from your timetable, tasks, and deadlines…</p></div><i class="fa-solid fa-route text-2xl text-teal" aria-hidden="true"></i></div>
+        <div id="dailyPlanList" class="grid gap-2 mt-4" aria-live="polite"></div>
+      </section>
+
       <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
         <button type="button" data-view="courses" class="text-left bg-surface dark:bg-surface-dark rounded-xl border border-ink/10 dark:border-ink-dark/10 border-l-4 border-l-teal p-4 hover:shadow-md hover:-translate-y-0.5 transition focus:outline-none focus:ring-2 focus:ring-teal">
           <p class="text-xs text-inksoft dark:text-inksoft-dark">Courses</p>
@@ -3259,6 +3264,48 @@ function initMobileNotifications() {
     btn.setAttribute('aria-expanded', 'false');
   });
 }
+function dailyPlanDateLabel(dateString) {
+  if (!dateString) return 'soon';
+  const today = new Date(); today.setHours(0, 0, 0, 0);
+  const date = new Date(`${dateString}T00:00:00`); date.setHours(0, 0, 0, 0);
+  const days = Math.round((date - today) / 86400000);
+  if (days < 0) return 'overdue';
+  if (days === 0) return 'due today';
+  if (days === 1) return 'due tomorrow';
+  return `due ${date.toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric' })}`;
+}
+function startFocusFromPlan(courseId) {
+  const select = qs('#focusCourse');
+  if (select && courseId && [...select.options].some((option) => option.value === String(courseId))) select.value = String(courseId);
+  resetFocusTimer();
+  toggleFocusTimer();
+  qs('#focusCard')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+function renderDailyPlan() {
+  const list = qs('#dailyPlanList');
+  const summary = qs('#dailyPlanSummary');
+  if (!list || !summary) return;
+  const now = new Date();
+  const todayName = DAYS[now.getDay()];
+  const today = localDateStr();
+  const overdue = state.assignments.filter((item) => !item.done && item.due_date && item.due_date < today).sort((a, b) => String(a.due_date).localeCompare(String(b.due_date)));
+  const dueSoon = state.assignments.filter((item) => !item.done && item.due_date && item.due_date >= today).sort((a, b) => String(a.due_date).localeCompare(String(b.due_date)));
+  const openTasks = state.tasks.filter((item) => !item.done);
+  const todaysClasses = state.timetable.filter((item) => item.day === todayName).sort((a, b) => String(a.start_time || '').localeCompare(String(b.start_time || '')));
+  const items = [];
+  if (overdue[0]) items.push({ icon: 'fa-triangle-exclamation', tone: 'text-coral', title: `Clear overdue: ${overdue[0].title}`, detail: `${overdue[0].course_name || 'Assignment'} · ${dailyPlanDateLabel(overdue[0].due_date)}`, action: 'assignments', actionLabel: 'Open assignment', courseId: overdue[0].course_id });
+  else if (dueSoon[0]) items.push({ icon: 'fa-list-check', tone: 'text-amber', title: `Start next: ${dueSoon[0].title}`, detail: `${dueSoon[0].course_name || 'Assignment'} · ${dailyPlanDateLabel(dueSoon[0].due_date)}`, action: 'focus', actionLabel: 'Start focus', courseId: dueSoon[0].course_id });
+  if (openTasks[0]) items.push({ icon: 'fa-pen', tone: 'text-teal', title: `Make progress on: ${openTasks[0].title}`, detail: 'Small study tasks add up. Keep the momentum going.', action: 'tasks', actionLabel: 'View tasks' });
+  if (todaysClasses[0]) items.push({ icon: 'fa-calendar-day', tone: 'text-indigo-500', title: `Prepare for ${todaysClasses[0].course_name || 'your next class'}`, detail: `${todaysClasses[0].start_time || 'Today'}${todaysClasses[0].location ? ` · ${todaysClasses[0].location}` : ''}`, action: 'timetable', actionLabel: 'View timetable' });
+  if (!items.length) items.push({ icon: 'fa-compass', tone: 'text-teal', title: 'Set one small goal for today', detail: 'Start a focus session or add a study task to keep your streak moving.', action: 'focus', actionLabel: 'Start focus' });
+  const primary = items[0];
+  summary.textContent = `${items.length} suggested action${items.length === 1 ? '' : 's'} · ${state.streak && state.streak.currentStreak ? `${state.streak.currentStreak}-day streak` : 'build today’s streak'}`;
+  list.innerHTML = items.slice(0, 3).map((item, index) => `<div class="flex items-center gap-3 rounded-xl border ${index === 0 ? 'border-teal/30 bg-teal/5' : 'border-ink/10 dark:border-ink-dark/10'} p-3"><span class="w-9 h-9 rounded-lg bg-paper dark:bg-paper-dark flex items-center justify-center shrink-0 ${item.tone}"><i class="fa-solid ${item.icon}" aria-hidden="true"></i></span><span class="min-w-0 flex-1"><strong class="block text-sm truncate">${escapeHtml(item.title)}</strong><small class="block text-xs text-inksoft dark:text-inksoft-dark mt-0.5">${escapeHtml(item.detail)}</small></span><button type="button" data-plan-action="${item.action}" data-plan-course="${item.courseId || ''}" class="shrink-0 px-3 py-2 rounded-lg ${index === 0 ? 'bg-teal dark:bg-teal-dark text-white' : 'border border-ink/10 dark:border-ink-dark/10'} text-xs font-semibold hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-teal">${item.actionLabel}</button></div>`).join('');
+  list.querySelectorAll('[data-plan-action]').forEach((button) => button.addEventListener('click', () => {
+    if (button.dataset.planAction === 'focus') return startFocusFromPlan(button.dataset.planCourse);
+    showView(button.dataset.planAction);
+  }));
+}
 function renderOverview() {
   qs('#ovGreeting').textContent = `${greeting()}, ${getName()}.`;
   const mobileName = qs('#mobileHeroName');
@@ -3269,6 +3316,7 @@ function renderOverview() {
   if (mobileDate) mobileDate.textContent = formattedDate;
   renderQuoteOfTheDay();
   renderStreak();
+  renderDailyPlan();
   renderMobileNotifications();
   renderOverviewAnnouncements();
 
