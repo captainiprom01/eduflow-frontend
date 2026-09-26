@@ -2070,15 +2070,20 @@ async function bootApp() {
   qs('#sidebarUserName').textContent = currentUser ? currentUser.name : 'Student';
   qs('#sidebarUserEmail').textContent = currentUser ? currentUser.email : '';
   qs('#verifyBanner').classList.toggle('hidden', !currentUser || currentUser.email_verified !== false);
-  initAssistantModels();
   await reloadAll();
-  await loadAnnouncements();
+  // The overview is usable once the primary academic data has loaded. Keep
+  // announcements, preferences, conversations, and assistant metadata from
+  // delaying the first meaningful render on a cold or waking server.
+  showView('overview');
   scheduleDailyRefresh();
-  loadPreferences();
-  loadConversations();
   initMessageSocket();
   renderChat();
-  showView('overview');
+  void Promise.allSettled([
+    loadAnnouncements(),
+    loadPreferences(),
+    loadConversations(),
+    initAssistantModels(),
+  ]);
 }
 async function tryResumeSession() {
   if (!authToken) { showAuthScreen(); return; }
