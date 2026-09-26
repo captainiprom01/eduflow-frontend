@@ -766,7 +766,7 @@ main > div:first-child { max-width:1240px; }
       <div class="mobile-dashboard-hero relative bg-surface dark:bg-surface-dark rounded-2xl border border-ink/10 dark:border-ink-dark/10 p-6 sm:p-8">
         <div class="mobile-hero-toolbar">
           <div class="mobile-avatar" aria-label="User profile"><i class="fa-solid fa-user" aria-hidden="true"></i></div>
-          <div class="mobile-hero-copy"><p class="mobile-hero-kicker">Good morning,</p><p id="mobileHeroName" class="mobile-hero-name">Student <span aria-hidden="true">👋</span></p></div>
+          <div class="mobile-hero-copy"><p id="mobileGreeting" class="mobile-hero-kicker">Welcome back,</p><p id="mobileHeroName" class="mobile-hero-name">Student <span aria-hidden="true">👋</span></p></div>
           <button id="mobileNotificationBtn" class="mobile-notification" type="button" aria-label="Open notifications" aria-expanded="false"><i class="fa-solid fa-bell"></i><span id="mobileNotificationCount" class="hidden">0</span></button>
         </div>
         <div id="mobileNotificationPanel" class="mobile-notification-panel hidden" aria-live="polite"></div>
@@ -2303,22 +2303,25 @@ const GREETING_OPTIONS = {
   evening: ['Good evening', 'Welcome back this evening', 'Evening, scholar', 'Ready to wrap up strong'],
   night: ['Hello night owl', 'Late study session?', 'Good night, scholar', 'Burning the midnight oil?'],
 };
+let lastGreetingKey = '';
+let lastGreetingText = '';
 function greeting() {
   const now = new Date();
   const hour = now.getHours();
   const period = hour >= 5 && hour < 12 ? 'morning' : hour < 17 ? 'afternoon' : hour < 22 ? 'evening' : 'night';
-  const dateKey = `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}`;
-  const storageKey = `eduflow_greeting_${dateKey}_${period}`;
-  const options = GREETING_OPTIONS[period];
-  try {
-    const saved = Number(localStorage.getItem(storageKey));
-    if (Number.isInteger(saved) && saved >= 0 && saved < options.length) return options[saved];
-    const selected = Math.floor(Math.random() * options.length);
-    localStorage.setItem(storageKey, String(selected));
-    return options[selected];
-  } catch (error) {
-    return options[Math.floor(Math.random() * options.length)];
-  }
+  const greetingKey = `${period}:${new Date().toDateString()}`;
+  const options = GREETING_OPTIONS[period].filter((item) => item !== lastGreetingText || greetingKey !== lastGreetingKey);
+  const selected = options[Math.floor(Math.random() * options.length)];
+  lastGreetingKey = greetingKey;
+  lastGreetingText = selected;
+  return selected;
+}
+function renderGreeting() {
+  const greetingText = greeting();
+  const desktop = qs('#ovGreeting');
+  const mobile = qs('#mobileGreeting');
+  if (desktop) desktop.textContent = `${greetingText}, ${getName()}.`;
+  if (mobile) mobile.textContent = `${greetingText},`;
 }
 function emptyState(icon, title, subtitle) {
   return `
@@ -3307,7 +3310,7 @@ function renderDailyPlan() {
   }));
 }
 function renderOverview() {
-  qs('#ovGreeting').textContent = `${greeting()}, ${getName()}.`;
+  renderGreeting();
   const mobileName = qs('#mobileHeroName');
   if (mobileName) mobileName.innerHTML = `${escapeHtml(getName())} <span aria-hidden="true">👋</span>`;
   const formattedDate = new Date().toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
