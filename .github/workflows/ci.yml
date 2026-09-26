@@ -1,0 +1,28 @@
+name: Frontend CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Run contract test
+        run: node tools/contract_smoke_test.js
+      - name: Check embedded JavaScript syntax
+        run: awk '/<script>/{inside=1; next} /<\/script>/{inside=0; next} inside{print}' index.html | node --check
+      - name: Check required static assets
+        run: test -f index.html && test -f sw.js && test -f manifest.json && test -f icon.png
