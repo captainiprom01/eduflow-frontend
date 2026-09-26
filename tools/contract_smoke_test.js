@@ -4,6 +4,10 @@ const html = fs.readFileSync('index.html', 'utf8');
 const sw = fs.readFileSync('sw.js', 'utf8');
 
 assert(html.includes('id="firstRunSplash"'));
+assert(html.includes('name="description"'));
+assert(html.includes('href="#main-content"'));
+assert(html.includes('id="main-content"'));
+assert(html.includes('class="skip-link"'));
 assert(html.includes('id="firstRunOnboarding"'));
 assert(html.includes('src="icon.png"'));
 assert(!html.includes('apiBaseInput'));
@@ -20,6 +24,7 @@ assert(html.includes('themeInteractionVersion'));
 assert(html.includes('.dark .study-quote-card'));
 assert(html.includes('currentStreak: data.currentStreak'));
 assert(html.includes("/api/auth/logout"));
+assert(html.includes("credentials: 'include'"));
 assert(sw.includes("const CACHE_NAME = 'eduflow-shell-v3'"));
 assert(sw.includes("'./icon.png'"));
 console.log('EduFlow frontend contract smoke test: PASS');

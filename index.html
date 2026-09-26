@@ -4,6 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>EduFlow — Smart Campus Assistant</title>
+<meta name="description" content="EduFlow is a smart campus assistant for courses, assignments, study tasks, progress, and academic planning." />
 <link rel="icon" type="image/png" href="favicon.png" />
 <link rel="manifest" href="manifest.json" />
 <link rel="apple-touch-icon" href="icon-192.png" />
@@ -50,6 +51,9 @@
 <style>
   html { scroll-behavior: smooth; }
   body { font-family: 'Manrope', sans-serif; }
+  .skip-link { position: fixed; top: 8px; left: 8px; z-index: 100; transform: translateY(-150%); padding: 10px 14px; border-radius: 10px; color: #fff; background: #1f7a6c; font-weight: 800; }
+  .skip-link:focus { transform: translateY(0); }
+  :focus-visible { outline: 3px solid #de9a2c; outline-offset: 3px; }
   .font-serif { font-family: 'Lora', serif; }
   ::-webkit-scrollbar { width: 8px; height: 8px; }
   ::-webkit-scrollbar-track { background: transparent; }
@@ -646,6 +650,7 @@ main > div:first-child { max-width:1240px; }
 
 <!-- ============ APP SHELL ============ -->
 <div id="appShell" class="hidden">
+  <a class="skip-link" href="#main-content">Skip to main content</a>
 
   <div class="md:hidden flex items-center justify-between px-4 h-16 bg-surface dark:bg-surface-dark border-b border-ink/10 dark:border-ink-dark/10 sticky top-0 z-30 mobile-topbar">
     <div class="flex items-center gap-2">
@@ -749,7 +754,7 @@ main > div:first-child { max-width:1240px; }
     </div>
   </aside>
 
-  <main class="md:ml-72 min-h-screen px-4 sm:px-6 lg:px-10 py-6 sm:py-8 max-w-6xl">
+  <main id="main-content" tabindex="-1" class="md:ml-72 min-h-screen px-4 sm:px-6 lg:px-10 py-6 sm:py-8 max-w-6xl">
     <div class="maintenance-marquee" role="status" aria-label="Maintenance notice"><div class="maintenance-marquee-track"><span><i class="fa-solid fa-wrench"></i> EduFlow is currently undergoing maintenance. You may experience temporary glitches in some areas of the app. Thanks for your patience — watch out for an update soon.</span><span aria-hidden="true"><i class="fa-solid fa-wrench"></i> EduFlow is currently undergoing maintenance. You may experience temporary glitches in some areas of the app. Thanks for your patience — watch out for an update soon.</span></div></div>
     <div id="verifyBanner" class="hidden mb-6 flex flex-wrap items-center justify-between gap-3 bg-amber/10 border border-amber/30 rounded-xl px-4 py-3 text-sm">
       <span><i class="fa-solid fa-envelope-circle-check mr-2 text-amber"></i>Verify your email to secure your account.</span>
