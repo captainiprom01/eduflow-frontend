@@ -2212,11 +2212,28 @@ function closeSidebar() {
   }
 }
 
+const GREETING_OPTIONS = {
+  morning: ['Good morning', 'Morning, scholar', 'Rise and shine', 'Fresh day, fresh progress'],
+  afternoon: ['Good afternoon', 'Welcome back', 'What\'s up', 'Hope your day is going well'],
+  evening: ['Good evening', 'Welcome back this evening', 'Evening, scholar', 'Ready to wrap up strong'],
+  night: ['Hello night owl', 'Late study session?', 'Good night, scholar', 'Burning the midnight oil?'],
+};
 function greeting() {
-  const h = new Date().getHours();
-  if (h < 12) return 'Good morning';
-  if (h < 17) return 'Good afternoon';
-  return 'Good evening';
+  const now = new Date();
+  const hour = now.getHours();
+  const period = hour >= 5 && hour < 12 ? 'morning' : hour < 17 ? 'afternoon' : hour < 22 ? 'evening' : 'night';
+  const dateKey = `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}`;
+  const storageKey = `eduflow_greeting_${dateKey}_${period}`;
+  const options = GREETING_OPTIONS[period];
+  try {
+    const saved = Number(localStorage.getItem(storageKey));
+    if (Number.isInteger(saved) && saved >= 0 && saved < options.length) return options[saved];
+    const selected = Math.floor(Math.random() * options.length);
+    localStorage.setItem(storageKey, String(selected));
+    return options[selected];
+  } catch (error) {
+    return options[Math.floor(Math.random() * options.length)];
+  }
 }
 function emptyState(icon, title, subtitle) {
   return `
