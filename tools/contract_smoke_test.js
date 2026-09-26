@@ -19,6 +19,7 @@ assert(html.includes('function toggleTheme()'));
 assert(html.includes('themeInteractionVersion'));
 assert(html.includes('.dark .study-quote-card'));
 assert(html.includes('currentStreak: data.currentStreak'));
+assert(html.includes("/api/auth/logout"));
 assert(sw.includes("const CACHE_NAME = 'eduflow-shell-v3'"));
 assert(sw.includes("'./icon.png'"));
 console.log('EduFlow frontend contract smoke test: PASS');

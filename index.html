@@ -1430,7 +1430,7 @@ async function apiFetch(path, options) {
   if (authToken) headers['Authorization'] = 'Bearer ' + authToken;
   let res;
   try {
-    res = await fetch(API_BASE + path, Object.assign({}, options, { headers }));
+    res = await fetch(API_BASE + path, Object.assign({}, options, { headers, credentials: 'include' }));
   } catch (e) {
     throw new Error('Could not reach the server. It may be waking up from sleep — wait 30 seconds and try again.');
   }
@@ -1454,7 +1454,10 @@ function showApp() {
   qs('#authScreen').classList.add('hidden');
   qs('#appShell').classList.remove('hidden');
 }
-function logout() {
+async function logout() {
+  if (authToken) {
+    try { await apiFetch('/api/auth/logout', { method: 'POST' }); } catch (error) { /* local logout must still complete */ }
+  }
   authToken = null;
   currentUser = null;
   localStorage.removeItem('eduflow_token');
