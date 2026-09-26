@@ -1260,7 +1260,7 @@ main > div:first-child { max-width:1240px; }
     <section id="view-settings" class="view hidden space-y-6 max-w-3xl">
       <div class="settings-page-hero"><div class="settings-hero-icon"><i class="fa-solid fa-sliders"></i></div><div><p class="settings-kicker">Make EduFlow yours</p><h1>Settings</h1><p>Control your notifications, appearance, AI, and privacy preferences.</p></div></div>
       <div class="settings-card"><div class="settings-card-heading"><div><h2>Profile and account</h2><p>Manage your personal information and account security.</p></div><i class="fa-solid fa-user-gear"></i></div><button type="button" data-view="profile" class="settings-link-row"><span class="settings-row-icon green"><i class="fa-regular fa-user"></i></span><span><strong>Profile information</strong><small>Academic details and profile summary</small></span><i class="fa-solid fa-chevron-right"></i></button><button type="button" data-view="account" class="settings-link-row"><span class="settings-row-icon blue"><i class="fa-solid fa-shield-halved"></i></span><span><strong>Account and security</strong><small>Email, password, export, and account controls</small></span><i class="fa-solid fa-chevron-right"></i></button></div>
-      <form id="preferencesForm" class="settings-card"><div class="settings-card-heading"><div><h2>Notifications</h2><p>Choose which updates you want to receive.</p></div><i class="fa-regular fa-bell"></i></div><label class="settings-toggle-row"><span><strong>Assignment deadlines</strong><small>Get reminders for pending and overdue assignments</small></span><input type="checkbox" data-preference="assignment_notifications" /></label><label class="settings-toggle-row"><span><strong>Campus announcements</strong><small>Receive official EduFlow updates when available</small></span><input type="checkbox" data-preference="announcement_notifications" /></label><label class="settings-toggle-row"><span><strong>Grade updates</strong><small>Show updates when grades or CGPA records change</small></span><input type="checkbox" data-preference="grade_notifications" /></label><label class="settings-toggle-row"><span><strong>New messages</strong><small>Show unread message notifications and chat updates</small></span><input type="checkbox" data-preference="message_notifications" /></label></form>
+      <form id="preferencesForm" class="settings-card"><div class="settings-card-heading"><div><h2>Notifications</h2><p>Choose which updates you want to receive.</p></div><i class="fa-regular fa-bell"></i></div><label class="settings-toggle-row"><span><strong>Assignment deadlines</strong><small>Get reminders for pending and overdue assignments</small></span><input type="checkbox" data-preference="assignment_notifications" /></label><label class="settings-toggle-row"><span><strong>Campus announcements</strong><small>Receive official EduFlow updates when available</small></span><input type="checkbox" data-preference="announcement_notifications" /></label><label class="settings-toggle-row"><span><strong>Grade updates</strong><small>Show updates when grades or CGPA records change</small></span><input type="checkbox" data-preference="grade_notifications" /></label><label class="settings-toggle-row"><span><strong>New messages</strong><small>Show unread message notifications and chat updates</small></span><input type="checkbox" data-preference="message_notifications" /></label><label class="settings-select-row"><span><strong>Reminder time</strong><small>Show your daily study reminder after this time</small></span><input id="settingsReminderTime" type="time" /></label><label class="settings-select-row"><span><strong>Quiet hours</strong><small>Suppress smart reminders during your rest time</small></span><span class="flex gap-2"><input id="settingsQuietStart" type="time" aria-label="Quiet hours start" /><input id="settingsQuietEnd" type="time" aria-label="Quiet hours end" /></span></label></form>
       <div class="settings-card"><div class="settings-card-heading"><div><h2>Appearance and AI</h2><p>Adjust how EduFlow looks and supports your study routine.</p></div><i class="fa-solid fa-wand-magic-sparkles"></i></div><label class="settings-select-row"><span><strong>Theme</strong><small>Choose system preference or a fixed theme</small></span><select id="settingsTheme"><option value="system">System default</option><option value="light">Light</option><option value="dark">Dark</option></select></label><label class="settings-toggle-row"><span><strong>AI suggestions</strong><small>Allow EduAI to suggest study actions</small></span><input type="checkbox" data-preference="ai_suggestions" /></label><label class="settings-toggle-row"><span><strong>AI reminders</strong><small>Show helpful study reminders in the app</small></span><input type="checkbox" data-preference="ai_reminders" /></label><label class="settings-select-row"><span><strong>AI model</strong><small>Choose the model used by EduAI when available</small></span><select id="settingsAiModel"><option value="">Default model</option></select></label></div>
       <div class="settings-card"><div class="settings-card-heading"><div><h2>Privacy</h2><p>Choose how other EduFlow users can discover you.</p></div><i class="fa-solid fa-lock"></i></div><label class="settings-toggle-row"><span><strong>Profile visibility</strong><small>Allow classmates to find you when starting a conversation</small></span><input type="checkbox" data-preference="profile_visibility" /></label><label class="settings-toggle-row"><span><strong>Data and analytics</strong><small>Allow anonymous product analytics when available</small></span><input type="checkbox" data-preference="analytics_sharing" /></label><p id="preferencesSaveStatus" class="settings-save-status" aria-live="polite"></p></div>
       <div class="settings-card"><div class="settings-card-heading"><div><h2>About EduFlow</h2><p>Information about this EduFlow web app.</p></div><i class="fa-solid fa-circle-info"></i></div><div class="settings-about-row"><span>Application</span><strong>EduFlow — Smart Campus Assistant</strong></div><div class="settings-about-row"><span>Version</span><strong id="settingsAppVersion">1.0.0</strong></div><div class="settings-about-row"><span>Data</span><strong>Your account data is stored securely</strong></div><div class="settings-about-row"><span>Support</span><strong>Contact your EduFlow administrator</strong></div></div>
@@ -1867,7 +1867,7 @@ const state = {
   streak: null,
 };
 let activeSemesterId = null;
-state.preferences = { assignment_notifications: true, announcement_notifications: true, grade_notifications: true, message_notifications: true, ai_suggestions: true, ai_reminders: true, ai_model: '', analytics_sharing: true, profile_visibility: true, theme: 'system' };
+state.preferences = { assignment_notifications: true, announcement_notifications: true, grade_notifications: true, message_notifications: true, ai_suggestions: true, ai_reminders: true, ai_model: '', analytics_sharing: true, profile_visibility: true, theme: 'system', reminder_time: '18:00', quiet_hours_start: '22:00', quiet_hours_end: '07:00' };
 let notificationReadIds = new Set(JSON.parse(localStorage.getItem('eduflow_notification_read') || '[]'));
 let courseFilter = 'all';
 let courseSearch = '';
@@ -1947,6 +1947,28 @@ function notificationRecords() {
   if (pendingTasks && state.preferences.assignment_notifications) records.push({ id: 'study-tasks:pending', type: 'Study tasks', icon: 'fa-pen', title: `${pendingTasks} study task${pendingTasks === 1 ? '' : 's'} still open`, detail: 'Keep your small study goals moving forward.', view: 'overview', timestamp: new Date() });
   return records.sort((a, b) => b.timestamp - a.timestamp);
 }
+function timeToMinutes(value) {
+  const [hours, minutes] = String(value || '00:00').split(':').map(Number);
+  return (hours * 60) + minutes;
+}
+function isQuietHours(date = new Date()) {
+  const start = timeToMinutes(state.preferences.quiet_hours_start);
+  const end = timeToMinutes(state.preferences.quiet_hours_end);
+  const current = date.getHours() * 60 + date.getMinutes();
+  return start === end ? false : start < end ? current >= start && current < end : current >= start || current < end;
+}
+function maybeShowSmartReminder() {
+  if (!state.preferences.assignment_notifications || isQuietHours()) return;
+  const reminder = timeToMinutes(state.preferences.reminder_time);
+  const now = new Date();
+  if ((now.getHours() * 60 + now.getMinutes()) < reminder) return;
+  const pending = state.assignments.filter((item) => !item.done).length + state.tasks.filter((item) => !item.done).length;
+  if (!pending) return;
+  const key = `eduflow_smart_reminder_${localDateStr()}`;
+  if (localStorage.getItem(key)) return;
+  localStorage.setItem(key, 'shown');
+  showDeterrentToast(`You have ${pending} open study item${pending === 1 ? '' : 's'}. Start a focus session when you are ready.`);
+}
 function notificationGroupLabel(date) {
   const now = new Date();
   const sameDay = date.toDateString() === now.toDateString();
@@ -1975,6 +1997,7 @@ async function loadPreferences() {
     const data = await apiFetch('/api/account/preferences');
     state.preferences = Object.assign(state.preferences, data.preferences || {});
     renderSettings();
+    maybeShowSmartReminder();
     if (themeVersion === themeInteractionVersion) applyThemePreference(state.preferences.theme);
   } catch (err) { showToast(err.message); }
 }
@@ -1982,6 +2005,12 @@ function renderSettings() {
   qsa('[data-preference]').forEach((input) => { input.checked = Boolean(state.preferences[input.dataset.preference]); });
   const theme = qs('#settingsTheme');
   if (theme) theme.value = state.preferences.theme || 'system';
+  const reminderTime = qs('#settingsReminderTime');
+  const quietStart = qs('#settingsQuietStart');
+  const quietEnd = qs('#settingsQuietEnd');
+  if (reminderTime) reminderTime.value = state.preferences.reminder_time || '18:00';
+  if (quietStart) quietStart.value = state.preferences.quiet_hours_start || '22:00';
+  if (quietEnd) quietEnd.value = state.preferences.quiet_hours_end || '07:00';
   const model = qs('#settingsAiModel');
   if (model && model.options.length) {
     const preferredModel = state.preferences.ai_model || localStorage.getItem('eduflow_assistant_model') || model.options[0].value;
@@ -3784,6 +3813,9 @@ function init() {
   qs('#messagesContactSearch').addEventListener('input', (e) => { messageState.contactSearch = e.target.value; renderMessageContacts(); });
   qs('#messagesSendForm').addEventListener('submit', sendMessage);
   qsa('[data-preference]').forEach((input) => input.addEventListener('change', () => savePreference(input.dataset.preference, input.checked)));
+  qs('#settingsReminderTime').addEventListener('change', (e) => savePreference('reminder_time', e.target.value));
+  qs('#settingsQuietStart').addEventListener('change', (e) => savePreference('quiet_hours_start', e.target.value));
+  qs('#settingsQuietEnd').addEventListener('change', (e) => savePreference('quiet_hours_end', e.target.value));
   qs('#settingsTheme').addEventListener('change', (e) => savePreference('theme', e.target.value));
   qs('#settingsAiModel').addEventListener('change', (e) => { localStorage.setItem('eduflow_assistant_model', e.target.value); savePreference('ai_model', e.target.value); });
   qs('#markAllNotificationsBtn').addEventListener('click', () => { notificationRecords().forEach((record) => notificationReadIds.add(record.id)); localStorage.setItem('eduflow_notification_read', JSON.stringify([...notificationReadIds])); renderFullNotifications(); renderMobileNotifications(); });
