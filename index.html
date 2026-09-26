@@ -2019,6 +2019,7 @@ function scheduleDailyRefresh() {
     if (authToken && currentUser) {
       renderQuoteOfTheDay();
       await reloadAll();
+      await loadDailyQuote();
       await loadAnnouncements();
     }
     scheduleDailyRefresh();
@@ -2092,6 +2093,7 @@ async function bootApp() {
   initMessageSocket();
   renderChat();
   void Promise.allSettled([
+    loadDailyQuote(),
     loadAnnouncements(),
     loadPreferences(),
     loadConversations(),
@@ -2835,22 +2837,37 @@ function celebrate() {
 
 
 /* ---------- daily focus insight ---------- */
-const DAILY_QUOTES = [
+const DAILY_QUOTES_FALLBACK = [
   'Small steps every day beat big pushes once in a while.',
   'Progress, not perfection. Focus on the next useful step.',
   'Consistency beats intensity. Give yourself a focused session today.',
   'Every assignment you finish is one less thing carrying weight in your head.',
   'Study smart, not just hard. Protect your focus and your rest.',
+  'A focused twenty minutes can change the direction of your whole day.',
+  'You do not need to finish everything today; start with the next useful thing.',
+  'Your future self benefits from the effort you make in this moment.',
+  'Learning compounds quietly. Keep adding one clear step at a time.',
+  'Make progress visible: choose one task, begin it, and stay with it.',
 ];
-function renderQuoteOfTheDay() {
+function renderQuoteOfTheDay(dateKey = localDateStr()) {
   // Use a UTC date key rather than milliseconds since local New Year's Eve.
   // Millisecond-based day-of-year calculations can repeat or skip a quote
   // around daylight-saving transitions in the user's local timezone.
-  const dateKey = localDateStr();
   const [year, month, day] = dateKey.split('-').map(Number);
   const dayNumber = Math.floor(Date.UTC(year, month - 1, day) / 86400000);
   const quoteEl = qs('#dailyQuote');
-  if (quoteEl) quoteEl.textContent = DAILY_QUOTES[dayNumber % DAILY_QUOTES.length];
+  if (quoteEl) quoteEl.textContent = DAILY_QUOTES_FALLBACK[dayNumber % DAILY_QUOTES_FALLBACK.length];
+}
+async function loadDailyQuote() {
+  const date = localDateStr();
+  try {
+    const data = await apiFetch('/api/quotes/daily?date=' + encodeURIComponent(date));
+    const quoteEl = qs('#dailyQuote');
+    if (quoteEl && data && data.quote) quoteEl.textContent = data.quote;
+  } catch (error) {
+    // Keep the card useful if the API is waking up or temporarily unavailable.
+    renderQuoteOfTheDay(date);
+  }
 }
 /* ---------- XP / level ---------- */
 function computeXp() {
