@@ -797,6 +797,20 @@ main > div:first-child { max-width:1240px; }
         </div>
       </div>
 
+      <section id="focusCard" class="bg-surface dark:bg-surface-dark rounded-2xl border border-ink/10 dark:border-ink-dark/10 p-5 sm:p-6" aria-labelledby="focusTitle">
+        <div class="flex flex-wrap items-start justify-between gap-4">
+          <div><p class="text-xs font-bold uppercase tracking-wider text-teal dark:text-teal-dark">Focus mode</p><h2 id="focusTitle" class="font-serif text-xl font-semibold mt-1">One focused session at a time</h2><p id="focusStatus" class="text-xs text-inksoft dark:text-inksoft-dark mt-1">Choose a course, then start a 25-minute session.</p></div>
+          <i class="fa-solid fa-hourglass-half text-2xl text-amber" aria-hidden="true"></i>
+        </div>
+        <div class="mt-4 flex flex-col sm:flex-row sm:items-end gap-3">
+          <label class="flex-1 text-xs text-inksoft dark:text-inksoft-dark" for="focusCourse">Study focus
+            <select id="focusCourse" class="mt-1 w-full bg-paper dark:bg-paper-dark border border-ink/10 dark:border-ink-dark/10 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal"><option value="">General study</option></select>
+          </label>
+          <div class="text-center min-w-[120px]"><p id="focusTimer" class="font-mono text-3xl font-bold tracking-tight" aria-live="polite">25:00</p><p id="focusModeLabel" class="text-[11px] text-inksoft dark:text-inksoft-dark">Focus session</p></div>
+          <div class="flex gap-2"><button id="focusStartBtn" type="button" class="px-4 py-2 rounded-lg bg-teal dark:bg-teal-dark text-white text-sm font-semibold hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-teal">Start</button><button id="focusResetBtn" type="button" class="px-4 py-2 rounded-lg border border-ink/10 dark:border-ink-dark/10 text-sm font-semibold hover:bg-ink/5 dark:hover:bg-white/5 focus:outline-none focus:ring-2 focus:ring-teal">Reset</button></div>
+        </div>
+      </section>
+
       <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
         <button type="button" data-view="courses" class="text-left bg-surface dark:bg-surface-dark rounded-xl border border-ink/10 dark:border-ink-dark/10 border-l-4 border-l-teal p-4 hover:shadow-md hover:-translate-y-0.5 transition focus:outline-none focus:ring-2 focus:ring-teal">
           <p class="text-xs text-inksoft dark:text-inksoft-dark">Courses</p>
@@ -2018,6 +2032,70 @@ async function recordStudyActivity(source) {
   }
 }
 
+const focusTimerState = { mode: 'focus', remaining: 25 * 60, running: false, interval: null, completedSessions: Number(localStorage.getItem('eduflow_focus_sessions') || 0) };
+function renderFocusTimer() {
+  const timer = qs('#focusTimer');
+  const status = qs('#focusStatus');
+  const modeLabel = qs('#focusModeLabel');
+  const start = qs('#focusStartBtn');
+  if (!timer || !status || !modeLabel || !start) return;
+  const minutes = Math.floor(focusTimerState.remaining / 60).toString().padStart(2, '0');
+  const seconds = (focusTimerState.remaining % 60).toString().padStart(2, '0');
+  timer.textContent = `${minutes}:${seconds}`;
+  modeLabel.textContent = focusTimerState.mode === 'focus' ? 'Focus session' : 'Short break';
+  start.textContent = focusTimerState.running ? 'Pause' : focusTimerState.remaining === (focusTimerState.mode === 'focus' ? 25 * 60 : 5 * 60) ? 'Start' : 'Resume';
+  status.textContent = focusTimerState.running ? (focusTimerState.mode === 'focus' ? 'Stay with one task until the timer ends.' : 'Take a short break, then come back refreshed.') : `${focusTimerState.completedSessions} focus session${focusTimerState.completedSessions === 1 ? '' : 's'} completed on this device.`;
+}
+function resetFocusTimer() {
+  if (focusTimerState.interval) clearInterval(focusTimerState.interval);
+  focusTimerState.interval = null;
+  focusTimerState.running = false;
+  focusTimerState.mode = 'focus';
+  focusTimerState.remaining = 25 * 60;
+  renderFocusTimer();
+}
+async function completeFocusPhase() {
+  if (focusTimerState.interval) clearInterval(focusTimerState.interval);
+  focusTimerState.interval = null;
+  focusTimerState.running = false;
+  if (focusTimerState.mode === 'focus') {
+    focusTimerState.completedSessions += 1;
+    localStorage.setItem('eduflow_focus_sessions', String(focusTimerState.completedSessions));
+    await recordStudyActivity('focus_session');
+    showToast('Focus session complete. Great work — take a short break.');
+    focusTimerState.mode = 'break';
+    focusTimerState.remaining = 5 * 60;
+  } else {
+    showToast('Break complete. Ready for another focused session?');
+    focusTimerState.mode = 'focus';
+    focusTimerState.remaining = 25 * 60;
+  }
+  renderFocusTimer();
+}
+function toggleFocusTimer() {
+  if (focusTimerState.running) {
+    clearInterval(focusTimerState.interval);
+    focusTimerState.interval = null;
+    focusTimerState.running = false;
+    renderFocusTimer();
+    return;
+  }
+  focusTimerState.running = true;
+  focusTimerState.interval = setInterval(() => {
+    focusTimerState.remaining -= 1;
+    if (focusTimerState.remaining <= 0) completeFocusPhase();
+    else renderFocusTimer();
+  }, 1000);
+  renderFocusTimer();
+}
+function renderFocusCourseOptions() {
+  const select = qs('#focusCourse');
+  if (!select) return;
+  const selected = select.value;
+  select.innerHTML = '<option value="">General study</option>' + state.courses.map((course) => `<option value="${escapeHtml(course.id)}">${escapeHtml(course.name)}${course.code ? ` · ${escapeHtml(course.code)}` : ''}</option>`).join('');
+  if ([...select.options].some((option) => option.value === selected)) select.value = selected;
+}
+
 let dailyRefreshTimer = null;
 function scheduleDailyRefresh() {
   if (dailyRefreshTimer) clearTimeout(dailyRefreshTimer);
@@ -2078,6 +2156,8 @@ async function reloadAll() {
 }
 function renderAllViews() {
   populateCourseSelects();
+  renderFocusCourseOptions();
+  renderFocusTimer();
   renderCourses();
   renderTimetable();
   renderAssignments();
@@ -3652,6 +3732,9 @@ function init() {
   qs('#exportTimetablePdfBtn').addEventListener('click', exportTimetablePdf);
   qs('#exportTimetableIcsBtn').addEventListener('click', exportTimetableIcs);
   qs('#taskForm').addEventListener('submit', addTask);
+  qs('#focusStartBtn').addEventListener('click', toggleFocusTimer);
+  qs('#focusResetBtn').addEventListener('click', resetFocusTimer);
+  renderFocusTimer();
 
   qs('#chatForm').addEventListener('submit', (e) => {
     e.preventDefault();
