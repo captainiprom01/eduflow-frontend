@@ -799,7 +799,7 @@ main > div:first-child { max-width:1240px; }
 
       <section id="focusCard" class="bg-surface dark:bg-surface-dark rounded-2xl border border-ink/10 dark:border-ink-dark/10 p-5 sm:p-6" aria-labelledby="focusTitle">
         <div class="flex flex-wrap items-start justify-between gap-4">
-          <div><p class="text-xs font-bold uppercase tracking-wider text-teal dark:text-teal-dark">Focus mode</p><h2 id="focusTitle" class="font-serif text-xl font-semibold mt-1">One focused session at a time</h2><p id="focusStatus" class="text-xs text-inksoft dark:text-inksoft-dark mt-1">Choose a course, then start a 25-minute session.</p></div>
+          <div><p class="text-xs font-bold uppercase tracking-wider text-teal dark:text-teal-dark">Focus mode</p><h2 id="focusTitle" class="font-serif text-xl font-semibold mt-1">One focused session at a time</h2><p id="focusStatus" class="text-xs text-inksoft dark:text-inksoft-dark mt-1">Choose a course, then start a 25-minute session.</p><p id="offlineSyncStatus" class="text-[11px] text-inksoft dark:text-inksoft-dark mt-2" role="status"></p></div>
           <i class="fa-solid fa-hourglass-half text-2xl text-amber" aria-hidden="true"></i>
         </div>
         <div class="mt-4 flex flex-col sm:flex-row sm:items-end gap-3">
@@ -2022,6 +2022,36 @@ function localDateStr() {
   const local = new Date(d.getTime() - d.getTimezoneOffset() * 60000);
   return local.toISOString().slice(0, 10);
 }
+const STUDY_ACTIVITY_QUEUE_KEY = 'eduflow_pending_study_activity';
+function readPendingStudyActivity() {
+  try { return JSON.parse(localStorage.getItem(STUDY_ACTIVITY_QUEUE_KEY) || '[]'); } catch (error) { return []; }
+}
+function writePendingStudyActivity(items) {
+  try { localStorage.setItem(STUDY_ACTIVITY_QUEUE_KEY, JSON.stringify(items.slice(-20))); } catch (error) { /* storage is optional */ }
+  renderOfflineSyncStatus();
+}
+function renderOfflineSyncStatus() {
+  const status = qs('#offlineSyncStatus');
+  if (!status) return;
+  const count = readPendingStudyActivity().length;
+  status.textContent = count ? `${count} study update${count === 1 ? '' : 's'} waiting to sync.` : (navigator.onLine ? 'Activity synced.' : 'You are offline. Completed sessions will sync later.');
+}
+async function flushPendingStudyActivity() {
+  if (!authToken || !navigator.onLine) return;
+  const pending = readPendingStudyActivity();
+  if (!pending.length) return renderOfflineSyncStatus();
+  const remaining = [];
+  for (const item of pending) {
+    try { await apiFetch('/api/streak/activity', { method: 'POST', body: JSON.stringify(item) }); }
+    catch (error) { remaining.push(item); }
+  }
+  writePendingStudyActivity(remaining);
+}
+function queueStudyActivity(source) {
+  const pending = readPendingStudyActivity();
+  pending.push({ source, localDate: localDateStr() });
+  writePendingStudyActivity(pending);
+}
 async function recordStudyActivity(source) {
   try {
     const data = await apiFetch('/api/streak/activity', { method: 'POST', body: JSON.stringify({ source, localDate: localDateStr() }) });
@@ -2031,9 +2061,9 @@ async function recordStudyActivity(source) {
       renderLevel();
       renderAssistantInsights();
     }
+    await flushPendingStudyActivity();
   } catch (error) {
-    // Activity tracking is additive; a temporary streak endpoint failure must
-    // never make completing a task or assignment fail.
+    queueStudyActivity(source);
   }
 }
 
@@ -2178,6 +2208,7 @@ async function bootApp() {
   qs('#sidebarUserEmail').textContent = currentUser ? currentUser.email : '';
   qs('#verifyBanner').classList.toggle('hidden', !currentUser || currentUser.email_verified !== false);
   await reloadAll();
+  await flushPendingStudyActivity();
   // The overview is usable once the primary academic data has loaded. Keep
   // announcements, preferences, conversations, and assistant metadata from
   // delaying the first meaningful render on a cold or waking server.
@@ -3786,6 +3817,8 @@ function init() {
   qs('#focusStartBtn').addEventListener('click', toggleFocusTimer);
   qs('#focusResetBtn').addEventListener('click', resetFocusTimer);
   renderFocusTimer();
+  renderOfflineSyncStatus();
+  window.addEventListener('online', flushPendingStudyActivity);
 
   qs('#chatForm').addEventListener('submit', (e) => {
     e.preventDefault();
