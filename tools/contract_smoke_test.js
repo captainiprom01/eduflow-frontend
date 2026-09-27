@@ -18,6 +18,7 @@ const studyProgressFeature = fs.readFileSync('assets/js/features/study-progress.
 const overviewFeature = fs.readFileSync('assets/js/features/overview.js', 'utf8');
 const notificationsFeature = fs.readFileSync('assets/js/features/notifications.js', 'utf8');
 const messagesFeature = fs.readFileSync('assets/js/features/messages.js', 'utf8');
+const assistantFeature = fs.readFileSync('assets/js/features/assistant.js', 'utf8');
 
 assert(html.includes('id="firstRunSplash"'));
 assert(html.includes('name="description"'));
@@ -110,6 +111,11 @@ assert(messagesFeature.includes('async function loadConversations()'));
 assert(messagesFeature.includes('async function sendMessage(e)'));
 assert(messagesFeature.includes('function initMessageSocket()'));
 assert(!html.includes('const messageState ='));
+assert(html.includes('src="assets/js/features/assistant.js"'));
+assert(assistantFeature.includes('function botReply(rawInput)'));
+assert(assistantFeature.includes('function sendChat(text)'));
+assert(assistantFeature.includes('async function initAssistantModels()'));
+assert(!html.includes('/* ================= ASSISTANT (client-side only, not persisted) ================= */'));
 assert(html.includes('id="courseHealthCard"'));
 assert(html.includes('function courseHealth(course)'));
 assert(html.includes('function renderCourseHealth()'));
