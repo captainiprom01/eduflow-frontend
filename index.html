@@ -816,6 +816,11 @@ main > div:first-child { max-width:1240px; }
         <div id="dailyPlanList" class="grid gap-2 mt-4" aria-live="polite"></div>
       </section>
 
+      <section id="courseHealthCard" class="bg-surface dark:bg-surface-dark rounded-2xl border border-ink/10 dark:border-ink-dark/10 p-5 sm:p-6" aria-labelledby="courseHealthTitle">
+        <div class="flex items-start justify-between gap-3"><div><p class="text-xs font-bold uppercase tracking-wider text-teal dark:text-teal-dark">Academic pulse</p><h2 id="courseHealthTitle" class="font-serif text-xl font-semibold mt-1">Course health</h2><p id="courseHealthSummary" class="text-xs text-inksoft dark:text-inksoft-dark mt-1">Reviewing your course progress…</p></div><i class="fa-solid fa-heart-pulse text-2xl text-coral" aria-hidden="true"></i></div>
+        <div id="courseHealthList" class="grid gap-2 mt-4" aria-live="polite"></div>
+      </section>
+
       <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
         <button type="button" data-view="courses" class="text-left bg-surface dark:bg-surface-dark rounded-xl border border-ink/10 dark:border-ink-dark/10 border-l-4 border-l-teal p-4 hover:shadow-md hover:-translate-y-0.5 transition focus:outline-none focus:ring-2 focus:ring-teal">
           <p class="text-xs text-inksoft dark:text-inksoft-dark">Courses</p>
@@ -3369,6 +3374,32 @@ function renderDailyPlan() {
     showView(button.dataset.planAction);
   }));
 }
+function courseHealth(course) {
+  const activity = courseActivity(course.id);
+  const total = activity.assignments.length;
+  const completed = activity.assignments.filter((item) => item.done).length;
+  const pending = total - completed;
+  const overdue = activity.assignments.filter((item) => !item.done && item.due_date && item.due_date < localDateStr()).length;
+  const progress = total ? Math.round((completed / total) * 100) : 0;
+  const status = overdue ? 'Needs attention' : pending > 2 ? 'Watch closely' : 'On track';
+  const tone = overdue ? 'text-coral' : pending > 2 ? 'text-amber' : 'text-teal';
+  return { activity, total, completed, pending, overdue, progress, status, tone };
+}
+function renderCourseHealth() {
+  const list = qs('#courseHealthList');
+  const summary = qs('#courseHealthSummary');
+  if (!list || !summary) return;
+  if (!state.courses.length) {
+    summary.textContent = 'Add courses to see progress and risk signals.';
+    list.innerHTML = '<p class="text-sm text-inksoft dark:text-inksoft-dark">Your course health overview will appear here after you add a course.</p>';
+    return;
+  }
+  const rows = state.courses.map((course) => ({ course, health: courseHealth(course) })).sort((a, b) => (b.health.overdue - a.health.overdue) || (b.health.pending - a.health.pending));
+  const attention = rows.filter((row) => row.health.status !== 'On track').length;
+  summary.textContent = attention ? `${attention} course${attention === 1 ? '' : 's'} need${attention === 1 ? 's' : ''} attention · based on assignments and deadlines` : 'All courses are currently on track.';
+  list.innerHTML = rows.slice(0, 5).map(({ course, health }) => `<button type="button" data-health-course="${escapeHtml(course.id)}" class="text-left rounded-xl border border-ink/10 dark:border-ink-dark/10 p-3 hover:bg-ink/5 dark:hover:bg-white/5 focus:outline-none focus:ring-2 focus:ring-teal"><div class="flex items-center justify-between gap-3"><span class="min-w-0"><strong class="block truncate">${escapeHtml(course.name)}</strong><small class="text-xs text-inksoft dark:text-inksoft-dark">${health.completed}/${health.total || 0} assignments complete${health.overdue ? ` · ${health.overdue} overdue` : ''}</small></span><strong class="text-xs ${health.tone}">${health.status}</strong></div><div class="h-1.5 rounded-full bg-ink/10 dark:bg-white/10 mt-3 overflow-hidden"><div class="h-full rounded-full ${health.overdue ? 'bg-coral' : health.pending > 2 ? 'bg-amber' : 'bg-teal'}" style="width:${health.progress}%"></div></div></button>`).join('');
+  list.querySelectorAll('[data-health-course]').forEach((button) => button.addEventListener('click', () => openCourseDetail(button.dataset.healthCourse)));
+}
 function renderOverview() {
   renderGreeting();
   const mobileName = qs('#mobileHeroName');
@@ -3380,6 +3411,7 @@ function renderOverview() {
   renderQuoteOfTheDay();
   renderStreak();
   renderDailyPlan();
+  renderCourseHealth();
   renderMobileNotifications();
   renderOverviewAnnouncements();
 
