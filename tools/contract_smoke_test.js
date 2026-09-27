@@ -10,6 +10,7 @@ const formattingUtils = fs.readFileSync('assets/js/utils/formatting.js', 'utf8')
 const uiUtils = fs.readFileSync('assets/js/utils/ui.js', 'utf8');
 const apiClient = fs.readFileSync('assets/js/api/client.js', 'utf8');
 const stateStore = fs.readFileSync('assets/js/state/store.js', 'utf8');
+const coursesFeature = fs.readFileSync('assets/js/features/courses.js', 'utf8');
 
 assert(html.includes('id="firstRunSplash"'));
 assert(html.includes('name="description"'));
@@ -40,6 +41,11 @@ assert(apiClient.includes('async function apiFetch(path, options)'));
 assert(apiClient.includes("credentials: 'include'"));
 assert(stateStore.includes('const state = {'));
 assert(stateStore.includes('quiet_hours_start'));
+assert(html.includes('src="assets/js/features/courses.js"'));
+assert(coursesFeature.includes('async function addCourse(e)'));
+assert(coursesFeature.includes('function renderCourses()'));
+assert(coursesFeature.includes('function populateCourseSelects()'));
+assert(!html.includes('/* ================= COURSES ================= */'));
 assert(html.includes("/api/announcements"));
 assert(html.includes("/api/announcements/${encodeURIComponent(id)}/read"));
 assert(html.includes('/api/streak/activity'));
