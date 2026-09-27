@@ -15,6 +15,7 @@ const assignmentsFeature = fs.readFileSync('assets/js/features/assignments.js', 
 const timetableFeature = fs.readFileSync('assets/js/features/timetable.js', 'utf8');
 const cgpaFeature = fs.readFileSync('assets/js/features/cgpa.js', 'utf8');
 const studyProgressFeature = fs.readFileSync('assets/js/features/study-progress.js', 'utf8');
+const overviewFeature = fs.readFileSync('assets/js/features/overview.js', 'utf8');
 
 assert(html.includes('id="firstRunSplash"'));
 assert(html.includes('name="description"'));
@@ -72,9 +73,9 @@ assert(!html.includes('/* ================= STUDY TASKS + PROGRESS =============
 assert(html.includes("/api/announcements"));
 assert(html.includes("/api/announcements/${encodeURIComponent(id)}/read"));
 assert(html.includes('/api/streak/activity'));
-assert(html.includes('/api/quotes/daily?date='));
-assert(html.includes('function loadDailyQuote()'));
-assert(html.includes('DAILY_QUOTES_FALLBACK'));
+assert(overviewFeature.includes('/api/quotes/daily?date='));
+assert(overviewFeature.includes('function loadDailyQuote()'));
+assert(overviewFeature.includes('DAILY_QUOTES_FALLBACK'));
 assert(html.includes('function scheduleDailyRefresh()'));
 assert(html.includes('function toggleTheme()'));
 assert(html.includes('const GREETING_OPTIONS'));
@@ -105,6 +106,8 @@ assert(html.includes('data-health-course'));
 assert(html.includes('themeInteractionVersion'));
 assert(componentsCss.includes('.dark .study-quote-card'));
 assert(html.includes('currentStreak: data.currentStreak'));
+assert(html.includes('src="assets/js/features/overview.js"'));
+assert(!html.includes('/* ================= OVERVIEW ================= */'));
 assert(html.includes("/api/auth/logout"));
 assert(apiClient.includes("credentials: 'include'"));
 assert(sw.includes("const CACHE_NAME = 'eduflow-shell-v3'"));
