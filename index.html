@@ -968,6 +968,8 @@
 <script src="assets/js/utils/dom.js"></script>
 <script src="assets/js/utils/formatting.js"></script>
 <script src="assets/js/utils/ui.js"></script>
+<script src="assets/js/api/client.js"></script>
+<script src="assets/js/state/store.js"></script>
 <script>
 'use strict';
 
@@ -988,36 +990,6 @@ document.addEventListener('keydown', (e) => {
 });
 console.log('%cEduFlow', 'font-size:20px;font-weight:700;color:#1F7A6C;font-family:Manrope,sans-serif;');
 console.log('%cThis code belongs to its author. Please don\u2019t copy or redistribute it without permission.', 'font-size:12px;color:#54607F;font-family:Manrope,sans-serif;');
-
-/* ---------- auth + API ---------- */
-let authToken = localStorage.getItem('eduflow_token') || null;
-let currentUser = (() => {
-  try { return JSON.parse(localStorage.getItem('eduflow_user') || 'null'); } catch (e) { return null; }
-})();
-const DEFAULT_API_BASE = 'https://eduflow-s7wu.onrender.com';
-let API_BASE = DEFAULT_API_BASE;
-
-async function apiFetch(path, options) {
-  options = options || {};
-  const headers = Object.assign({ 'Content-Type': 'application/json' }, options.headers || {});
-  if (authToken) headers['Authorization'] = 'Bearer ' + authToken;
-  let res;
-  try {
-    res = await fetch(API_BASE + path, Object.assign({}, options, { headers, credentials: 'include' }));
-  } catch (e) {
-    throw new Error('Could not reach the server. It may be waking up from sleep — wait 30 seconds and try again.');
-  }
-  if (res.status === 401) {
-    const isAuthEndpoint = path === '/api/auth/login' || path === '/api/auth/signup';
-    if (!isAuthEndpoint) {
-      throw new Error('SESSION_EXPIRED');
-    }
-  }
-  let data = null;
-  try { data = await res.json(); } catch (e) { /* no JSON body, that's fine for 204s */ }
-  if (!res.ok) throw new Error((data && data.error) || 'Something went wrong. If the server was asleep, try again in a moment.');
-  return data;
-}
 
 function showAuthScreen() {
   qs('#authScreen').classList.remove('hidden');
@@ -1402,21 +1374,6 @@ async function handleSignup(e) {
   }
 }
 
-/* ---------- state (client-side cache of what the server returns) ---------- */
-const state = {
-  courses: [],
-  timetable: [],
-  assignments: [],
-  tasks: [],
-  chat: [],
-  cgpaEntries: [],
-  semesters: [],
-  cumulative: { gpa: 0, units: 0, classification: 'Add grades to calculate' },
-  progress: { totalItems: 0, doneItems: 0, overdue: 0, percent: 0 },
-  streak: null,
-};
-let activeSemesterId = null;
-state.preferences = { assignment_notifications: true, announcement_notifications: true, grade_notifications: true, message_notifications: true, ai_suggestions: true, ai_reminders: true, ai_model: '', analytics_sharing: true, profile_visibility: true, theme: 'system', reminder_time: '18:00', quiet_hours_start: '22:00', quiet_hours_end: '07:00' };
 let notificationReadIds = new Set(JSON.parse(localStorage.getItem('eduflow_notification_read') || '[]'));
 let courseFilter = 'all';
 let courseSearch = '';
