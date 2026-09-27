@@ -12,6 +12,7 @@ const apiClient = fs.readFileSync('assets/js/api/client.js', 'utf8');
 const stateStore = fs.readFileSync('assets/js/state/store.js', 'utf8');
 const coursesFeature = fs.readFileSync('assets/js/features/courses.js', 'utf8');
 const assignmentsFeature = fs.readFileSync('assets/js/features/assignments.js', 'utf8');
+const timetableFeature = fs.readFileSync('assets/js/features/timetable.js', 'utf8');
 
 assert(html.includes('id="firstRunSplash"'));
 assert(html.includes('name="description"'));
@@ -52,6 +53,10 @@ assert(assignmentsFeature.includes('async function addAssignment(e)'));
 assert(assignmentsFeature.includes('function renderAssignments()'));
 assert(assignmentsFeature.includes('function initAssignmentFilters()'));
 assert(!html.includes('/* ================= ASSIGNMENTS ================= */'));
+assert(html.includes('src="assets/js/features/timetable.js"'));
+assert(timetableFeature.includes('async function addClass(e)'));
+assert(timetableFeature.includes('function renderTimetable()'));
+assert(!html.includes('/* ================= TIMETABLE ================= */'));
 assert(html.includes("/api/announcements"));
 assert(html.includes("/api/announcements/${encodeURIComponent(id)}/read"));
 assert(html.includes('/api/streak/activity'));
