@@ -46,6 +46,8 @@ assert(!html.includes('<style>'));
 assert(baseCss.includes('html { scroll-behavior: smooth; }'));
 assert(componentsCss.includes('.mobile-hero-toolbar'));
 assert(themeCss.length > 1000);
+assert(componentsCss.includes('.messages-send-form'));
+assert(componentsCss.includes('@media (max-width: 1024px)'));
 assert(html.includes('src="assets/js/utils/dom.js"'));
 assert(html.includes('src="assets/js/utils/formatting.js"'));
 assert(html.includes('src="assets/js/utils/ui.js"'));

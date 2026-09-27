@@ -126,11 +126,10 @@
   .message-bubble p { margin: 0; font-size: 13px; line-height: 1.45; white-space: pre-wrap; overflow-wrap: anywhere; }
   .message-bubble time { display: block; margin-top: 4px; color: #8c96aa; font-size: 10px; }
   .message-bubble-row.mine time { color: rgba(255,255,255,.72); }
-  .message-send-form { display: flex; align-items: flex-end; gap: 8px; padding: 12px; border-top: 1px solid #edf0f5; background: #fff; }
-  .message-send-form { align-items: stretch; }
-  .message-send-form textarea { display: block; min-height: 40px; max-height: 110px; flex: 1 1 auto; resize: vertical; padding: 10px 12px; border: 1px solid #e3e8f2; border-radius: 12px; outline: 0; color: #101a32; background: #f8fafc; font: inherit; font-size: 13px; line-height: 20px; }
-  .message-send-form textarea:focus { border-color: #3562eb; box-shadow: 0 0 0 3px rgba(53,98,235,.12); }
-  .message-send-form button { display: grid; place-items: center; width: 40px; min-width: 40px; height: 40px; align-self: flex-end; border: 0; border-radius: 12px; color: #fff; background: linear-gradient(145deg,#3562eb,#4f46e5); }
+  .messages-send-form { display: flex; align-items: stretch; gap: 8px; width: 100%; min-width: 0; padding: 12px; border-top: 1px solid #edf0f5; background: #fff; }
+  .messages-send-form textarea { display: block; min-width: 0; min-height: 40px; max-height: 110px; flex: 1 1 auto; resize: vertical; padding: 10px 12px; border: 1px solid #e3e8f2; border-radius: 12px; outline: 0; color: #101a32; background: #f8fafc; font: inherit; font-size: 13px; line-height: 20px; }
+  .messages-send-form textarea:focus { border-color: #3562eb; box-shadow: 0 0 0 3px rgba(53,98,235,.12); }
+  .messages-send-form button { display: grid; place-items: center; width: 40px; min-width: 40px; height: 40px; align-self: flex-end; border: 0; border-radius: 12px; color: #fff; background: linear-gradient(145deg,#3562eb,#4f46e5); }
   .message-mode-btn { padding: 8px 12px; border: 1px solid #e3e8f2; border-radius: 10px; color: #64748b; background: #fff; font-size: 11px; font-weight: 800; }
   .message-mode-btn.active { border-color: #3562eb; color: #fff; background: linear-gradient(145deg,#3562eb,#4f46e5); }
   .messages-group-form { display: flex; gap: 8px; }
@@ -141,7 +140,7 @@
   .message-contact-check input { width: 16px; height: 16px; accent-color: #3562eb; }
   .dark .messages-search, .dark .message-row, .dark .messages-contact-row:hover { background: #1d2028; }
   .dark .messages-search input, .dark .messages-contact-row strong, .dark .messages-thread-header h2 { color: #f3f5fb; }
-  .dark .messages-thread-header, .dark .message-send-form { border-color: #303542; background: #1d2028; }
+  .dark .messages-thread-header, .dark .messages-send-form { border-color: #303542; background: #1d2028; }
   .dark .messages-thread-list { background: #151820; }
   .dark .message-bubble { color: #f3f5fb; background: #252a35; }
   .dark .message-send-form textarea { border-color: #3a414e; color: #f3f5fb; background: #151820; }
@@ -149,6 +148,15 @@
   .dark .message-contact-check:hover { background: #252a35; }
   .dark .messages-thread-back { color: #cbd5e1; background: #2a303b; }
   @media (max-width: 639px) { .messages-thread-panel { min-height: calc(100vh - 210px); } .messages-thread-list { min-height: 300px; } .message-bubble-row { max-width: 90%; } }
+  @media (max-width: 1024px), (pointer: coarse) and (max-width: 1365px) {
+    .mobile-topbar { display: flex !important; }
+    #sidebar { transform: translateX(-100%) !important; }
+    main.md\:ml-72 { margin-left: 0 !important; max-width: none; }
+    .mobile-bottom-nav { display: flex; }
+    #view-messages { max-width: none !important; }
+    #view-messages .messages-thread-panel { width: 100%; min-height: calc(100vh - 220px); }
+    #view-messages .messages-thread-list { min-height: 0; max-height: none; flex: 1 1 auto; }
+  }
   .course-search { display: flex; align-items: center; gap: 10px; padding: 12px 14px; border: 1px solid #e3e8f2; border-radius: 14px; color: #94a3b8; background: #f8fafc; }
   .course-search input { width: 100%; border: 0; outline: 0; color: #101a32; background: transparent; font-size: 13px; }
   .course-filter-tabs { display: flex; gap: 8px; margin-top: 12px; overflow-x: auto; padding-bottom: 2px; }
