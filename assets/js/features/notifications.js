@@ -32,7 +32,7 @@ async function markAnnouncementRead(id) {
   announcementReadIds.add(String(id));
   const announcement = campusAnnouncements.find((item) => String(item.id) === String(id));
   if (announcement) announcement.read = true;
-  try { await apiFetch(`/api/announcements/${encodeURIComponent(id)}/read`, { method: 'POST' }); } catch (error) { /* optimistic read state remains local until refresh */ }
+  try { await apiMutate(`/api/announcements/${encodeURIComponent(id)}/read`, { method: 'POST' }); } catch (error) { /* optimistic read state remains local until refresh */ }
 }
 function renderAnnouncements() {
   const wrap = qs('#announcementsList');
@@ -165,7 +165,7 @@ async function savePreference(field, value) {
   const status = qs('#preferencesSaveStatus');
   if (status) status.textContent = 'Saving…';
   try {
-    const data = await apiFetch('/api/account/preferences', { method: 'PATCH', body: JSON.stringify({ [field]: value }) });
+    const data = await apiMutate('/api/account/preferences', { method: 'PATCH', body: JSON.stringify({ [field]: value }) });
     state.preferences = Object.assign(state.preferences, data.preferences || {});
     renderSettings();
     if (status) { status.textContent = 'Preferences saved to your account.'; setTimeout(() => { if (status) status.textContent = ''; }, 2200); }

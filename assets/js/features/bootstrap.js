@@ -22,8 +22,8 @@ function writePendingStudyActivity(items) {
 function renderOfflineSyncStatus() {
   const status = qs('#offlineSyncStatus');
   if (!status) return;
-  const count = readPendingStudyActivity().length;
-  status.textContent = count ? `${count} study update${count === 1 ? '' : 's'} waiting to sync.` : (navigator.onLine ? 'Activity synced.' : 'You are offline. Completed sessions will sync later.');
+  const count = readPendingStudyActivity().length + (typeof offlineMutationCount === 'function' ? offlineMutationCount() : 0);
+  status.textContent = count ? `${count} update${count === 1 ? '' : 's'} waiting to sync.` : (navigator.onLine ? 'Activity synced.' : 'You are offline. Changes will sync later.');
 }
 async function flushPendingStudyActivity() {
   if (!authToken || !navigator.onLine) return;
@@ -198,6 +198,7 @@ async function bootApp() {
   qs('#verifyBanner').classList.toggle('hidden', !currentUser || currentUser.email_verified !== false);
   await reloadAll();
   await flushPendingStudyActivity();
+  await flushOfflineMutations();
   // The overview is usable once the primary academic data has loaded. Keep
   // announcements, preferences, conversations, and assistant metadata from
   // delaying the first meaningful render on a cold or waking server.
@@ -232,4 +233,3 @@ async function tryResumeSession() {
     }
   }
 }
-

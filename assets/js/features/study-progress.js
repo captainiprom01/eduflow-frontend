@@ -7,21 +7,21 @@ async function addTask(e) {
   const text = input.value.trim();
   if (!text) return;
   try {
-    await apiFetch('/api/tasks', { method: 'POST', body: JSON.stringify({ text }) });
+    await apiMutate('/api/tasks', { method: 'POST', body: JSON.stringify({ text }) });
     input.value = '';
     await reloadAll();
   } catch (err) { showToast(err.message); }
 }
 async function toggleTask(id, currentlyDone) {
   try {
-    await apiFetch('/api/tasks/' + id, { method: 'PATCH', body: JSON.stringify({ done: !currentlyDone }) });
+    await apiMutate('/api/tasks/' + id, { method: 'PATCH', body: JSON.stringify({ done: !currentlyDone }) });
     if (!currentlyDone) { celebrate(); await recordStudyActivity('study_task_completed'); }
     await reloadAll();
   } catch (err) { showToast(err.message); }
 }
 async function deleteTask(id) {
   try {
-    await apiFetch('/api/tasks/' + id, { method: 'DELETE' });
+    await apiMutate('/api/tasks/' + id, { method: 'DELETE' });
     await reloadAll();
   } catch (err) { showToast(err.message); }
 }

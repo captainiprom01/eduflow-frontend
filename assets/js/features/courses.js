@@ -9,14 +9,14 @@ async function addCourse(e) {
   const instructor = qs('#courseInstructor').value.trim();
   if (!name || !units) return;
   try {
-    await apiFetch('/api/courses', { method: 'POST', body: JSON.stringify({ name, code, units, instructor }) });
+    await apiMutate('/api/courses', { method: 'POST', body: JSON.stringify({ name, code, units, instructor }) });
     e.target.reset();
     await reloadAll();
   } catch (err) { showToast(err.message); }
 }
 async function deleteCourse(id) {
   try {
-    await apiFetch('/api/courses/' + id, { method: 'DELETE' });
+    await apiMutate('/api/courses/' + id, { method: 'DELETE' });
     await reloadAll();
   } catch (err) { showToast(err.message); }
 }

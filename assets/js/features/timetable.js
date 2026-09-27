@@ -10,14 +10,14 @@ async function addClass(e) {
   const location = qs('#ttLocation').value.trim();
   if (!courseId || !day || !start || !end) return;
   try {
-    await apiFetch('/api/timetable', { method: 'POST', body: JSON.stringify({ courseId, day, startTime: start, endTime: end, location }) });
+    await apiMutate('/api/timetable', { method: 'POST', body: JSON.stringify({ courseId, day, startTime: start, endTime: end, location }) });
     e.target.reset();
     await reloadAll();
   } catch (err) { showToast(err.message); }
 }
 async function deleteClass(id) {
   try {
-    await apiFetch('/api/timetable/' + id, { method: 'DELETE' });
+    await apiMutate('/api/timetable/' + id, { method: 'DELETE' });
     await reloadAll();
   } catch (err) { showToast(err.message); }
 }

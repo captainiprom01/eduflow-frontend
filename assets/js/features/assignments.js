@@ -10,21 +10,21 @@ async function addAssignment(e) {
   const priority = qs('#asgPriority').value;
   if (!title || !due) return;
   try {
-    await apiFetch('/api/assignments', { method: 'POST', body: JSON.stringify({ title, courseId, dueDate: due, priority }) });
+    await apiMutate('/api/assignments', { method: 'POST', body: JSON.stringify({ title, courseId, dueDate: due, priority }) });
     e.target.reset();
     await reloadAll();
   } catch (err) { showToast(err.message); }
 }
 async function toggleAssignment(id, currentlyDone) {
   try {
-    await apiFetch('/api/assignments/' + id, { method: 'PATCH', body: JSON.stringify({ done: !currentlyDone }) });
+    await apiMutate('/api/assignments/' + id, { method: 'PATCH', body: JSON.stringify({ done: !currentlyDone }) });
     if (!currentlyDone) { celebrate(); await recordStudyActivity('assignment_completed'); }
     await reloadAll();
   } catch (err) { showToast(err.message); }
 }
 async function deleteAssignment(id) {
   try {
-    await apiFetch('/api/assignments/' + id, { method: 'DELETE' });
+    await apiMutate('/api/assignments/' + id, { method: 'DELETE' });
     await reloadAll();
   } catch (err) { showToast(err.message); }
 }

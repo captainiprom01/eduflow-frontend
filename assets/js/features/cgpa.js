@@ -10,7 +10,12 @@ async function addSemester(e) {
   const name = input.value.trim();
   if (!name) return;
   try {
-    const data = await apiFetch('/api/semesters', { method: 'POST', body: JSON.stringify({ name }) });
+    const data = await apiMutate('/api/semesters', { method: 'POST', body: JSON.stringify({ name }) });
+    if (data && data.queued) {
+      e.target.reset();
+      showToast('Semester saved offline and will sync when you reconnect.');
+      return;
+    }
     e.target.reset();
     activeSemesterId = data.semester.id;
     const savedSemester = Object.assign({ gpa: 0, units: 0 }, data.semester);
@@ -28,7 +33,7 @@ async function deleteSemester(id) {
     if (!ok) return;
   }
   try {
-    await apiFetch('/api/semesters/' + id, { method: 'DELETE' });
+    await apiMutate('/api/semesters/' + id, { method: 'DELETE' });
     if (String(activeSemesterId) === String(id)) activeSemesterId = null;
     await reloadAll();
   } catch (err) { showToast(err.message); }
@@ -43,13 +48,13 @@ async function addCgpaEntry(e) {
   const grade = qs('#cgpaGrade').value;
   if (!courseId || !grade || !activeSemesterId) return;
   try {
-    await apiFetch('/api/cgpa', { method: 'POST', body: JSON.stringify({ semesterId: activeSemesterId, courseId, grade }) });
+    await apiMutate('/api/cgpa', { method: 'POST', body: JSON.stringify({ semesterId: activeSemesterId, courseId, grade }) });
     await reloadAll();
   } catch (err) { showToast(err.message); }
 }
 async function deleteCgpaEntry(id) {
   try {
-    await apiFetch('/api/cgpa/' + id, { method: 'DELETE' });
+    await apiMutate('/api/cgpa/' + id, { method: 'DELETE' });
     await reloadAll();
   } catch (err) { showToast(err.message); }
 }
@@ -115,4 +120,3 @@ function renderCgpa() {
       `).join('')
     : emptyState('fa-layer-group', 'No semesters yet', 'Add your first semester above.');
 }
-

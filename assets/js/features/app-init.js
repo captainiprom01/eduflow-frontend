@@ -276,7 +276,7 @@ function init() {
   qs('#focusResetBtn').addEventListener('click', resetFocusTimer);
   renderFocusTimer();
   renderOfflineSyncStatus();
-  window.addEventListener('online', flushPendingStudyActivity);
+  window.addEventListener('online', () => { flushPendingStudyActivity(); flushOfflineMutations(); });
 
   qs('#chatForm').addEventListener('submit', (e) => {
     e.preventDefault();

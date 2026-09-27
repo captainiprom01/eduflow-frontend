@@ -21,12 +21,17 @@ async function apiFetch(path, options) {
   if (res.status === 401) {
     const isAuthEndpoint = path === '/api/auth/login' || path === '/api/auth/signup';
     if (!isAuthEndpoint) {
-      throw new Error('SESSION_EXPIRED');
+      const error = new Error('SESSION_EXPIRED');
+      error.status = 401;
+      throw error;
     }
   }
   let data = null;
   try { data = await res.json(); } catch (e) { /* no JSON body, that's fine for 204s */ }
-  if (!res.ok) throw new Error((data && data.error) || 'Something went wrong. If the server was asleep, try again in a moment.');
+  if (!res.ok) {
+    const error = new Error((data && data.error) || 'Something went wrong. If the server was asleep, try again in a moment.');
+    error.status = res.status;
+    throw error;
+  }
   return data;
 }
-
