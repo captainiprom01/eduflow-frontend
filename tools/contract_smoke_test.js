@@ -59,6 +59,7 @@ assert(formattingUtils.includes('function escapeHtml(str)'));
 assert(uiUtils.includes('function showToast(message)'));
 assert(html.includes('src="assets/js/api/client.js"'));
 assert(html.includes('src="assets/js/api/offline-queue.js"'));
+assert(html.includes('canvas-confetti/1.9.4/confetti.min.js'));
 assert(html.includes('src="assets/js/state/store.js"'));
 assert(apiClient.includes('async function apiFetch(path, options)'));
 assert(apiClient.includes("credentials: 'include'"));
