@@ -292,7 +292,7 @@ function init() {
   });
 
   qs('#themeToggleBtn').addEventListener('click', toggleTheme);
-  qs('#mobileMenuBtn').addEventListener('click', openSidebar);
+  qs('#mobileMenuBtn').addEventListener('click', toggleSidebar);
   qs('#closeSidebarBtn').addEventListener('click', closeSidebar);
   qs('#sidebarOverlay').addEventListener('click', closeSidebar);
 

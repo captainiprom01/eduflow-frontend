@@ -77,6 +77,10 @@ function openSidebar() {
   qs('#sidebar').classList.remove('-translate-x-full');
   qs('#sidebarOverlay').classList.remove('hidden');
 }
+function toggleSidebar() {
+  if (qs('#sidebar').classList.contains('-translate-x-full')) openSidebar();
+  else closeSidebar();
+}
 function closeSidebar() {
   if (window.innerWidth <= 1024 || window.matchMedia('(pointer: coarse) and (max-width: 1365px)').matches) {
     qs('#sidebar').classList.add('-translate-x-full');

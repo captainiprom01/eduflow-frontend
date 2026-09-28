@@ -51,6 +51,8 @@ assert(componentsCss.includes('@media (max-width: 1024px)'));
 assert(componentsCss.includes('@media (max-width: 767px), (pointer: coarse) and (max-width: 1365px)'));
 assert(componentsCss.includes('#sidebar:not(.-translate-x-full)'));
 assert(uiShellFeature.includes("window.innerWidth <= 1024"));
+assert(uiShellFeature.includes('function toggleSidebar()'));
+assert(appInitFeature.includes("qs('#mobileMenuBtn').addEventListener('click', toggleSidebar)"));
 assert(html.includes('src="assets/js/utils/dom.js"'));
 assert(html.includes('src="assets/js/utils/formatting.js"'));
 assert(html.includes('src="assets/js/utils/ui.js"'));
