@@ -151,6 +151,7 @@
   @media (max-width: 1024px), (pointer: coarse) and (max-width: 1365px) {
     .mobile-topbar { display: flex !important; }
     #sidebar { transform: translateX(-100%) !important; }
+    #sidebar:not(.-translate-x-full) { transform: translateX(0) !important; }
     main.md\:ml-72 { margin-left: 0 !important; max-width: none; }
     .mobile-bottom-nav { display: flex; }
     #view-messages { max-width: none !important; }

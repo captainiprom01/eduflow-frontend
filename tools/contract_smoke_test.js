@@ -48,6 +48,8 @@ assert(componentsCss.includes('.mobile-hero-toolbar'));
 assert(themeCss.length > 1000);
 assert(componentsCss.includes('.messages-send-form'));
 assert(componentsCss.includes('@media (max-width: 1024px)'));
+assert(componentsCss.includes('#sidebar:not(.-translate-x-full)'));
+assert(uiShellFeature.includes("window.innerWidth <= 1024"));
 assert(html.includes('src="assets/js/utils/dom.js"'));
 assert(html.includes('src="assets/js/utils/formatting.js"'));
 assert(html.includes('src="assets/js/utils/ui.js"'));
