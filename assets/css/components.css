@@ -236,7 +236,7 @@
   .notification-unread-dot { width: 7px; height: 7px; margin-top: 5px; flex: 0 0 7px; border-radius: 50%; background: #3562eb; }
   .dark .settings-card, .dark .notification-item { border-color: #303542; background: #1d2028; } .dark .settings-card-heading, .dark .settings-link-row, .dark .settings-toggle-row, .dark .settings-about-row { border-color: #303542; } .dark .settings-card-heading h2, .dark .settings-link-row strong, .dark .settings-toggle-row strong, .dark .settings-select-row strong, .dark .settings-about-row strong, .dark .notification-item strong { color: #f3f5fb; } .dark .settings-link-row:hover { background: #252a35; } .dark .settings-select-row select { border-color: #3a414e; color: #cbd5e1; background: #252a35; } .dark .notification-item.unread { border-color: #3f4f91; background: #202640; } .dark .notification-item p, .dark .settings-about-row span { color: #aeb8ca; }
   @media (max-width: 639px) { .settings-page-hero { padding: 20px; border-radius: 20px; } .settings-page-hero h1 { font-size: 24px; } .settings-select-row { align-items: flex-start; flex-direction: column; } .settings-select-row select { width: 100%; } }
-  @media (max-width: 767px) {
+  @media (max-width: 767px), (pointer: coarse) and (max-width: 1365px) {
     :root { --mobile-navy: #11195a; --mobile-blue: #2f5be9; --mobile-text: #101a32; --mobile-muted: #8c96aa; }
     body { background: #f7f9fc !important; color: var(--mobile-text); padding-bottom: 84px; font-family: 'Inter', sans-serif; }
     #view-overview h1, #view-overview h2, #view-overview h3, #view-overview button { font-family: 'Plus Jakarta Sans', 'Inter', sans-serif; }
