@@ -103,9 +103,9 @@ function renderAssistantInsights() {
   qs('#assistantInsightPending').textContent = pending.length;
   qs('#assistantInsightCourses').textContent = state.courses.length;
   const topics = [];
-  if (pending.length) topics.push({ title: pending[0].title, meta: `Due ${pending[0].due_date || 'soon'} · highest priority`, pct: Math.min(92, 45 + pending.length * 8), color: '#2563eb' });
-  if (state.courses.length) topics.push({ title: `Review ${state.courses[0].name}`, meta: `${state.courses[0].code || 'Active course'} · build a focused revision plan`, pct: 58, color: '#7c3aed' });
-  topics.push({ title: streak ? 'Keep your study streak going' : 'Start a focused study session', meta: 'EduFlow recommendation · 25 minutes', pct: streak ? Math.min(95, 50 + streak * 5) : 25, color: '#059669' });
+  if (pending.length) topics.push({ title: pending[0].title, meta: `Due ${pending[0].due_date || 'soon'} · highest priority`, pct: Math.min(92, 45 + pending.length * 8), color: '#315BEA' });
+  if (state.courses.length) topics.push({ title: `Review ${state.courses[0].name}`, meta: `${state.courses[0].code || 'Active course'} · build a focused revision plan`, pct: 58, color: '#315BEA' });
+  topics.push({ title: streak ? 'Keep your study streak going' : 'Start a focused study session', meta: 'EduFlow recommendation · 25 minutes', pct: streak ? Math.min(95, 50 + streak * 5) : 25, color: '#159E93' });
   qs('#assistantSuggestedTopics').innerHTML = topics.map((topic) => `<button type="button" class="assistant-topic w-full text-left" data-topic="${escapeHtml(topic.title)}"><div class="flex items-center justify-between gap-3"><span class="min-w-0"><strong class="block text-sm truncate">${escapeHtml(topic.title)}</strong><small class="block mt-1 text-xs text-inksoft dark:text-inksoft-dark">${escapeHtml(topic.meta)}</small></span><b style="color:${topic.color}" class="text-xs">${topic.pct}%</b></div><span class="block h-1.5 mt-2 rounded-full bg-ink/10 dark:bg-ink-dark/10 overflow-hidden"><i class="block h-full rounded-full" style="width:${topic.pct}%;background:${topic.color}"></i></span></button>`).join('');
   qsa('.assistant-topic').forEach((button) => button.addEventListener('click', () => { setAssistantMode('chat'); sendChat(`Help me with ${button.dataset.topic}`); }));
 }

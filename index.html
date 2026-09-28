@@ -8,7 +8,7 @@
 <link rel="icon" type="image/png" href="favicon.png" />
 <link rel="manifest" href="manifest.json" />
 <link rel="apple-touch-icon" href="icon-192.png" />
-<meta name="theme-color" content="#1F7A6C" />
+<meta name="theme-color" content="#11195A" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 <meta name="apple-mobile-web-app-title" content="EduFlow" />
@@ -31,17 +31,17 @@
           sans: ['Manrope', 'sans-serif'],
         },
         colors: {
-          paper: '#EEF1F6',
+          paper: '#F7F9FC',
           surface: '#FFFFFF',
-          ink: '#12213F',
-          inksoft: '#54607F',
-          teal: { DEFAULT: '#1F7A6C', dark: '#175C52' },
-          amber: { DEFAULT: '#DE9A2C', dark: '#B87B1B' },
+          ink: '#101A32',
+          inksoft: '#6F7B91',
+          teal: { DEFAULT: '#159E93', dark: '#117B73' },
+          amber: { DEFAULT: '#D99A2B', dark: '#A8741F' },
           coral: '#D1495B',
-          'paper-dark': '#0B1220',
-          'surface-dark': '#141F35',
-          'ink-dark': '#E8ECF6',
-          'inksoft-dark': '#93A1C2',
+          'paper-dark': '#0E1638',
+          'surface-dark': '#172347',
+          'ink-dark': '#EFF4FF',
+          'inksoft-dark': '#A7B4D1',
         },
         boxShadow: { soft: '0 1px 2px rgba(18,33,63,0.06)' },
       },
@@ -61,7 +61,7 @@
 <!-- ============ FIRST-USE SPLASH ============ -->
 <div id="firstRunSplash" class="first-run-screen">
   <div class="first-run-splash"><div class="splash-orb one"></div><div class="splash-orb two"></div><div class="splash-orb three"></div>
-    <i class="splash-particle" style="left:15%;top:20%;width:4px;height:4px;color:#6366f1"></i><i class="splash-particle" style="left:80%;top:15%;width:3px;height:3px;color:#3b82f6;animation-delay:.5s"></i><i class="splash-particle" style="left:25%;top:75%;width:5px;height:5px;color:#10b981;animation-delay:1s"></i><i class="splash-particle" style="left:75%;top:70%;width:3px;height:3px;color:#6366f1;animation-delay:1.5s"></i><i class="splash-particle" style="left:50%;top:10%;width:2px;height:2px;color:#60a5fa;animation-delay:.8s"></i><i class="splash-particle" style="left:90%;top:50%;width:4px;height:4px;color:#34d399;animation-delay:.3s"></i><i class="splash-particle" style="left:10%;top:50%;width:3px;height:3px;color:#818cf8;animation-delay:1.2s"></i>
+    <i class="splash-particle" style="left:15%;top:20%;width:4px;height:4px;color:#315BEA"></i><i class="splash-particle" style="left:80%;top:15%;width:3px;height:3px;color:#3b82f6;animation-delay:.5s"></i><i class="splash-particle" style="left:25%;top:75%;width:5px;height:5px;color:#159E93;animation-delay:1s"></i><i class="splash-particle" style="left:75%;top:70%;width:3px;height:3px;color:#315BEA;animation-delay:1.5s"></i><i class="splash-particle" style="left:50%;top:10%;width:2px;height:2px;color:#60a5fa;animation-delay:.8s"></i><i class="splash-particle" style="left:90%;top:50%;width:4px;height:4px;color:#34d399;animation-delay:.3s"></i><i class="splash-particle" style="left:10%;top:50%;width:3px;height:3px;color:#818cf8;animation-delay:1.2s"></i>
     <div class="splash-brand"><img class="splash-original-logo" src="icon.png" alt="EduFlow — Smart Campus Assistant"><div class="splash-dots" aria-label="Loading"><i></i><i></i><i></i></div></div>
   </div>
 </div>
@@ -1002,8 +1002,8 @@ document.addEventListener('keydown', (e) => {
     showToast('That shortcut is disabled on this page.');
   }
 });
-console.log('%cEduFlow', 'font-size:20px;font-weight:700;color:#1F7A6C;font-family:Manrope,sans-serif;');
-console.log('%cThis code belongs to its author. Please don\u2019t copy or redistribute it without permission.', 'font-size:12px;color:#54607F;font-family:Manrope,sans-serif;');
+console.log('%cEduFlow', 'font-size:20px;font-weight:700;color:#159E93;font-family:Manrope,sans-serif;');
+console.log('%cThis code belongs to its author. Please don\u2019t copy or redistribute it without permission.', 'font-size:12px;color:#6F7B91;font-family:Manrope,sans-serif;');
 
 /* ================= REVERSE CGPA CALCULATOR (client-side, non-sensitive arithmetic) ================= */
 function calculateTargetGpa() {

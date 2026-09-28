@@ -4,7 +4,7 @@
 /* ---------- celebration ---------- */
 function celebrate() {
   if (typeof confetti !== 'function') return;
-  confetti({ particleCount: 90, spread: 70, origin: { y: 0.7 }, colors: ['#1F7A6C', '#DE9A2C', '#12213F'] });
+  confetti({ particleCount: 90, spread: 70, origin: { y: 0.7 }, colors: ['#159E93', '#D99A2B', '#101A32'] });
 }
 
 

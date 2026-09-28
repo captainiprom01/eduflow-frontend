@@ -26,7 +26,7 @@ async function loadAnnouncements() {
 }
 function announcementCategoryStyle(category) {
   const item = campusAnnouncements.find((announcement) => announcement.category === category);
-  return item ? { color: item.color, bg: item.bg } : { color: '#2563eb', bg: '#eff6ff' };
+  return item ? { color: item.color, bg: item.bg } : { color: '#315BEA', bg: '#EDF4FF' };
 }
 async function markAnnouncementRead(id) {
   announcementReadIds.add(String(id));

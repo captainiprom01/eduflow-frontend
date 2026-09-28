@@ -68,8 +68,8 @@ function renderProgressChart() {
   const isDark = document.documentElement.classList.contains('dark');
   if (progressChartInstance) {
     progressChartInstance.data.datasets[0].data = data;
-    progressChartInstance.data.datasets[0].backgroundColor = ['#1F7A6C', totalItems ? '#DE9A2C' : (isDark ? '#243250' : '#E4E8F0')];
-    progressChartInstance.options.plugins.legend.labels.color = isDark ? '#93A1C2' : '#54607F';
+    progressChartInstance.data.datasets[0].backgroundColor = ['#159E93', totalItems ? '#D99A2B' : (isDark ? '#243250' : '#E4E8F0')];
+    progressChartInstance.options.plugins.legend.labels.color = isDark ? '#A7B4D1' : '#6F7B91';
     progressChartInstance.update();
     return;
   }
@@ -77,12 +77,12 @@ function renderProgressChart() {
     type: 'doughnut',
     data: {
       labels: ['Completed', 'Pending'],
-      datasets: [{ data, backgroundColor: ['#1F7A6C', totalItems ? '#DE9A2C' : (isDark ? '#243250' : '#E4E8F0')], borderWidth: 0 }],
+      datasets: [{ data, backgroundColor: ['#159E93', totalItems ? '#D99A2B' : (isDark ? '#243250' : '#E4E8F0')], borderWidth: 0 }],
     },
     options: {
       responsive: true,
       cutout: '68%',
-      plugins: { legend: { position: 'bottom', labels: { color: isDark ? '#93A1C2' : '#54607F', boxWidth: 10, padding: 12, font: { size: 11 } } } },
+      plugins: { legend: { position: 'bottom', labels: { color: isDark ? '#A7B4D1' : '#6F7B91', boxWidth: 10, padding: 12, font: { size: 11 } } } },
     },
   });
 }
