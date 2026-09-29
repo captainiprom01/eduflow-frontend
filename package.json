@@ -1,0 +1,12 @@
+{
+  "name": "eduflow-frontend",
+  "private": true,
+  "version": "1.0.0",
+  "description": "EduFlow static frontend browser regression checks",
+  "scripts": {
+    "test:browser": "node tools/cross_browser_regression.js"
+  },
+  "devDependencies": {
+    "playwright": "^1.55.0"
+  }
+}
