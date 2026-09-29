@@ -70,14 +70,18 @@ jobs:
         run: |
           set -euo pipefail
           for asset in assets/css/base.css assets/css/components.css assets/css/theme.css sw.js; do
-            status=$(curl -L -sS -o /tmp/asset -w '%{http_code}' --max-time 30 "$EDUFLOW_URL/$asset")
+            output="/tmp/$(basename "$asset")"
+            status=$(curl -L -sS -o "$output" -w '%{http_code}' --max-time 30 "$EDUFLOW_URL/$asset")
             test "$status" = 200
-            test -s /tmp/asset
+            test -s "$output"
             echo "$asset: HTTP $status"
           done
-          curl -L -sS --max-time 30 "$EDUFLOW_URL/assets/css/theme.css" | grep -q -- '--eduflow-teal:#159E93'
-          curl -L -sS --max-time 30 "$EDUFLOW_URL/assets/css/theme.css" | grep -q -- '-webkit-backdrop-filter:blur(18px)'
-          curl -L -sS --max-time 30 "$EDUFLOW_URL/assets/css/components.css" | grep -q -- '-webkit-appearance: none'
+          grep -q -- '--eduflow-teal:#159E93' /tmp/theme.css
+          grep -q -- '-webkit-backdrop-filter:blur(18px)' /tmp/theme.css
+          grep -q -- '-webkit-appearance: none' /tmp/components.css
+          confetti_status=$(curl -L -sS -o /tmp/confetti.browser.min.js -w '%{http_code}' --max-time 30 'https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.4/dist/confetti.browser.min.js')
+          test "$confetti_status" = 200
+          test -s /tmp/confetti.browser.min.js
 
       - name: Run Chromium, Firefox, and WebKit audit
         run: npm run test:browser
