@@ -20,7 +20,7 @@ html, body { font-family: Inter, system-ui, sans-serif !important; background:va
 #authScreen button[type=submit], #authScreen #loginSubmitBtn, #authScreen #signupSubmitBtn, #authScreen #forgotSubmitBtn { height:46px !important; border-radius:14px !important; background:linear-gradient(135deg,var(--eduflow-blue),var(--eduflow-indigo)) !important; box-shadow:0 8px 20px rgba(79,70,229,.25); }
 .auth-tab { border-radius:11px !important; }
 #appShell { background:var(--eduflow-paper); min-height:100vh; }
-#appShell .mobile-topbar { background:rgba(255,255,255,.88) !important; border-bottom-color:var(--eduflow-border) !important; backdrop-filter:blur(18px); }
+#appShell .mobile-topbar { background:rgba(255,255,255,.88) !important; border-bottom-color:var(--eduflow-border) !important; -webkit-backdrop-filter:blur(18px); backdrop-filter:blur(18px); }
 #sidebar { background:linear-gradient(180deg,#0E1638 0%,#172347 100%) !important; color:#fff; border:0 !important; box-shadow:8px 0 32px rgba(7,12,40,.1); }
 #sidebar .font-serif, #sidebar .text-ink, #sidebar .text-ink-dark { color:#fff !important; }
 #sidebar .text-inksoft, #sidebar .text-inksoft-dark { color:#aeb9e8 !important; }
@@ -36,7 +36,7 @@ main > div:first-child { max-width:1240px; }
 .view input, .view select, .view textarea { border-radius:12px !important; border-color:#E3E8F2 !important; }
 .view input:focus, .view select:focus, .view textarea:focus { border-color:#315BEA !important; box-shadow:0 0 0 4px rgba(99,102,241,.12) !important; }
 .view button.bg-teal, .view button.bg-teal-dark, .view .bg-teal { background:linear-gradient(135deg,var(--eduflow-blue),var(--eduflow-indigo)) !important; }
-.mobile-bottom-nav { background:rgba(255,255,255,.92) !important; border-top:1px solid #e9ecf4 !important; box-shadow:0 -8px 25px rgba(27,45,79,.08) !important; backdrop-filter:blur(18px); }
+.mobile-bottom-nav { background:rgba(255,255,255,.92) !important; border-top:1px solid #e9ecf4 !important; box-shadow:0 -8px 25px rgba(27,45,79,.08) !important; -webkit-backdrop-filter:blur(18px); backdrop-filter:blur(18px); }
 .mobile-nav-item { color:#7C879B !important; }
 .mobile-nav-item.mobile-nav-active { color:var(--eduflow-blue) !important; }
 .mobile-nav-ai i { background:linear-gradient(135deg,var(--eduflow-blue),var(--eduflow-indigo)) !important; box-shadow:0 9px 18px rgba(48,86,232,.3) !important; }

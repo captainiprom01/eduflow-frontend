@@ -175,4 +175,7 @@ assert(html.includes("teal: { DEFAULT: '#159E93'"));
 assert(themeCss.includes('--eduflow-navy:#11195A'));
 assert(themeCss.includes('--eduflow-teal:#159E93'));
 assert(themeCss.includes('--eduflow-amber:#D99A2B'));
+assert(themeCss.includes('-webkit-backdrop-filter:blur(18px)'));
+assert(componentsCss.includes('-webkit-backdrop-filter: blur(18px)'));
+assert(componentsCss.includes('-webkit-appearance: none'));
 console.log('EduFlow frontend contract smoke test: PASS');
