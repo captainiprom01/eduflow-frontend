@@ -54,12 +54,12 @@ function botReply(rawInput) {
   }
   if (/\b(thank|thanks|thank you)\b/.test(input)) return 'Happy to help — good luck with your studies!';
   if (/\b(who are you|what are you)\b/.test(input)) {
-    return "I'm EduFlow's built-in study assistant — a lightweight helper running on simple logic, not a connected AI model. I answer using the data already on your dashboard.";
+    return "I'm KinvoHub's built-in study assistant — a lightweight helper running on simple logic, not a connected AI model. I answer using the data already on your dashboard.";
   }
   if (/\b(help|what can you do)\b/.test(input)) {
     return "I can tell you your CGPA, what's due soon, your next class, your study progress, or share a quick study tip. Just ask.";
   }
-  return "EduAI is not configured for general questions on this server yet. I can still answer questions about your CGPA, deadlines, timetable, and tracked progress.";
+  return "Kinvo AI is not configured for general questions on this server yet. I can still answer questions about your CGPA, deadlines, timetable, and tracked progress.";
 }
 function sendChat(text) {
   const message = text.trim();
@@ -105,7 +105,7 @@ function renderAssistantInsights() {
   const topics = [];
   if (pending.length) topics.push({ title: pending[0].title, meta: `Due ${pending[0].due_date || 'soon'} · highest priority`, pct: Math.min(92, 45 + pending.length * 8), color: '#315BEA' });
   if (state.courses.length) topics.push({ title: `Review ${state.courses[0].name}`, meta: `${state.courses[0].code || 'Active course'} · build a focused revision plan`, pct: 58, color: '#315BEA' });
-  topics.push({ title: streak ? 'Keep your study streak going' : 'Start a focused study session', meta: 'EduFlow recommendation · 25 minutes', pct: streak ? Math.min(95, 50 + streak * 5) : 25, color: '#159E93' });
+  topics.push({ title: streak ? 'Keep your study streak going' : 'Start a focused study session', meta: 'KinvoHub recommendation · 25 minutes', pct: streak ? Math.min(95, 50 + streak * 5) : 25, color: '#159E93' });
   qs('#assistantSuggestedTopics').innerHTML = topics.map((topic) => `<button type="button" class="assistant-topic w-full text-left" data-topic="${escapeHtml(topic.title)}"><div class="flex items-center justify-between gap-3"><span class="min-w-0"><strong class="block text-sm truncate">${escapeHtml(topic.title)}</strong><small class="block mt-1 text-xs text-inksoft dark:text-inksoft-dark">${escapeHtml(topic.meta)}</small></span><b style="color:${topic.color}" class="text-xs">${topic.pct}%</b></div><span class="block h-1.5 mt-2 rounded-full bg-ink/10 dark:bg-ink-dark/10 overflow-hidden"><i class="block h-full rounded-full" style="width:${topic.pct}%;background:${topic.color}"></i></span></button>`).join('');
   qsa('.assistant-topic').forEach((button) => button.addEventListener('click', () => { setAssistantMode('chat'); sendChat(`Help me with ${button.dataset.topic}`); }));
 }

@@ -137,7 +137,7 @@ function registerServiceWorker() {
   });
 }
 const firstRunSlides = [
-  { theme: 'ai', accent: '#315BEA', title: 'Your Intelligent\nCampus Companion', description: 'EduFlow brings your academic life together — courses, assignments, timetable, and an AI assistant that helps you study smarter.', illustration: '<div class="onboarding-card"><span class="onboarding-card-icon" style="background:#315BEA"><i class="fa-solid fa-brain"></i></span><span class="onboarding-card-copy"><strong>Ask EduAI anything</strong><span>Powered by your academic context</span></span></div><div class="onboarding-card"><span class="onboarding-card-icon" style="background:#315BEA"><i class="fa-solid fa-wand-magic-sparkles"></i></span><span class="onboarding-card-copy"><strong>Personalised study help</strong><span>Plans, explanations and quick answers</span></span></div><div class="onboarding-card"><span class="onboarding-card-icon" style="background:#159E93"><i class="fa-solid fa-chart-line"></i></span><span class="onboarding-card-copy"><strong>Track your progress</strong><span>See your semester at a glance</span></span></div>' },
+  { theme: 'ai', accent: '#315BEA', title: 'Your Intelligent\nCampus Companion', description: 'KinvoHub brings your academic life together — courses, assignments, timetable, and an AI assistant that helps you study smarter.', illustration: '<div class="onboarding-card"><span class="onboarding-card-icon" style="background:#315BEA"><i class="fa-solid fa-brain"></i></span><span class="onboarding-card-copy"><strong>Ask Kinvo AI anything</strong><span>Powered by your academic context</span></span></div><div class="onboarding-card"><span class="onboarding-card-icon" style="background:#315BEA"><i class="fa-solid fa-wand-magic-sparkles"></i></span><span class="onboarding-card-copy"><strong>Personalised study help</strong><span>Plans, explanations and quick answers</span></span></div><div class="onboarding-card"><span class="onboarding-card-icon" style="background:#159E93"><i class="fa-solid fa-chart-line"></i></span><span class="onboarding-card-copy"><strong>Track your progress</strong><span>See your semester at a glance</span></span></div>' },
   { theme: 'schedule', accent: '#D99A2B', title: 'Never Miss a\nDeadline Again', description: 'Keep your timetable, assignments, and important academic dates organised in one clear view — so you always know what is next.', illustration: '<div class="onboarding-calendar"><div class="onboarding-calendar-head"><span>THIS WEEK</span><i class="fa-solid fa-calendar-days"></i></div><div class="onboarding-calendar-grid"><i>Mon</i><i>Tue</i><i class="active">Wed</i><i>Thu</i><i>Fri</i><i>9:00</i><i></i><i class="active">CSC</i><i></i><i></i></div><div class="onboarding-calendar-event"><b><i class="fa-solid fa-clock"></i></b><span>Database Lab · 10:00 AM</span></div></div>' },
   { theme: 'campus', accent: '#159E93', title: 'Campus Information\n& Communication', description: 'Stay connected with official announcements, message classmates and lecturers, and access all campus services — all in one intelligent app.', illustration: '<div class="onboarding-card"><span class="onboarding-card-icon" style="background:#315BEA">📢</span><span class="onboarding-card-copy"><strong>Exam Schedule Released</strong><span>Examinations Office · 2h ago</span></span></div><div class="onboarding-card"><span class="onboarding-card-icon" style="background:#315BEA">💬</span><span class="onboarding-card-copy"><strong>Chidi: Did you finish the assignment?</strong><span>CSC 300 Level Group</span></span></div><div class="onboarding-card"><span class="onboarding-card-icon" style="background:#159E93">🎓</span><span class="onboarding-card-copy"><strong>New grade: CSC 301 — A</strong><span>Score: 87/100 · Just now</span></span></div>' }
 ];
@@ -229,15 +229,15 @@ function init() {
   qs('#profileDetailsForm').addEventListener('submit', handleProfileDetails);
   qs('#profileUpdateBtn').addEventListener('click', openProfileEditor);
   qs('#profileCancelBtn').addEventListener('click', cancelProfileEditor);
-  qs('#messagesComposeBtn').addEventListener('click', () => { qs('#messagesComposePanel').classList.remove('hidden'); loadMessageContacts(); });
-  qs('#messagesComposeCloseBtn').addEventListener('click', () => qs('#messagesComposePanel').classList.add('hidden'));
-  qs('#messagesDirectModeBtn').addEventListener('click', () => setMessageComposeMode(false));
-  qs('#messagesGroupModeBtn').addEventListener('click', () => setMessageComposeMode(true));
-  qs('#messagesGroupForm').addEventListener('submit', createGroupConversation);
-  qs('#messagesBackBtn').addEventListener('click', () => { messageState.activeId = null; messageState.activeMessages = []; qs('#messagesThreadPanel').classList.add('hidden'); qs('#messagesListPanel').classList.remove('hidden'); loadConversations(); });
-  qs('#messagesSearch').addEventListener('input', (e) => { messageState.search = e.target.value; renderMessagesList(); });
-  qs('#messagesContactSearch').addEventListener('input', (e) => { messageState.contactSearch = e.target.value; renderMessageContacts(); });
-  qs('#messagesSendForm').addEventListener('submit', sendMessage);
+  if (qs('#messagesComposeBtn')) qs('#messagesComposeBtn').addEventListener('click', () => { qs('#messagesComposePanel').classList.remove('hidden'); loadMessageContacts(); });
+  if (qs('#messagesComposeCloseBtn')) qs('#messagesComposeCloseBtn').addEventListener('click', () => qs('#messagesComposePanel').classList.add('hidden'));
+  if (qs('#messagesDirectModeBtn')) qs('#messagesDirectModeBtn').addEventListener('click', () => setMessageComposeMode(false));
+  if (qs('#messagesGroupModeBtn')) qs('#messagesGroupModeBtn').addEventListener('click', () => setMessageComposeMode(true));
+  if (qs('#messagesGroupForm')) qs('#messagesGroupForm').addEventListener('submit', createGroupConversation);
+  if (qs('#messagesBackBtn')) qs('#messagesBackBtn').addEventListener('click', () => { messageState.activeId = null; messageState.activeMessages = []; qs('#messagesThreadPanel').classList.add('hidden'); qs('#messagesListPanel').classList.remove('hidden'); loadConversations(); });
+  if (qs('#messagesSearch')) qs('#messagesSearch').addEventListener('input', (e) => { messageState.search = e.target.value; renderMessagesList(); });
+  if (qs('#messagesContactSearch')) qs('#messagesContactSearch').addEventListener('input', (e) => { messageState.contactSearch = e.target.value; renderMessageContacts(); });
+  if (qs('#messagesSendForm')) qs('#messagesSendForm').addEventListener('submit', sendMessage);
   qsa('[data-preference]').forEach((input) => input.addEventListener('change', () => savePreference(input.dataset.preference, input.checked)));
   qs('#settingsReminderTime').addEventListener('change', (e) => savePreference('reminder_time', e.target.value));
   qs('#settingsQuietStart').addEventListener('change', (e) => savePreference('quiet_hours_start', e.target.value));
@@ -290,6 +290,7 @@ function init() {
   qsa('.chat-suggestion').forEach((btn) => {
     btn.addEventListener('click', () => sendChat(btn.textContent));
   });
+  qsa('[data-messages-coming-soon], [data-premium-coming-soon]').forEach((button) => button.addEventListener('click', () => showToast('Thanks for your interest — this KinvoHub feature is coming soon.')));
 
   qs('#themeToggleBtn').addEventListener('click', toggleTheme);
   qs('#mobileMenuBtn').addEventListener('click', toggleSidebar);

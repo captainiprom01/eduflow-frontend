@@ -98,7 +98,7 @@ async function handleProfileDetails(e) {
     localStorage.setItem('eduflow_user', JSON.stringify(currentUser));
     renderProfile();
     renderOverview();
-    showFieldMessage(msg, 'Profile saved to your EduFlow account.', false);
+    showFieldMessage(msg, 'Profile saved to your KinvoHub account.', false);
   } catch (err) {
     showFieldMessage(msg, err.message, true);
   }
@@ -370,7 +370,8 @@ async function handleSignup(e) {
     const name = qs('#signupName').value.trim();
     const email = qs('#signupEmail').value.trim();
     const password = qs('#signupPassword').value;
-    const data = await apiFetch('/api/auth/signup', { method: 'POST', body: JSON.stringify({ name, email, password }) });
+    const persona = qs('#signupPersona').value;
+    const data = await apiFetch('/api/auth/signup', { method: 'POST', body: JSON.stringify({ name, email, password, persona }) });
     authToken = data.token;
     currentUser = data.user;
     localStorage.setItem('eduflow_token', authToken);
@@ -382,4 +383,3 @@ async function handleSignup(e) {
     btn.disabled = false;
   }
 }
-

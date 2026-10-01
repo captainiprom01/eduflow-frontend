@@ -35,7 +35,7 @@ function renderMessagesOnline() {
   const wrap = qs('#messagesOnline');
   if (!wrap) return;
   const contacts = messageState.contacts.slice(0, 6);
-  wrap.innerHTML = contacts.length ? contacts.map((contact, index) => `<button type="button" class="flex shrink-0 flex-col items-center gap-1.5" onclick="startConversation('${contact.id}')"><span class="message-avatar ${['blue', 'violet', 'green'][index % 3]}">${escapeHtml(conversationInitials(contact.name))}${presenceMarkup(contact.id)}</span><span class="w-14 truncate text-center text-[10px] font-semibold text-inksoft dark:text-inksoft-dark">${escapeHtml(contact.name.split(/\s+/)[0])}</span></button>`).join('') : '<p class="text-xs text-inksoft dark:text-inksoft-dark">No other Eduflow users found yet.</p>';
+  wrap.innerHTML = contacts.length ? contacts.map((contact, index) => `<button type="button" class="flex shrink-0 flex-col items-center gap-1.5" onclick="startConversation('${contact.id}')"><span class="message-avatar ${['blue', 'violet', 'green'][index % 3]}">${escapeHtml(conversationInitials(contact.name))}${presenceMarkup(contact.id)}</span><span class="w-14 truncate text-center text-[10px] font-semibold text-inksoft dark:text-inksoft-dark">${escapeHtml(contact.name.split(/\s+/)[0])}</span></button>`).join('') : '<p class="text-xs text-inksoft dark:text-inksoft-dark">No other KinvoHub users found yet.</p>';
 }
 function renderMessageContacts() {
   const wrap = qs('#messagesContacts');
@@ -105,7 +105,7 @@ function setMessageComposeMode(groupMode) {
   messageState.groupMode = groupMode;
   messageState.selectedContactIds = new Set();
   qs('#messagesGroupForm').classList.toggle('hidden', !groupMode);
-  qs('#messagesComposeHint').textContent = groupMode ? 'Choose at least two users for your group.' : 'Choose an Eduflow user to start a direct chat.';
+  qs('#messagesComposeHint').textContent = groupMode ? 'Choose at least two users for your group.' : 'Choose a KinvoHub user to start a direct chat.';
   qs('#messagesDirectModeBtn').classList.toggle('active', !groupMode);
   qs('#messagesGroupModeBtn').classList.toggle('active', groupMode);
   renderMessageContacts();
