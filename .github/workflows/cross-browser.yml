@@ -1,0 +1,97 @@
+name: Cross-browser regression and deployment monitor
+
+on:
+  # Run once a week, and allow an immediate manual run from the Actions tab.
+  schedule:
+    - cron: '30 3 * * 1'
+  workflow_dispatch:
+  workflow_run:
+    workflows: [Frontend CI]
+    types: [completed]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: cross-browser-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  EDUFLOW_URL: https://eduflow-cip.onrender.com
+  PLAYWRIGHT_EDGE: '1'
+
+jobs:
+  audit:
+    name: Live cross-browser audit
+    # Scheduled/manual runs always execute. A workflow_run run executes only after
+    # a successful main-branch CI result, which gives Render time to deploy the push.
+    if: >-
+      github.event_name != 'workflow_run' ||
+      (github.event.workflow_run.conclusion == 'success' &&
+       github.event.workflow_run.head_branch == 'main')
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'workflow_run' && github.event.workflow_run.head_sha || github.sha }}
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install browser audit dependencies
+        run: npm ci
+
+      - name: Install Chromium, Firefox, WebKit, and Edge
+        run: |
+          npx playwright install --with-deps chromium firefox webkit
+          npx playwright install msedge
+
+      - name: Wait for production deployment
+        run: |
+          set -euo pipefail
+          for attempt in $(seq 1 24); do
+            status=$(curl -L -sS -o /tmp/eduflow-live.html -w '%{http_code}' --max-time 30 "$EDUFLOW_URL/") || status=000
+            if [ "$status" = 200 ] && grep -q 'theme-color" content="#11195A"' /tmp/eduflow-live.html; then
+              echo "Production is responding with the current theme marker."
+              exit 0
+            fi
+            echo "Attempt $attempt/24: production status=$status; waiting 15 seconds."
+            sleep 15
+          done
+          echo 'Production did not become healthy within 6 minutes.'
+          exit 1
+
+      - name: Verify first-party production assets
+        run: |
+          set -euo pipefail
+          for asset in assets/css/base.css assets/css/components.css assets/css/theme.css sw.js; do
+            output="/tmp/$(basename "$asset")"
+            status=$(curl -L -sS -o "$output" -w '%{http_code}' --max-time 30 "$EDUFLOW_URL/$asset")
+            test "$status" = 200
+            test -s "$output"
+            echo "$asset: HTTP $status"
+          done
+          grep -q -- '--eduflow-teal:#159E93' /tmp/theme.css
+          grep -q -- '-webkit-backdrop-filter:blur(18px)' /tmp/theme.css
+          grep -q -- '-webkit-appearance: none' /tmp/components.css
+          confetti_status=$(curl -L -sS -o /tmp/confetti.browser.min.js -w '%{http_code}' --max-time 30 'https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.4/dist/confetti.browser.min.js')
+          test "$confetti_status" = 200
+          test -s /tmp/confetti.browser.min.js
+
+      - name: Run Chromium, Firefox, and WebKit audit
+        run: npm run test:browser
+
+      - name: Upload browser audit output
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cross-browser-audit-${{ github.run_id }}
+          path: |
+            /tmp/eduflow-live.html
+          if-no-files-found: ignore
+          retention-days: 30
