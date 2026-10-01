@@ -55,7 +55,7 @@ for (const file of ['assets/js/api/client.js', 'assets/js/api/offline-queue.js']
   assert.strictEqual(validationError.status, 422);
   assert.strictEqual(JSON.parse(storage.get('eduflow_pending_mutations')).length, 0, 'validation errors are not queued');
 
-  console.log('KinvoHub offline mutation queue test: PASS');
+  console.log('EduFlow offline mutation queue test: PASS');
 })().catch((error) => {
   console.error(error);
   process.exitCode = 1;
