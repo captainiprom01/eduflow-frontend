@@ -74,7 +74,7 @@ function notificationRecords() {
   if (state.preferences.message_notifications && typeof messageState !== 'undefined') {
     messageState.conversations.filter((conversation) => Number(conversation.unread_count || 0) > 0).forEach((conversation) => records.push({ id: `message:${conversation.id}`, type: 'Unread message', icon: 'fa-message', title: conversationName(conversation), detail: `${conversation.unread_count} unread message${conversation.unread_count === 1 ? '' : 's'} waiting in this conversation.`, view: 'messages', timestamp: conversation.last_message_at ? new Date(conversation.last_message_at) : new Date() }));
   }
-  if (currentUser && currentUser.email_verified === false) records.push({ id: 'verify-email', type: 'Account security', icon: 'fa-envelope-circle-check', title: 'Verify your email', detail: 'Verify your email to keep your EduFlow account secure.', view: 'account', timestamp: new Date() });
+  if (currentUser && currentUser.email_verified === false) records.push({ id: 'verify-email', type: 'Account security', icon: 'fa-envelope-circle-check', title: 'Verify your email', detail: 'Verify your email to keep your KinvoHub account secure.', view: 'account', timestamp: new Date() });
   const pendingTasks = state.tasks.filter((task) => !task.done).length;
   if (pendingTasks && state.preferences.assignment_notifications) records.push({ id: 'study-tasks:pending', type: 'Study tasks', icon: 'fa-pen', title: `${pendingTasks} study task${pendingTasks === 1 ? '' : 's'} still open`, detail: 'Keep your small study goals moving forward.', view: 'overview', timestamp: new Date() });
   return records.sort((a, b) => b.timestamp - a.timestamp);

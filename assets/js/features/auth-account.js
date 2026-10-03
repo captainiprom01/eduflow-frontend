@@ -98,7 +98,7 @@ async function handleProfileDetails(e) {
     localStorage.setItem('eduflow_user', JSON.stringify(currentUser));
     renderProfile();
     renderOverview();
-    showFieldMessage(msg, 'Profile saved to your EduFlow account.', false);
+    showFieldMessage(msg, 'Profile saved to your KinvoHub account.', false);
   } catch (err) {
     showFieldMessage(msg, err.message, true);
   }
@@ -178,7 +178,7 @@ async function handleExportData() {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `eduflow-data-${new Date().toISOString().slice(0, 10)}.json`;
+    a.download = `kinvohub-data-${new Date().toISOString().slice(0, 10)}.json`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);

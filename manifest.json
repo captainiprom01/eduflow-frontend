@@ -1,6 +1,6 @@
 {
-  "name": "EduFlow — Smart Campus Assistant",
-  "short_name": "EduFlow",
+  "name": "KinvoHub — Smart Campus Assistant",
+  "short_name": "KinvoHub",
   "description": "Courses, timetable, assignments, semester CGPA and study progress in one dashboard.",
   "start_url": "./index.html",
   "scope": "./",
@@ -9,8 +9,8 @@
   "background_color": "#EEF1F6",
   "theme_color": "#1F7A6C",
   "icons": [
-    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
-    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "kinvohub-logo.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "kinvohub-logo.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
     { "src": "icon-512-maskable.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
   ]
 }
