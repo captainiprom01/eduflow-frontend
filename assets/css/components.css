@@ -22,7 +22,7 @@
   .messages-hero h1 { margin: 0; font-size: 28px; font-weight: 800; }
   .messages-hero p:last-child { margin: 6px 0 0; color: #b8c2de; font-size: 13px; }
   .maintenance-marquee { position: relative; overflow: hidden; margin-bottom: 20px; border: 1px solid rgba(245,158,11,.22); border-radius: 16px; color: #8a5200; background: linear-gradient(90deg,#FFF7E8,#fffdf6); box-shadow: 0 5px 14px rgba(27,45,79,.05); }
-  .maintenance-marquee-track { display: flex; width: max-content; min-width: 100%; animation: kinvohub-marquee 28s linear infinite; }
+  .maintenance-marquee-track { display: flex; width: max-content; min-width: 100%; animation: eduflow-marquee 28s linear infinite; }
   .maintenance-marquee-track span { display: inline-flex; align-items: center; gap: 8px; flex: 0 0 auto; padding: 11px 28px; font-size: 12px; font-weight: 700; white-space: nowrap; }
   .maintenance-marquee-track i { color: #A8741F; }
   .dark .maintenance-marquee { border-color: rgba(245,158,11,.28); color: #f7c96a; background: linear-gradient(90deg,#2A2414,#1B2440); }
@@ -92,7 +92,7 @@
   .dark .profile-enrichment-card { border-color: #2B3A65; background: #172347; } .dark .profile-enrichment-heading, .dark .profile-quick-links > button { border-color: #2B3A65; } .dark .profile-enrichment-heading h2, .dark .profile-progress-summary strong, .dark .profile-achievement strong, .dark .profile-quick-links > button strong { color: #f3f5fb; } .dark .profile-progress-track, .dark .profile-course-progress-row > i { background: #2B3A65; } .dark .profile-achievement { background: #22305A; } .dark .profile-achievement.unlocked { background: #203B65; } .dark .profile-quick-links > button:hover { background: #22305A; }
   .dark .profile-email { color: #c6cff4; }
   @media (max-width: 639px) { .profile-hero { padding: 20px; border-radius: 22px; } .profile-stat-grid { gap: 8px; } .profile-achievement-grid { gap: 8px; padding-left: 14px; padding-right: 14px; } .profile-progress-summary, .profile-progress-meta { padding-left: 14px; padding-right: 14px; } .profile-progress-track { margin-left: 14px; margin-right: 14px; } .profile-course-progress { padding-left: 14px; padding-right: 14px; } }
-  @keyframes kinvohub-marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  @keyframes eduflow-marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
   @media (prefers-reduced-motion: reduce) { .maintenance-marquee-track { animation: none; } }
   .messages-compose { display: grid; place-items: center; width: 44px; height: 44px; border: 0; border-radius: 14px; color: #fff; background: linear-gradient(145deg, #315BEA, #243AAE); }
   .messages-search { display: flex; align-items: center; gap: 10px; padding: 14px 16px; border-radius: 18px; color: #7C879B; background: #fff; box-shadow: 0 5px 14px rgba(27,45,79,.07); }

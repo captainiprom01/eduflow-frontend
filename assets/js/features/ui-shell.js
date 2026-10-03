@@ -37,6 +37,18 @@ function updateThemeToggleUI(isDark) {
 
 /* ---------- navigation ---------- */
 const VIEWS = ['overview', 'courses', 'course-detail', 'timetable', 'assignments', 'cgpa', 'progress', 'assistant', 'messages', 'notifications', 'announcements', 'profile', 'settings', 'account'];
+function hasPremiumAccess(feature) {
+  return !!(currentUser && (currentUser.plan === 'premium' || (currentUser.access && currentUser.access.features && currentUser.access.features[feature] && currentUser.access.features[feature].available)));
+}
+function syncPremiumFeatureUI() {
+  const locked = !hasPremiumAccess('assistant');
+  const notice = qs('#assistantPremiumNotice');
+  if (notice) notice.classList.toggle('hidden', !locked);
+  ['#assistantTabs', '#assistantChatPanel', '#assistantSuggestions', '#assistantInsightsPanel'].forEach((selector) => {
+    const element = qs(selector);
+    if (element) element.classList.toggle('hidden', locked);
+  });
+}
 function showView(name) {
   document.documentElement.dataset.eduflowNavState = name;
   const notificationPanel = qs('#mobileNotificationPanel');
@@ -58,9 +70,10 @@ function showView(name) {
   qsa('[data-mobile-nav]').forEach((btn) => btn.classList.toggle('mobile-nav-active', btn.dataset.view === name));
   closeSidebar();
   if (name === 'progress') renderProgressChart();
+  if (name === 'assistant') syncPremiumFeatureUI();
   if (name === 'course-detail') renderCourseDetail();
   if (name === 'profile') renderProfile();
-  if (name === 'messages') { loadMessageContacts(); loadConversations(); }
+  if (name === 'messages') { /* KinvoHub Messages is intentionally coming soon. */ }
   if (name === 'notifications') renderFullNotifications();
   if (name === 'announcements') { renderAnnouncements(); loadAnnouncements(); }
   if (name === 'settings') { renderSettings(); loadPreferences(); }

@@ -59,7 +59,7 @@ function botReply(rawInput) {
   if (/\b(help|what can you do)\b/.test(input)) {
     return "I can tell you your CGPA, what's due soon, your next class, your study progress, or share a quick study tip. Just ask.";
   }
-  return "EduAI is not configured for general questions on this server yet. I can still answer questions about your CGPA, deadlines, timetable, and tracked progress.";
+  return "Kinvo AI is not configured for general questions on this server yet. I can still answer questions about your CGPA, deadlines, timetable, and tracked progress.";
 }
 function sendChat(text) {
   const message = text.trim();

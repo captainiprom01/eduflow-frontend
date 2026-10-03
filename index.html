@@ -5,8 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>KinvoHub — Smart Campus Assistant</title>
 <meta name="description" content="KinvoHub is a smart campus assistant for courses, assignments, study tasks, progress, and academic planning." />
-<link rel="icon" type="image/png" href="favicon.png" />
+<link rel="icon" type="image/png" href="favkinvohub-logo.png" />
+<link rel="manifest" href="manifest.json" />
+<link rel="apple-touch-icon" href="icon-192.png" />
 <meta name="theme-color" content="#11195A" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="apple-mobile-web-app-title" content="KinvoHub" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Lora:wght@500;600;700&family=Manrope:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -53,14 +58,6 @@
 </head>
 <body class="bg-paper dark:bg-paper-dark text-ink dark:text-ink-dark min-h-screen transition-colors duration-300">
 
-<!-- ============ FIRST-USE SPLASH ============ -->
-<div id="firstRunSplash" class="first-run-screen">
-  <div class="first-run-splash"><div class="splash-orb one"></div><div class="splash-orb two"></div><div class="splash-orb three"></div>
-    <i class="splash-particle" style="left:15%;top:20%;width:4px;height:4px;color:#315BEA"></i><i class="splash-particle" style="left:80%;top:15%;width:3px;height:3px;color:#3b82f6;animation-delay:.5s"></i><i class="splash-particle" style="left:25%;top:75%;width:5px;height:5px;color:#159E93;animation-delay:1s"></i><i class="splash-particle" style="left:75%;top:70%;width:3px;height:3px;color:#315BEA;animation-delay:1.5s"></i><i class="splash-particle" style="left:50%;top:10%;width:2px;height:2px;color:#60a5fa;animation-delay:.8s"></i><i class="splash-particle" style="left:90%;top:50%;width:4px;height:4px;color:#34d399;animation-delay:.3s"></i><i class="splash-particle" style="left:10%;top:50%;width:3px;height:3px;color:#818cf8;animation-delay:1.2s"></i>
-    <div class="splash-brand"><img class="splash-original-logo" src="kinvohub-logo.png" alt="KinvoHub — Smart Campus Assistant"><div class="splash-dots" aria-label="Loading"><i></i><i></i><i></i></div></div>
-  </div>
-</div>
-
 <!-- ============ FIRST-USE ONBOARDING ============ -->
 <div id="firstRunOnboarding" class="first-run-screen hidden" aria-label="KinvoHub onboarding"><div class="first-run-onboarding">
   <div id="onboardingArt" class="onboarding-art ai"><button id="onboardingSkip" class="onboarding-skip" type="button">Skip</button><div id="onboardingIllustration" class="onboarding-illustration"></div></div>
@@ -79,8 +76,8 @@
     </div>
 
     <div class="auth-ui-intro" aria-label="KinvoHub app highlights">
-      <div class="auth-ui-copy"><strong>Everything for your semester, in one flow.</strong><span>Keep courses, deadlines, timetable, progress, and study support together with the familiar KinvoHub experience.</span></div>
-      <div class="auth-ui-cards"><div class="auth-ui-card"><b>Stay organised</b><span>Courses, tasks and classes in one place.</span></div><div class="auth-ui-card"><b>Study smarter</b><span>Get help from your personal EduAI assistant.</span></div></div>
+      <div class="auth-ui-copy"><strong>Everything for your semester, in one flow. Learn. Work. Research. Simplified.</strong><span>Keep courses, deadlines, timetable, progress, and study support together with the familiar KinvoHub experience.</span></div>
+      <div class="auth-ui-cards"><div class="auth-ui-card"><b>Stay organised</b><span>Courses, tasks and classes in one place.</span></div><div class="auth-ui-card"><b>Study smarter</b><span>Get help from your personal Kinvo AI assistant.</span></div></div>
     </div>
     <div class="flex gap-1 bg-paper dark:bg-paper-dark rounded-lg p-1 mb-5">
       <button type="button" id="authTabLogin" class="auth-tab flex-1 py-2 rounded-md text-sm font-semibold">Log in</button>
@@ -154,6 +151,12 @@
         </div>
         <p class="text-[11px] text-inksoft dark:text-inksoft-dark mt-1">At least 8 characters.</p>
       </div>
+      <div>
+        <label class="text-xs text-inksoft dark:text-inksoft-dark" for="signupPersona">How will you use KinvoHub?</label>
+        <select id="signupPersona" class="mt-1 w-full bg-paper dark:bg-paper-dark border border-ink/10 dark:border-ink-dark/10 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-teal">
+          <option value="student">Student</option><option value="researcher">Researcher</option><option value="teacher">Teacher</option><option value="corporate">Corporate professional</option><option value="general">Personal / general use</option>
+        </select>
+      </div>
       <button type="submit" id="signupSubmitBtn" class="w-full h-[42px] rounded-lg bg-teal dark:bg-teal-dark text-white text-sm font-semibold hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-teal">
         Create account
       </button>
@@ -199,7 +202,7 @@
 <div id="verifyEmailScreen" class="hidden fixed inset-0 z-[200] bg-paper dark:bg-paper-dark flex items-center justify-center p-4 overflow-y-auto">
   <div class="w-full max-w-md bg-surface dark:bg-surface-dark rounded-2xl border border-ink/10 dark:border-ink-dark/10 p-6 sm:p-8 my-8 text-center">
     <div class="flex items-center justify-center gap-3 mb-6">
-      <img src="icon.png" alt="KinvoHub logo" class="w-10 h-10 rounded-xl shadow-soft object-contain" />
+      <img src="kinvohub-logo.png" alt="KinvoHub logo" class="w-10 h-10 rounded-xl shadow-soft object-contain" />
       <p class="font-serif font-semibold text-xl leading-tight">KinvoHub</p>
     </div>
     <p id="verifyEmailStatus" class="text-sm">Verifying your email…</p>
@@ -215,7 +218,7 @@
 
   <div class="md:hidden flex items-center justify-between px-4 h-16 bg-surface dark:bg-surface-dark border-b border-ink/10 dark:border-ink-dark/10 sticky top-0 z-30 mobile-topbar">
     <div class="flex items-center gap-2">
-      <img src="icon.png" alt="KinvoHub logo" class="w-8 h-8 rounded-lg object-contain" />
+      <img src="kinvohub-logo.png" alt="KinvoHub logo" class="w-8 h-8 rounded-lg object-contain" />
       <span class="font-serif font-semibold text-lg">KinvoHub</span>
     </div>
     <button id="mobileMenuBtn" aria-label="Open navigation menu" class="w-10 h-10 flex items-center justify-center rounded-lg hover:bg-ink/5 dark:hover:bg-white/5 focus:outline-none focus:ring-2 focus:ring-teal">
@@ -228,7 +231,7 @@
   <aside id="sidebar" class="fixed top-0 left-0 h-full w-72 bg-surface dark:bg-surface-dark border-r border-ink/10 dark:border-ink-dark/10 z-50 flex flex-col -translate-x-full md:translate-x-0 transition-transform duration-300">
     <div class="flex items-center justify-between px-6 pt-6 pb-4">
       <div class="flex items-center gap-3">
-        <img src="icon.png" alt="KinvoHub logo" class="w-10 h-10 rounded-xl shadow-soft object-contain" />
+        <img src="kinvohub-logo.png" alt="KinvoHub logo" class="w-10 h-10 rounded-xl shadow-soft object-contain" />
         <div>
           <p class="font-serif font-semibold text-xl leading-tight">KinvoHub</p>
           <p class="text-xs text-inksoft dark:text-inksoft-dark">Campus dashboard</p>
@@ -302,6 +305,9 @@
     </nav>
 
     <div class="px-6 py-4 border-t border-ink/10 dark:border-ink-dark/10">
+      <button id="installAppBtn" class="hidden flex w-full items-center gap-2 px-3 py-2.5 rounded-lg bg-teal dark:bg-teal-dark text-white text-sm font-semibold mb-2 hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-teal">
+        <i class="fa-solid fa-arrow-down-to-line"></i><span>Install app</span>
+      </button>
       <button id="themeToggleBtn" class="w-full flex items-center justify-between px-3 py-2.5 rounded-lg bg-paper dark:bg-paper-dark border border-ink/10 dark:border-ink-dark/10 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-teal">
         <span class="flex items-center gap-2"><i id="themeIcon" class="fa-solid fa-moon"></i><span id="themeLabel">Dark mode</span></span>
         <span class="relative w-9 h-5 rounded-full bg-ink/20 dark:bg-teal transition-colors">
@@ -333,7 +339,7 @@
         <div class="mobile-hero-pills"><span class="mobile-date-pill"><i class="fa-regular fa-calendar"></i><span id="mobileDateLabel">Today</span></span><button type="button" data-view="courses" data-open-semester class="mobile-semester-pill"><i class="fa-solid fa-plus"></i><span>Add semester</span></button></div>
         <p class="text-inksoft dark:text-inksoft-dark mt-4 max-w-md">Everything about your semester, in one place — courses, classes, deadlines and your CGPA.</p>
       </div>
-      <button type="button" data-view="assistant" class="mobile-ai-card"><span class="mobile-ai-icon"><i class="fa-solid fa-brain"></i></span><span class="mobile-ai-copy"><strong>Ask EduAI</strong><small>Explain a topic, get study help…</small></span><span class="mobile-ai-badge">AI <i class="fa-solid fa-sparkles"></i></span></button>
+      <button type="button" data-view="assistant" class="mobile-ai-card"><span class="mobile-ai-icon"><i class="fa-solid fa-brain"></i></span><span class="mobile-ai-copy"><strong>Ask Kinvo AI</strong><small>Explain a topic, get study help…</small></span><span class="mobile-ai-badge">AI <i class="fa-solid fa-sparkles"></i></span></button>
       <section class="mobile-progress-card" aria-label="Academic progress"><div class="mobile-progress-heading"><div><h2>Academic Progress</h2><p>Current semester overview</p></div><div class="mobile-gpa"><strong id="mobileGpaValue">—</strong><span>Current GPA</span></div></div><div class="mobile-progress-meta"><span>Credits completed</span><strong id="mobileCreditCount">0</strong></div><div class="mobile-progress-track"><span id="mobileProgressBar"></span></div><div id="mobileProgressCourses" class="mobile-course-progress"></div></section>
       <div class="dashboard-insights">
         <article class="study-quote-card"><div class="insight-icon quote-icon"><i class="fa-solid fa-quote-left"></i></div><div><p class="insight-label">Today's focus</p><p id="dailyQuote" class="insight-quote">Small steps every day beat big pushes once in a while.</p></div></article>
@@ -404,7 +410,7 @@
           <button type="button" data-view="courses"><span class="dashboard-action-icon blue"><i class="fa-solid fa-book-open"></i></span><strong>Add course</strong><small>Organise your semester</small></button>
           <button type="button" data-view="assignments"><span class="dashboard-action-icon amber"><i class="fa-solid fa-list-check"></i></span><strong>Track assignments</strong><small>See what is due next</small></button>
           <button type="button" data-view="timetable"><span class="dashboard-action-icon violet"><i class="fa-solid fa-calendar-week"></i></span><strong>View timetable</strong><small>Plan your classes</small></button>
-          <button type="button" data-view="assistant"><span class="dashboard-action-icon green"><i class="fa-solid fa-brain"></i></span><strong>Ask EduAI</strong><small>Get study support</small></button>
+          <button type="button" data-view="assistant"><span class="dashboard-action-icon green"><i class="fa-solid fa-brain"></i></span><strong>Ask Kinvo AI</strong><small>Get study support</small></button>
         </div>
       </div>
       <div class="dashboard-announcements-card">
@@ -740,6 +746,9 @@
 
     <!-- ASSISTANT -->
     <section id="view-assistant" class="view hidden space-y-6">
+      <div id="assistantPremiumNotice" class="hidden bg-surface dark:bg-surface-dark rounded-2xl border border-amber/30 bg-amber/10 p-6" role="status">
+        <div class="flex items-start gap-4"><span class="w-11 h-11 shrink-0 rounded-xl bg-amber/15 text-amber flex items-center justify-center"><i class="fa-solid fa-sparkles"></i></span><div><p class="text-xs font-bold uppercase tracking-wider text-amber">KinvoHub Premium</p><h2 class="font-serif font-semibold text-xl mt-1">Kinvo AI is part of Premium</h2><p class="text-sm text-inksoft dark:text-inksoft-dark mt-1">Upgrade to unlock intelligent explanations, research support, and personalised work and study guidance.</p><button type="button" class="mt-4 px-4 py-2 rounded-lg bg-teal text-white text-sm font-semibold" data-premium-coming-soon>Premium plans coming soon</button></div></div>
+      </div>
       <div class="flex items-start justify-between gap-3 flex-wrap">
         <div>
           <h1 class="font-serif text-2xl font-semibold">Study assistant</h1>
@@ -787,9 +796,11 @@
 
     <!-- MESSAGES -->
     <section id="view-messages" class="view hidden space-y-6 max-w-4xl">
-      <div class="messages-hero"><div class="flex items-start justify-between gap-4"><div><p class="messages-kicker">Stay connected</p><h1>Messages</h1><p>Conversations with your classmates and campus groups.</p></div><button id="messagesComposeBtn" type="button" class="messages-compose" aria-label="Start a conversation"><i class="fa-solid fa-plus"></i></button></div></div>
+      <div class="messages-hero"><div class="flex items-start justify-between gap-4"><div><p class="messages-kicker">Stay connected</p><h1>Messages</h1><p>Conversations with classmates, collaborators, and teams.</p></div><span class="messages-coming-soon-badge">Coming soon</span></div></div>
+      <div class="messages-coming-soon-card" role="status"><div class="messages-coming-soon-icon"><i class="fa-regular fa-comments"></i></div><div><p class="messages-kicker">KinvoHub collaboration</p><h2>Messaging is being prepared</h2><p>We’re building secure conversations for students, researchers, teachers, and corporate teams. Messages will be available to everyone in a future update.</p><button type="button" class="mt-4 px-4 py-2 rounded-lg bg-teal text-white text-sm font-semibold" data-messages-coming-soon>Notify me when it launches</button></div></div>
+      <div class="hidden">
       <div id="messagesComposePanel" class="hidden bg-surface dark:bg-surface-dark rounded-2xl border border-ink/10 dark:border-ink-dark/10 p-4 sm:p-5">
-        <div class="flex items-center justify-between gap-3 mb-3"><div><h2 class="font-serif font-semibold text-lg">New conversation</h2><p id="messagesComposeHint" class="text-xs text-inksoft dark:text-inksoft-dark mt-1">Choose an Eduflow user to start a direct chat.</p></div><button id="messagesComposeCloseBtn" type="button" class="w-8 h-8 rounded-lg hover:bg-ink/5 dark:hover:bg-white/5" aria-label="Close new conversation"><i class="fa-solid fa-xmark"></i></button></div>
+        <div class="flex items-center justify-between gap-3 mb-3"><div><h2 class="font-serif font-semibold text-lg">New conversation</h2><p id="messagesComposeHint" class="text-xs text-inksoft dark:text-inksoft-dark mt-1">Choose an KinvoHub user to start a direct chat.</p></div><button id="messagesComposeCloseBtn" type="button" class="w-8 h-8 rounded-lg hover:bg-ink/5 dark:hover:bg-white/5" aria-label="Close new conversation"><i class="fa-solid fa-xmark"></i></button></div>
         <div class="flex flex-wrap gap-2 mb-3"><button id="messagesDirectModeBtn" type="button" class="message-mode-btn active">Direct message</button><button id="messagesGroupModeBtn" type="button" class="message-mode-btn">Create group</button></div>
         <form id="messagesGroupForm" class="hidden messages-group-form mb-3"><label class="sr-only" for="messagesGroupTitle">Group name</label><input id="messagesGroupTitle" type="text" maxlength="120" placeholder="Group name" /><button type="submit">Create group</button></form>
         <label class="messages-search" for="messagesContactSearch"><i class="fa-solid fa-magnifying-glass"></i><input id="messagesContactSearch" type="search" placeholder="Search students by name or email" autocomplete="off" /></label>
@@ -797,13 +808,14 @@
       </div>
       <div id="messagesListPanel" class="space-y-5">
         <label class="messages-search" for="messagesSearch"><i class="fa-solid fa-magnifying-glass"></i><input id="messagesSearch" type="search" placeholder="Search conversations..." autocomplete="off" /></label>
-        <div class="messages-online"><p>People on Eduflow</p><div id="messagesOnline"></div></div>
+        <div class="messages-online"><p>People on KinvoHub</p><div id="messagesOnline"></div></div>
         <div><p class="messages-section-title">All conversations</p><div id="messagesList" class="messages-list"></div></div>
       </div>
       <div id="messagesThreadPanel" class="hidden messages-thread-panel bg-surface dark:bg-surface-dark rounded-2xl border border-ink/10 dark:border-ink-dark/10 overflow-hidden">
         <div class="messages-thread-header"><button id="messagesBackBtn" type="button" class="messages-thread-back" aria-label="Back to conversations"><i class="fa-solid fa-arrow-left"></i></button><div class="message-avatar blue" id="messagesThreadAvatar"><i class="hidden"></i><span>?</span></div><div class="min-w-0 flex-1"><h2 id="messagesThreadName">Conversation</h2><p id="messagesThreadStatus">Direct conversation</p></div></div>
         <div id="messagesThreadList" class="messages-thread-list" aria-live="polite"></div>
         <form id="messagesSendForm" class="messages-send-form"><label class="sr-only" for="messagesInput">Message</label><textarea id="messagesInput" rows="1" maxlength="4000" placeholder="Write a message..." required></textarea><button type="submit" aria-label="Send message"><i class="fa-solid fa-paper-plane"></i></button></form>
+      </div>
       </div>
     </section>
     <!-- NOTIFICATIONS -->
@@ -824,7 +836,7 @@
       <div class="settings-page-hero"><div class="settings-hero-icon"><i class="fa-solid fa-sliders"></i></div><div><p class="settings-kicker">Make KinvoHub yours</p><h1>Settings</h1><p>Control your notifications, appearance, AI, and privacy preferences.</p></div></div>
       <div class="settings-card"><div class="settings-card-heading"><div><h2>Profile and account</h2><p>Manage your personal information and account security.</p></div><i class="fa-solid fa-user-gear"></i></div><button type="button" data-view="profile" class="settings-link-row"><span class="settings-row-icon green"><i class="fa-regular fa-user"></i></span><span><strong>Profile information</strong><small>Academic details and profile summary</small></span><i class="fa-solid fa-chevron-right"></i></button><button type="button" data-view="account" class="settings-link-row"><span class="settings-row-icon blue"><i class="fa-solid fa-shield-halved"></i></span><span><strong>Account and security</strong><small>Email, password, export, and account controls</small></span><i class="fa-solid fa-chevron-right"></i></button></div>
       <form id="preferencesForm" class="settings-card"><div class="settings-card-heading"><div><h2>Notifications</h2><p>Choose which updates you want to receive.</p></div><i class="fa-regular fa-bell"></i></div><label class="settings-toggle-row"><span><strong>Assignment deadlines</strong><small>Get reminders for pending and overdue assignments</small></span><input type="checkbox" data-preference="assignment_notifications" /></label><label class="settings-toggle-row"><span><strong>Campus announcements</strong><small>Receive official KinvoHub updates when available</small></span><input type="checkbox" data-preference="announcement_notifications" /></label><label class="settings-toggle-row"><span><strong>Grade updates</strong><small>Show updates when grades or CGPA records change</small></span><input type="checkbox" data-preference="grade_notifications" /></label><label class="settings-toggle-row"><span><strong>New messages</strong><small>Show unread message notifications and chat updates</small></span><input type="checkbox" data-preference="message_notifications" /></label><label class="settings-select-row"><span><strong>Reminder time</strong><small>Show your daily study reminder after this time</small></span><input id="settingsReminderTime" type="time" /></label><label class="settings-select-row"><span><strong>Quiet hours</strong><small>Suppress smart reminders during your rest time</small></span><span class="flex gap-2"><input id="settingsQuietStart" type="time" aria-label="Quiet hours start" /><input id="settingsQuietEnd" type="time" aria-label="Quiet hours end" /></span></label></form>
-      <div class="settings-card"><div class="settings-card-heading"><div><h2>Appearance and AI</h2><p>Adjust how KinvoHub looks and supports your study routine.</p></div><i class="fa-solid fa-wand-magic-sparkles"></i></div><label class="settings-select-row"><span><strong>Theme</strong><small>Choose system preference or a fixed theme</small></span><select id="settingsTheme"><option value="system">System default</option><option value="light">Light</option><option value="dark">Dark</option></select></label><label class="settings-toggle-row"><span><strong>AI suggestions</strong><small>Allow EduAI to suggest study actions</small></span><input type="checkbox" data-preference="ai_suggestions" /></label><label class="settings-toggle-row"><span><strong>AI reminders</strong><small>Show helpful study reminders in the app</small></span><input type="checkbox" data-preference="ai_reminders" /></label><label class="settings-select-row"><span><strong>AI model</strong><small>Choose the model used by EduAI when available</small></span><select id="settingsAiModel"><option value="">Default model</option></select></label></div>
+      <div class="settings-card"><div class="settings-card-heading"><div><h2>Appearance and AI</h2><p>Adjust how KinvoHub looks and supports your study routine.</p></div><i class="fa-solid fa-wand-magic-sparkles"></i></div><label class="settings-select-row"><span><strong>Theme</strong><small>Choose system preference or a fixed theme</small></span><select id="settingsTheme"><option value="system">System default</option><option value="light">Light</option><option value="dark">Dark</option></select></label><label class="settings-toggle-row"><span><strong>AI suggestions</strong><small>Allow Kinvo AI to suggest study actions</small></span><input type="checkbox" data-preference="ai_suggestions" /></label><label class="settings-toggle-row"><span><strong>AI reminders</strong><small>Show helpful study reminders in the app</small></span><input type="checkbox" data-preference="ai_reminders" /></label><label class="settings-select-row"><span><strong>AI model</strong><small>Choose the model used by Kinvo AI when available</small></span><select id="settingsAiModel"><option value="">Default model</option></select></label></div>
       <div class="settings-card"><div class="settings-card-heading"><div><h2>Privacy</h2><p>Choose how other KinvoHub users can discover you.</p></div><i class="fa-solid fa-lock"></i></div><label class="settings-toggle-row"><span><strong>Profile visibility</strong><small>Allow classmates to find you when starting a conversation</small></span><input type="checkbox" data-preference="profile_visibility" /></label><label class="settings-toggle-row"><span><strong>Data and analytics</strong><small>Allow anonymous product analytics when available</small></span><input type="checkbox" data-preference="analytics_sharing" /></label><p id="preferencesSaveStatus" class="settings-save-status" aria-live="polite"></p></div>
       <div class="settings-card"><div class="settings-card-heading"><div><h2>About KinvoHub</h2><p>Information about this KinvoHub web app.</p></div><i class="fa-solid fa-circle-info"></i></div><div class="settings-about-row"><span>Application</span><strong>KinvoHub — Smart Campus Assistant</strong></div><div class="settings-about-row"><span>Version</span><strong id="settingsAppVersion">1.0.0</strong></div><div class="settings-about-row"><span>Data</span><strong>Your account data is stored securely</strong></div><div class="settings-about-row"><span>Support</span><strong>Contact your KinvoHub administrator</strong></div></div>
     </section>
@@ -1074,7 +1086,7 @@ function exportCgpaPdf() {
     y = doc.lastAutoTable.finalY + 10;
   });
 
-  doc.save(`kinvohub-cgpa-${name.replace(/\s+/g, '-').toLowerCase()}.pdf`);
+  doc.save(`eduflow-cgpa-${name.replace(/\s+/g, '-').toLowerCase()}.pdf`);
 }
 
 function exportTimetablePdf() {
@@ -1108,7 +1120,7 @@ function exportTimetablePdf() {
     headStyles: { fillColor: [31, 122, 108] },
   });
 
-  doc.save(`kinvohub-timetable-${name.replace(/\s+/g, '-').toLowerCase()}.pdf`);
+  doc.save(`eduflow-timetable-${name.replace(/\s+/g, '-').toLowerCase()}.pdf`);
 }
 
 /* ================= CALENDAR (.ics) EXPORT =================
@@ -1143,7 +1155,7 @@ function exportTimetableIcs() {
     const firstDate = nextDateForWeekday(t.day);
     lines.push(
       'BEGIN:VEVENT',
-      `UID:kinvohub-${t.id}@kinvohub`,
+      `UID:eduflow-${t.id}@eduflow`,
       `DTSTART:${icsDateTime(firstDate, t.start_time)}`,
       `DTEND:${icsDateTime(firstDate, t.end_time)}`,
       `RRULE:FREQ=WEEKLY;BYDAY=${ICS_DAY_CODES[t.day]}`,
@@ -1157,7 +1169,7 @@ function exportTimetableIcs() {
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = 'kinvohub-timetable.ics';
+  a.download = 'eduflow-timetable.ics';
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);

@@ -8,9 +8,11 @@ const presenceUsers = new Set();
 let campusAnnouncements = [];
 let announcementFilter = 'All';
 let announcementReadIds = new Set();
+let announcementsLocked = false;
 async function loadAnnouncements() {
   try {
     const data = await apiFetch('/api/announcements');
+    announcementsLocked = false;
     campusAnnouncements = (data.announcements || []).map((announcement) => ({
       ...announcement,
       id: String(announcement.id),
@@ -21,6 +23,13 @@ async function loadAnnouncements() {
     renderAnnouncements();
     renderOverviewAnnouncements();
   } catch (error) {
+    if (error.status === 402 || (currentUser && !hasPremiumAccess('announcements'))) {
+      announcementsLocked = true;
+      campusAnnouncements = [];
+      renderAnnouncements();
+      renderOverviewAnnouncements();
+      return;
+    }
     showDeterrentToast('Announcements could not be refreshed right now.');
   }
 }
@@ -40,6 +49,11 @@ function renderAnnouncements() {
   const records = announcementFilter === 'All' ? campusAnnouncements : campusAnnouncements.filter((announcement) => announcement.category === announcementFilter);
   const unread = records.filter((announcement) => !announcementReadIds.has(announcement.id) && announcement.unread).length;
   qs('#announcementsSummary').textContent = unread ? `${unread} unread announcement${unread === 1 ? '' : 's'}` : 'You’re up to date with campus news.';
+  if (announcementsLocked) {
+    qs('#announcementsSummary').textContent = 'Premium feature';
+    wrap.innerHTML = '<div class="premium-lock-card"><i class="fa-solid fa-lock"></i><div><strong>Announcements are part of KinvoHub Premium</strong><p>Unlock curated updates, research notices, and team information with a Premium plan.</p></div></div>';
+    return;
+  }
   wrap.innerHTML = records.map((announcement) => {
     const style = announcementCategoryStyle(announcement.category);
     const isUnread = announcement.unread && !announcementReadIds.has(announcement.id);
@@ -57,6 +71,11 @@ function renderAnnouncements() {
 function renderOverviewAnnouncements() {
   const wrap = qs('#overviewAnnouncements');
   if (!wrap) return;
+  if (announcementsLocked) {
+    wrap.innerHTML = '<button type="button" class="overview-announcement" data-view="announcements"><span class="announcement-dot" style="background:#D99A2B"></span><span class="overview-announcement-main"><strong>Announcements · Premium</strong><small>Unlock KinvoHub updates and notices</small></span><i class="announcement-arrow fa-solid fa-lock"></i></button>';
+    wrap.querySelectorAll('[data-view]').forEach((button) => button.addEventListener('click', () => showView(button.dataset.view)));
+    return;
+  }
   wrap.innerHTML = campusAnnouncements.slice(0, 3).map((announcement) => {
     const style = announcementCategoryStyle(announcement.category);
     return `<button type="button" class="overview-announcement" data-view="announcements"><span class="announcement-dot" style="background:${style.color}"></span><span class="overview-announcement-main"><strong>${escapeHtml(announcement.title)}</strong><small>${escapeHtml(announcement.author)} · ${escapeHtml(announcement.timestamp)}</small></span><i class="announcement-arrow fa-solid fa-chevron-right"></i></button>`;

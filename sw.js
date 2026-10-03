@@ -6,7 +6,7 @@
 // alone entirely.
 
 const CACHE_NAME = 'eduflow-shell-v4';
-const SHELL_FILES = ['./', './index.html', './favicon.png', './icon.png', './kinvohub-logo.png', './icon-transparent.png', './icon-192.png', './icon-512.png', './icon-512-maskable.png', './manifest.json'];
+const SHELL_FILES = ['./', './index.html', './kinvohub-logo.png', './manifest.json'];
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
